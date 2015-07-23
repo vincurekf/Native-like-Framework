@@ -1,0 +1,29 @@
+/* settings */
+/* grid */
+.row {
+  background: red; }
+  .row .colums,
+  .row .column {
+    margin: 5px;
+    padding: 15px; }
+    .row .colums.full,
+    .row .column.full {
+      margin: 0;
+      padding: 0;
+      width: 100%; }
+    .row .colums.one,
+    .row .column.one {
+      width: 106.66667px; }
+    .row .colums.two,
+    .row .column.two {
+      background: red;
+      width: 213.33333px; }
+    .row .colums.three,
+    .row .column.three {
+      width: 320px; }
+    .row .colums.four,
+    .row .column.four {
+      width: 426.66667px; }
+    .row .colums.nine,
+    .row .column.nine {
+      font-size: 50px; }
