@@ -61,7 +61,7 @@ and ```#view-content``` which is where you content belongs
 ## Functions
 Drawer has some basic functions:
 
-```init()```: initializes the drawer, no parameters for now
+```init()```: initializes the drawer
 
 ```show()```: shows the drawer (slide in)
 
