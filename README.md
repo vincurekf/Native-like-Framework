@@ -79,6 +79,6 @@ drawer.init( options );
 
 # Example
 
-There is example in the example folder, based on ionic framework, with action button bonus to explore and use. You can --download the example app and see how smooth it is, or-- checkout the example source code which is in the example folder ;)
+There is example in the example folder, based on ionic framework, with action button bonus to explore and use. You can checkout the example source code which is in the example folder ;)
 
 I hope this will help you.
