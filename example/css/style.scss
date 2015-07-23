@@ -165,6 +165,16 @@ html, body, {
 		right: 20px;
 		width: 66px;
 	}
+	.title{
+		position: fixed;
+		top: 0;
+		left: 56px;
+		line-height: 56px;
+		color: $white;
+		pointer-events: none;
+		font-size: 18px;
+		z-index: 1110;
+	}
 	position: absolute;
 	top: 0;
 	left: 0;

@@ -142,6 +142,15 @@ html, body {
     position: absolute;
     right: 20px;
     width: 66px; }
+  #topbar .title {
+    position: fixed;
+    top: 0;
+    left: 56px;
+    line-height: 56px;
+    color: #ffffff;
+    pointer-events: none;
+    font-size: 18px;
+    z-index: 1110; }
   #topbar.fixed {
     position: fixed; }
   #topbar.drawer {

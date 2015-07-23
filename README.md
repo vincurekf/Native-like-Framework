@@ -1,5 +1,6 @@
 # Native-like Menu Drawer
 Native-like menu implementation for angular mobile apps.
+Build with hammer.js fot touch support
 
 ## What is this for?
 If you are developing application for android with phogep or ionic or other alternative,
@@ -9,13 +10,14 @@ I've been struggling with menu implementations, found some but never got the fee
 With this menu you have touch support, slide open/close, toggle function and all with smooth hardware accelerated animations.
 
 # Usage
-## Add 
-**ng-nativeDrawer.js** to your project:
+
+Add **ng-nativeDrawer.js** and **hammer.js** to your project:
 ```
+<script src="hammer.js"></script>
 <script src="ng-nativeDrawer.js"></script>
 ```
 
-## Add needed elements
+**needed elements**
 Add drawer, drawer dimm, swipe stripe and menu toggle button to your projects index.html (or what represents your index)
 ```
 <!-- toggle icon for toggling menu -->
@@ -75,6 +77,31 @@ options: {
   animation: 'ease-out'
 }
 drawer.init( options );
+```
+Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to call the drawer:
+```
+var exampleApp = angular.module('exampleApp', ['ionic', 'nativeDrawer']);
+
+exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
+
+  $ionicPlatform.ready(function() {
+
+    // Native-like Drawer is HERE! ---------------------------
+    // the drawer initialization
+    $rootScope.drawer = $nativeDrawer;
+    // default options (all of them)
+    var options = {
+      maxWidth: 300,
+      marginTop: 0,
+      speed: 0.2,
+      animation: 'ease-out'
+    }
+    // initialize with options
+    $rootScope.drawer.init( options );
+    // Done! -------------------------------------------------
+
+  });
+});
 ```
 
 # Example
