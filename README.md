@@ -2,6 +2,9 @@
 Native-like menu implementation for angular mobile apps.
 Build with hammer.js fot touch support
 
+<p data-height="393" data-theme-id="8844" data-slug-hash="bdmVpM" data-default-tab="result" data-user="vincurekf" class='codepen'>See the Pen <a href='http://codepen.io/vincurekf/pen/bdmVpM/'>Native-like Menu Drawer</a> by Filip Vincůrek (<a href='http://codepen.io/vincurekf'>@vincurekf</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
 ## What is this for?
 If you are developing application for android with phogep or ionic or other alternative,
 this is exactly for you. 
