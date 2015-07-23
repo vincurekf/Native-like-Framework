@@ -1,4 +1,4 @@
-# Native-like-Menu-Drawer
+# Native-like Menu Drawer
 Native-like menu implementation for angular mobile apps.
 
 ## What is this for?
