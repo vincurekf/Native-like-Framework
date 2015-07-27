@@ -1,6 +1,7 @@
 # Native-like Menu Drawer
-Native-like menu implementation for angular mobile apps.
-Build with hammer.js fot touch support
+Native-like menu implementation for angular mobile/desktop apps.
+Build with hammer.js fot touch support.
+4kb minified.
 
 <p data-height="393" data-theme-id="8844" data-slug-hash="bdmVpM" data-default-tab="result" data-user="vincurekf" class='codepen'>See the Pen <a href='http://codepen.io/vincurekf/pen/bdmVpM/'>Native-like Menu Drawer</a> by Filip Vincůrek (<a href='http://codepen.io/vincurekf'>@vincurekf</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
@@ -13,15 +14,16 @@ I've been struggling with menu implementations, found some but never got the fee
 With this menu you have touch support, slide open/close, toggle function and all with smooth hardware accelerated animations.
 
 # Usage
-
-Add **ng-nativeDrawer.js** and **hammer.js** to your project:
+Add **hammer.js**, **ng-nativeDrawer.js** and **ng-nativeDrawer.css** to your project:
 ```
 <script src="hammer.js"></script>
-<script src="ng-nativeDrawer.js"></script>
+<script src="ng-nativeDrawer.min.js"></script>
+<link href="ng-nativeDrawer.css" rel="stylesheet">
 ```
 
-**needed elements**
-Add drawer, drawer dimm, swipe stripe and menu toggle button to your projects index.html (or what represents your index)
+## Needed elements
+Add drawer, drawer dimm, swipe stripe, content view and menu toggle button to your projects index.html (or what represents your index),
+if you dont want to use the view-content, just leave it, and the same is for action buttons. Read more in **Settings**.
 ```
 <!-- toggle icon for toggling menu -->
 <a id="nav-toggle" class="menu-icon" href="#"><span></span></a>
@@ -70,18 +72,42 @@ Drawer has some basic functions:
 
 ```hide()```: hides the drawer (slide out)
 
-## Settings
-You can set some options when initializing drawer with ```init()```:
+# Settings
+Drawer has some options to play with:
+
+```maxWidth```: the maximum width that can drawer take, can be any number value (pixels)
+
+Transitions can be modified with:
+
+```speed```: speed of the drawer movement, defined in seconds (0.2, 1, 5...) 
+
+```animation```: css transition style property, could be ```linear```, ```ease```, ```ease-in```, ```ease-out```, ```ease-in-out```
+
+(it's standart css transition property)
+
+Additional options, (you can leave those if you don't want use action buttons or view-content elements):
+
+```topBarHeight```: define the height of your topbar, you must set this if you'll use ```modifyViewContent```
+
+```modifyViewContent```: if you are using ionic view or angular ng-view this comes handy as it adds margin to your content and changes the size of it (when you rotate device etc.)
+
+```useActionButton```: wheter or not you are using action buttons provided with Native-like Drawer
+
+You can pass options with ```init()```:
 ```
 options: {
   maxWidth: 300,
-  marginTop: 0,
   speed: 0.2,
-  animation: 'ease-out'
+  animation: 'ease-out',
+  topBarHeight: 56,
+  modifyViewContent: false,
+  useActionButton: false
 }
 drawer.init( options );
 ```
-Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to call the drawer:
+Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to assign the drawer module and call the initialization:
+
+# Full example code
 ```
 var exampleApp = angular.module('exampleApp', ['ionic', 'nativeDrawer']);
 
@@ -90,25 +116,27 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
   $ionicPlatform.ready(function() {
 
     // Native-like Drawer is HERE! ---------------------------
-    // the drawer initialization
+    // assign drawer module
     $rootScope.drawer = $nativeDrawer;
-    // default options (all of them)
+    // set options (these are the default options)
     var options = {
       maxWidth: 300,
-      marginTop: 0,
       speed: 0.2,
-      animation: 'ease-out'
+      animation: 'ease-out',
+      topBarHeight: 56,
+      modifyViewContent: false,
+      useActionButton: false
     }
-    // initialize with options
+    // and initialize with options
     $rootScope.drawer.init( options );
     // Done! -------------------------------------------------
 
   });
 });
 ```
-
-# Example
-
-There is example in the example folder, based on ionic framework, with action button bonus to explore and use. You can checkout the example source code which is in the example folder ;)
-
+# Example app
+There is example app alongside with its source code, so feel free to check it and play with it :)
 I hope this will help you.
+
+# Licence
+[MIT](http://choosealicense.com/licenses/mit/)
