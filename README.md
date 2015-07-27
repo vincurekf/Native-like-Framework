@@ -3,7 +3,7 @@ Native-like menu implementation for angular mobile/desktop apps.
 Build with hammer.js fot touch support.
 4kb minified.
 
-<p data-height="393" data-theme-id="8844" data-slug-hash="bdmVpM" data-default-tab="result" data-user="vincurekf" class='codepen'>See the Pen <a href='http://codepen.io/vincurekf/pen/bdmVpM/'>Native-like Menu Drawer</a> by Filip Vincůrek (<a href='http://codepen.io/vincurekf'>@vincurekf</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<p data-height="266" data-theme-id="8844" data-slug-hash="bdmVpM" data-default-tab="result" data-user="vincurekf" class='codepen'>See the Pen <a href='http://codepen.io/vincurekf/pen/bdmVpM/'>Native-like Menu Drawer</a> by Filip Vincůrek (<a href='http://codepen.io/vincurekf'>@vincurekf</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
 
 ## What is this for?
