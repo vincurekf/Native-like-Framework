@@ -5,9 +5,10 @@
   left: 0;
   bottom: 0;
   width: 300px;
-  background: linear-gradient(75deg, #ffffff, #ededed);
-  transform: translateX(-1000px) translateZ(0);
-  z-index: 1101; }
+  background: #ffffff;
+  z-index: 1101;
+  -webkit-transform: translateX(-1000px) translateZ(0);
+          transform: translateX(-1000px) translateZ(0); }
   #drawer .username {
     font-size: 16px;
     left: 0;
@@ -87,22 +88,27 @@
     position: absolute;
     width: 18px;
     top: 10px;
-    transition: all 260ms ease-in-out;
-    transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg);
+    -webkit-transition: all 260ms ease-in-out;
+            transition: all 260ms ease-in-out;
+    -webkit-transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg);
+            transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg);
     z-index: 1110; }
   #nav-toggle span:before {
     top: -6px; }
   #nav-toggle span:after {
     top: 6px; }
   #nav-toggle.active span {
-    transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg); }
+    -webkit-transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg);
+            transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg); }
     #nav-toggle.active span:before, #nav-toggle.active span:after {
       top: 0; }
     #nav-toggle.active span:before {
-      transform: translate3d(-3px, -4px, 0) rotate3d(0, 0, 1, -45deg);
+      -webkit-transform: translate3d(-3px, -4px, 0) rotate3d(0, 0, 1, -45deg);
+              transform: translate3d(-3px, -4px, 0) rotate3d(0, 0, 1, -45deg);
       width: 12px; }
     #nav-toggle.active span:after {
-      transform: translate3d(-3px, 4px, 0) rotate3d(0, 0, 1, 45deg);
+      -webkit-transform: translate3d(-3px, 4px, 0) rotate3d(0, 0, 1, 45deg);
+              transform: translate3d(-3px, 4px, 0) rotate3d(0, 0, 1, 45deg);
       width: 12px; }
 
 #swipe-stripe {
@@ -121,24 +127,31 @@
     visibility: visible;
     opacity: 1; }
   .add-panel .switch.active .option.one {
-    transition: all 0.3s ease-in-out 0s;
-    transform: translate(-4px, -122px) translateZ(0); }
+    -webkit-transition: all 0.3s ease-in-out 0s;
+            transition: all 0.3s ease-in-out 0s;
+    -webkit-transform: translate(-4px, -122px) translateZ(0);
+            transform: translate(-4px, -122px) translateZ(0); }
   .add-panel .switch.active .option.two {
-    transition: all 0.2s ease-in-out 0s;
-    transform: translate(-4px, -66px) translateZ(0); }
+    -webkit-transition: all 0.2s ease-in-out 0s;
+            transition: all 0.2s ease-in-out 0s;
+    -webkit-transform: translate(-4px, -66px) translateZ(0);
+            transform: translate(-4px, -66px) translateZ(0); }
   .add-panel .switch.active .plus {
     z-index: 99999;
     visibility: visible;
     opacity: 1;
     background: #ffffff !important;
-    transform: rotate(135deg) !important; }
+    -webkit-transform: rotate(135deg) !important;
+        -ms-transform: rotate(135deg) !important;
+            transform: rotate(135deg) !important; }
   .add-panel .switch .option.one, .add-panel .switch .option.two {
     position: absolute;
     visibility: hidden;
     opacity: 0; }
   .add-panel .switch .plus {
     background: #ffffff !important;
-    transition: all 0.2s ease-in-out 0s;
+    -webkit-transition: all 0.2s ease-in-out 0s;
+            transition: all 0.2s ease-in-out 0s;
     position: absolute; }
   .add-panel .switch .action-button {
     position: absolute;
@@ -149,7 +162,7 @@
     z-index: 100;
     background: #fff;
     text-align: center;
-    line-height: 50px;
+    line-height: 56px;
     border-radius: 100%;
     font-size: 24px; }
     .add-panel .switch .action-button.one, .add-panel .switch .action-button.two {
@@ -201,6 +214,7 @@
     position: relative; }
   #topbar.large {
     height: 140px;
+    background: -webkit-linear-gradient(325deg, #E53241, #d42130);
     background: linear-gradient(125deg, #E53241, #d42130); }
   #topbar .city {
     float: right;
@@ -217,7 +231,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
     max-width: 5rem; }
   .page.AppCtrl {
     background: #303040;

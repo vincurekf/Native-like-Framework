@@ -12,10 +12,10 @@ $dark: #333333;
 	left: 0;
 	bottom: 0;
 	width: 300px;
-  background: linear-gradient(75deg, $white, $white - #121212);
-	transform: translateX(-1000px) translateZ(0);
+  background: $white;
 	//transform: translate3d( -300px, 0px, 0px);
 	z-index: 1101;
+	transform: translateX(-1000px) translateZ(0);
 	.username{
 		//background: rgba(0, 0, 0, 0.2);
     font-size: 16px;
@@ -200,7 +200,7 @@ $dark: #333333;
 			z-index: 100;
 			background: #fff;
 			text-align: center;
-			line-height: 50px;
+			line-height: 56px;
 			border-radius: 100%;
 			font-size: 24px;
 			&.one, &.two{
