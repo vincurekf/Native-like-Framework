@@ -1,4 +1,4 @@
-![Native-like menu Drawer](https://raw.githubusercontent.com/vincurekf/Native-like-Menu-Drawer/master/title_image.jpg)
+![Native-like menu Drawer](title_image.jpg)
 # Native-like Menu Drawer
 Native-like menu implementation for angular mobile/desktop apps.
 Build with hammer.js fot touch support. 4kb minified.
@@ -84,12 +84,12 @@ options: {
 }
 drawer.init( options );
 ```
-Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to assign the drawer module and call the initialization:
 
 # Styles
 There is **ng-nativeDrawer.scss** file with default styles and color which are there for you prepared to customize the look of menu however you like.
 
 # Full example code
+Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to assign the drawer module and call the initialization:
 ```js
 var exampleApp = angular.module('exampleApp', ['ionic', 'nativeDrawer']);
 
