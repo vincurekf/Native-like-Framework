@@ -1,7 +1,7 @@
 ![Native-like menu Drawer](title_image.jpg)
 # Native-like Menu Drawer
 Native-like menu implementation for angular mobile/desktop apps.
-Build with hammer.js fot touch support. 4kb minified.
+Build with hammer.js for touch support. 4kb minified.
 
 You can find [working example here](http://nlmd.vincurekf.cz).
 
@@ -10,7 +10,7 @@ If you are developing application for android with Phonegap or Ionic or other al
 this is exactly for you. 
 I've been struggling with menu implementations, found some but never got the feel and usability i wanted. No touch support or slow/no animations, if there was animations, they mostly have lags.
 
-With this menu you have touch support, slide open/close, toggle function and all with smooth hardware accelerated animations.
+With this menu you have touch support, slide open/close, toggle function, action button and all with smooth hardware accelerated animations.
 
 ## Usage
 Add **hammer.js**, **ng-nativeDrawer.js** and **ng-nativeDrawer.css** to your project:
