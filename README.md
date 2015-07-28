@@ -60,24 +60,17 @@ Drawer has some basic functions:
 
 # Settings
 Drawer has some options to play with:
-
-```maxWidth```: the maximum width that can drawer take, can be any number value (pixels)
+- **maxWidth**: the maximum width that can drawer take, can be any number value (pixels)
 
 Transitions can be modified with:
-
-```speed```: speed of the drawer movement, defined in seconds (0.2, 1, 5...) 
-
-```animation```: css transition style property, could be ```linear```, ```ease```, ```ease-in```, ```ease-out```, ```ease-in-out```
-
-(it's standart css transition property)
+- **speed**: speed of the drawer movement, defined in seconds (0.2, 1, 5...)
+- **animation**: css transition style property, could be **linear**, **ease**, **ease-in**, **ease-out**, **ease-in-out**
+- (it's standart css transition property)
 
 Additional options, (you can leave those if you don't want use action buttons or view-content elements):
-
-```topBarHeight```: define the height of your topbar, you must set this if you'll use ```modifyViewContent```
-
-```modifyViewContent```: if you are using ionic view or angular ng-view this comes handy as it adds margin to your content and changes the size of it (when you rotate device etc.)
-
-```useActionButton```: wheter or not you are using action buttons provided with Native-like Drawer
+- **topBarHeight**: define the height of your topbar, you must set this if you'll use **modifyViewContent**
+- **modifyViewContent**: if you are using ionic view or angular ng-view this comes handy as it adds margin to your content and changes the size of it (when you rotate device etc.)
+- **useActionButton**: wheter or not you are using action buttons provided with Native-like Drawer
 
 You can pass options with ```init()```:
 ```js
