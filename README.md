@@ -1,3 +1,4 @@
+![Native-like menu Drawer](https://raw.githubusercontent.com/vincurekf/Native-like-Menu-Drawer/master/title_image.jpg)
 # Native-like Menu Drawer
 Native-like menu implementation for angular mobile/desktop apps.
 Build with hammer.js fot touch support. 4kb minified.
