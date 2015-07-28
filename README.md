@@ -31,27 +31,13 @@ if you dont want to use the view-content, just leave it, and the same is for act
 <div id="swipe-stripe"></div>
 <!-- body of the menu drawer -->
 <div id="drawer" ng-click="drawer.hide()">
-  <div id="topbar" class="drawer large">
-    <img class="gravatar depth z1" src="http://placehold.it/150x150">
-    <div class="username">
-      <strong>John</strong><br>
-      Doe
-    </div>
-  </div>
-  <ul class="nav">
-    <li><a href="#app">Overview</a></li>
-    <li><a href="#settings">Settings</a></li>
-    <div class="bottom">
-      <li><a href="#settings">Settings</a></li>
-    </div>
-  </ul>
 </div>
 <!-- takes care of the overlay dimming -->
 <div id="drawer-dimm" ng-click="drawer.hide(); drawer.togglePlus(true);"></div>
 <!-- your part of the code, views etc.. -->
 <ion-scroll id="view-content" zooming="false" direction="y">
   <div ng-view=""></div>
-</div> 
+</div>
 ```
 So you have four elements:
 
