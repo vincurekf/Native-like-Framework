@@ -12,7 +12,7 @@ I've been struggling with menu implementations, found some but never got the fee
 
 With this menu you have touch support, slide open/close, toggle function and all with smooth hardware accelerated animations.
 
-# Usage
+## Usage
 Add **hammer.js**, **ng-nativeDrawer.js** and **ng-nativeDrawer.css** to your project:
 ```html
 <script src="hammer.js"></script>
@@ -85,10 +85,10 @@ options: {
 drawer.init( options );
 ```
 
-# Styles
+## Styles
 There is **ng-nativeDrawer.scss** file with default styles and color which are there for you prepared to customize the look of menu however you like.
 
-# Full example code
+## Full example code
 Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to assign the drawer module and call the initialization:
 ```js
 var exampleApp = angular.module('exampleApp', ['ionic', 'nativeDrawer']);
@@ -116,9 +116,9 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
   });
 });
 ```
-# Example app
+## Example app
 There is example app alongside with its source code, so feel free to check it and play with it :)
 I hope this will help you.
 
-# Licence
+## Licence
 [MIT](http://choosealicense.com/licenses/mit/)
