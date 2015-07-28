@@ -1,13 +1,11 @@
 # Native-like Menu Drawer
 Native-like menu implementation for angular mobile/desktop apps.
-Build with hammer.js fot touch support.
-4kb minified.
+Build with hammer.js fot touch support. 4kb minified.
 
-<p data-height="266" data-theme-id="8844" data-slug-hash="bdmVpM" data-default-tab="result" data-user="vincurekf" class='codepen'>See the Pen <a href='http://codepen.io/vincurekf/pen/bdmVpM/'>Native-like Menu Drawer</a> by Filip Vincůrek (<a href='http://codepen.io/vincurekf'>@vincurekf</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+You can find [working example here](http://nlmd.vincurekf.cz).
 
 ## What is this for?
-If you are developing application for android with phogep or ionic or other alternative,
+If you are developing application for android with Phonegap or Ionic or other alternative,
 this is exactly for you. 
 I've been struggling with menu implementations, found some but never got the feel and usability i wanted. No touch support or slow/no animations, if there was animations, they mostly have lags.
 
@@ -34,8 +32,9 @@ if you dont want to use the view-content, just leave it, and the same is for act
 </div>
 <!-- takes care of the overlay dimming -->
 <div id="drawer-dimm" ng-click="drawer.hide(); drawer.togglePlus(true);"></div>
-<!-- your part of the code, views etc.. -->
-<ion-scroll id="view-content" zooming="false" direction="y">
+<!-- wrapper for manipulationg with view content -->
+<div id="view-content">
+  <!-- your part of the code, views etc.. -->
   <div ng-view=""></div>
 </div>
 ```
@@ -85,6 +84,9 @@ options: {
 drawer.init( options );
 ```
 Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to assign the drawer module and call the initialization:
+
+# Styles
+There is **ng-nativeDrawer.scss** file with default styles and color which are there for you prepared to customize the look of menu however you like.
 
 # Full example code
 ```js

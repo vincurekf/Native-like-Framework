@@ -109,16 +109,12 @@ angular.module('nativeDrawer', [])
       element.addEventListener('touchend', function(e){
         // get the touch reference
         var touchobj = e.changedTouches[0] // reference first touch point for this event
+        // if the drawer is pulled more than its maxWidth
         var isBigger = touchobj.clientX > (nDrawer.maxWidth/2);
+        // combined with the direction
         var isLeft = nDrawer.direction === 'left';
         var isRight = nDrawer.direction === 'right';
         var endTrue = nDrawer.endTrue;
-        // this is a bit of a mess but:
-        // combining ev.isFinal from above
-        // and native touchEnd event
-        // checking:
-        // if the drawer is pulled more than its maxWidth
-        // combined with the direction
         // we can decide here if we want show or hide the drawer
         if( endTrue ){
           if( (isBigger && isLeft) || (isBigger && isRight) ){
@@ -138,6 +134,8 @@ angular.module('nativeDrawer', [])
       // get options passed from initialization and merge them with default ones
       var options = nDrawer.merge_options(nDrawer.options, config);
       nDrawer.options = options;
+      console.log( nDrawer.options );
+
       // get references to all needed elements on page
       console.log( 'init drawer' );
         swipe = document.getElementById('swipe-stripe');
@@ -156,6 +154,8 @@ angular.module('nativeDrawer', [])
       // used only when the drawer is set to have offset from top (so the topbar remains visible)
       if( nDrawer.options.modifyViewContent ){
         viewContent = document.getElementById( 'view-content' );
+        viewContent.style.position = 'absolute';
+        viewContent.style.width = deviceW+'px';
         viewContent.style.height = deviceH-nDrawer.options.topBarHeight+'px';
         viewContent.style.top = nDrawer.options.topBarHeight+'px';
       }
@@ -171,6 +171,8 @@ angular.module('nativeDrawer', [])
         deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         if( nDrawer.options.modifyViewContent ){
+          viewContent.style.position = 'absolute';
+          viewContent.style.width = deviceW+'px';
           viewContent.style.height = deviceH-nDrawer.options.topBarHeight+'px';
         }
         nDrawer.maxWidth = nDrawer.options.maxWidth > deviceW-56 ? deviceW-56 : nDrawer.options.maxWidth;

@@ -27,25 +27,24 @@
 
   <div class="add-panel">
     <div class="switch" id="add-panel-switch">
-      <div class="action-button option one" ng-click="drawer.togglePlus()">
+      <div class="action-button depth z1 option one" ng-click="drawer.togglePlus()">
           2
       </div>
-      <div class="action-button option two" ng-click="drawer.togglePlus()">
+      <div class="action-button depth z1 option two" ng-click="drawer.togglePlus()">
           1
       </div>
-      <div class="action-button plus" ng-click="drawer.togglePlus()">
+      <div class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
         <span>
           +
         </span>
       </div>
     </div>
   </div>
-  <div id="topbar" class="fixed" ng-click="drawer.show()">
+  <div id="topbar" class="fixed depth z1" ng-click="drawer.show()">
     <div class="title">
       {{ title }}
     </div>
   </div>
-
   <!-- toggle icon for toggling menu -->
   <a id="nav-toggle" class="menu-icon" href="#"><span></span></a>
   <!-- stripe on the left of the screen to detect slide from side of the screen -->
@@ -53,7 +52,7 @@
   <!-- body of the menu drawer -->
   <div id="drawer" ng-click="drawer.hide()">
     <div id="topbar" class="drawer large">
-      <img class="gravatar" src="./img/free-flat-icons-set-thumb.jpg">
+      <img class="gravatar depth z1" src="./img/free-flat-icons-set-thumb.jpg">
       <div class="username">
         <strong>John</strong><br>
         Doe
@@ -70,9 +69,9 @@
   <!-- takes care of the overlay dimming -->
   <div id="drawer-dimm" ng-click="drawer.hide(); drawer.togglePlus(true);"></div>
   
-  <!-- your part of the code, views etc.. -->
-  <ion-scroll id="view-content" zooming="false" direction="y">
-    <div ng-view=""></div>
+  <div id="view-content">
+    <!-- your part of the code, views etc.. -->
+    <div ng-view="" class="page {{ title }}"></div>
   </div>
 
   </body>
