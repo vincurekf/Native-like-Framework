@@ -15,7 +15,7 @@ With this menu you have touch support, slide open/close, toggle function and all
 
 # Usage
 Add **hammer.js**, **ng-nativeDrawer.js** and **ng-nativeDrawer.css** to your project:
-```
+```html
 <script src="hammer.js"></script>
 <script src="ng-nativeDrawer.min.js"></script>
 <link href="ng-nativeDrawer.css" rel="stylesheet">
@@ -24,7 +24,7 @@ Add **hammer.js**, **ng-nativeDrawer.js** and **ng-nativeDrawer.css** to your pr
 ## Needed elements
 Add drawer, drawer dimm, swipe stripe, content view and menu toggle button to your projects index.html (or what represents your index),
 if you dont want to use the view-content, just leave it, and the same is for action buttons. Read more in **Settings**.
-```
+```html
 <!-- toggle icon for toggling menu -->
 <a id="nav-toggle" class="menu-icon" href="#"><span></span></a>
 <!-- stripe on the left of the screen to detect slide from side of the screen -->
@@ -94,7 +94,7 @@ Additional options, (you can leave those if you don't want use action buttons or
 ```useActionButton```: wheter or not you are using action buttons provided with Native-like Drawer
 
 You can pass options with ```init()```:
-```
+```js
 options: {
   maxWidth: 300,
   speed: 0.2,
@@ -108,7 +108,7 @@ drawer.init( options );
 Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to assign the drawer module and call the initialization:
 
 # Full example code
-```
+```js
 var exampleApp = angular.module('exampleApp', ['ionic', 'nativeDrawer']);
 
 exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
