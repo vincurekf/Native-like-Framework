@@ -13,13 +13,13 @@
 #drawer-dimm { position: fixed; top: 0; left: 0; bottom: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); opacity: 0; z-index: 1100; visibility: hidden; }
 
 #nav-toggle { position: absolute; top: 18px; left: 18px; }
-#nav-toggle span, #nav-toggle span:before, #nav-toggle span:after { pointer-events: none; background: white; content: ""; cursor: pointer; display: block; height: 2px; position: absolute; width: 18px; top: 10px; -webkit-transition: all 260ms ease-in-out; transition: all 260ms ease-in-out; -webkit-transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg); transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg); z-index: 1110; }
-#nav-toggle span:before { top: -6px; }
-#nav-toggle span:after { top: 6px; }
+#nav-toggle span, #nav-toggle span.one, #nav-toggle span.two { pointer-events: none; background: white; content: ""; cursor: pointer; display: block; height: 2px; position: absolute; width: 18px; top: 10px; -webkit-transition: all 260ms ease-in-out; transition: all 260ms ease-in-out; -webkit-transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg); transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg); z-index: 1110; }
+#nav-toggle span.one { top: -6px; }
+#nav-toggle span.two { top: 6px; }
 #nav-toggle.active span { -webkit-transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg); transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0deg); }
-#nav-toggle.active span:before, #nav-toggle.active span:after { top: 0; }
-#nav-toggle.active span:before { -webkit-transform: translate3d(-3px, -4px, 0) rotate3d(0, 0, 1, -45deg); transform: translate3d(-3px, -4px, 0) rotate3d(0, 0, 1, -45deg); width: 12px; }
-#nav-toggle.active span:after { -webkit-transform: translate3d(-3px, 4px, 0) rotate3d(0, 0, 1, 45deg); transform: translate3d(-3px, 4px, 0) rotate3d(0, 0, 1, 45deg); width: 12px; }
+#nav-toggle.active span.one, #nav-toggle.active span.two { top: 0; }
+#nav-toggle.active span.one { -webkit-transform: translate3d(-3px, -4px, 0) rotate3d(0, 0, 1, -45deg); transform: translate3d(-3px, -4px, 0) rotate3d(0, 0, 1, -45deg); width: 12px; }
+#nav-toggle.active span.two { -webkit-transform: translate3d(-3px, 4px, 0) rotate3d(0, 0, 1, 45deg); transform: translate3d(-3px, 4px, 0) rotate3d(0, 0, 1, 45deg); width: 12px; }
 
 #swipe-stripe { width: 15px; height: 100%; position: fixed; top: 0; left: 0; background: transparent; z-index: 1100; }
 

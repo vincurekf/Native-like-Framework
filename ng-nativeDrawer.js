@@ -81,6 +81,8 @@ angular.module('nativeDrawer', [])
       var opacityModder = nDrawer.maxWidth - Math.abs(pos); 
       var opacity = ( opacityModder / (nDrawer.maxWidth/100) / 100 ).toFixed(2);
           opacity = opacity < 1 ? opacity : 1;
+      // animate burger menu icon
+      //nDrawer.animateBurger( pos, opacity );
       // apply styles when moving
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = opacity;
@@ -103,10 +105,40 @@ angular.module('nativeDrawer', [])
       }else{
         nDrawer.endTrue = true;
       }
-    },// Fired on touch end event
+    },
+    /* WIP: Not working properly right now
+    animateBurger: function( pos, percentage){
+      //
+      var perc = Math.floor( percentage*100 );
+      console.log( pos, perc );
+      if( perc < 100 ){
+        var start_width = 18;
+        var end_width = 12;
+        var length = start_width - Math.floor((6/100) * perc);
+        var deg_one = Math.floor((45/100) * perc);
+        var x_one = Math.floor((3/100) * perc);
+        var y_one = Math.floor((3/100) * perc);
+        var one_piece_degs = 'translate3d(-'+x_one+'px, '+y_one+'px, 0) rotate3d( 0, 0, 1, -'+deg_one+'deg )';
+        document.querySelector("#nav-toggle span.one").style.transform = one_piece_degs;
+        document.querySelector("#nav-toggle span.one").style.transition = 'none';
+        document.querySelector("#nav-toggle span.one").style.width = length+'px';
+      }else{
+        document.querySelector("#nav-toggle span.one").style.transform = '';
+        document.querySelector("#nav-toggle span.one").style.transition = '';
+        document.querySelector("#nav-toggle span.one").style.width = '';
+        navToggle.classList.add("active");
+      }
+    },
+    */
+    // Fired on touch end event
     touchEnd: function( element ){
       // listen for touch end event on touch devices
       element.addEventListener('touchend', function(e){
+        /*
+        document.querySelector("#nav-toggle span.one").style.transition = '';
+        document.querySelector("#nav-toggle span.one").style.width = '';
+        document.querySelector("#nav-toggle span.one").style.transform = '';
+        */
         // get the touch reference
         var touchobj = e.changedTouches[0] // reference first touch point for this event
         // if the drawer is pulled more than its maxWidth

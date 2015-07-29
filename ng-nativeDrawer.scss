@@ -99,7 +99,7 @@ $dark: #333333;
 	position: absolute;
 	top: 18px;
 	left: 18px;
-  span, span:before, span:after{
+  span, span.one, span.two{
   	//box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     pointer-events: none;
     background: white;
@@ -115,23 +115,23 @@ $dark: #333333;
     z-index: 1110;
   }
   span{
-    &:before{
+    &.one{
       top: -6px;
     }
-    &:after{
+    &.two{
       top: 6px;
     }
   }  
   &.active span{
     transform: translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg );
-    &:before, &:after {
+    &.one, &.two {
       top: 0;
     }
-    &:before{
+    &.one{
       transform: translate3d(-3px, -4px, 0) rotate3d( 0, 0, 1, -45deg );
       width: 12px;
     }
-    &:after{
+    &.two{
       transform: translate3d(-3px, 4px, 0) rotate3d( 0, 0, 1, 45deg );
       width: 12px;
     }
