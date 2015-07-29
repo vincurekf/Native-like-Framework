@@ -48,8 +48,9 @@ angular.module('nativeDrawer', [])
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = '1';
 
-      navToggle.classList.add("active");
+      //navToggle.classList.add("active");
       nDrawer.open = true;
+      nDrawer.toggleBurger(true);
     },
     hide: function(){
       drawer.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
@@ -63,8 +64,16 @@ angular.module('nativeDrawer', [])
       drawerDimm.style.visibility = 'hidden';
       drawerDimm.style.opacity = '0';
 
-      navToggle.classList.remove("active");
+      //navToggle.classList.remove("active");
       nDrawer.open = false;
+      nDrawer.toggleBurger(false);
+    },
+    toggle: function(){
+      if( nDrawer.open ){
+        nDrawer.hide();
+      }else{
+        nDrawer.show();
+      }
     },
     move: function( ev, holdingDrawer ){
       // check for direction
@@ -81,6 +90,8 @@ angular.module('nativeDrawer', [])
       var opacityModder = nDrawer.maxWidth - Math.abs(pos); 
       var opacity = ( opacityModder / (nDrawer.maxWidth/100) / 100 ).toFixed(2);
           opacity = opacity < 1 ? opacity : 1;
+      // animate burger menu icon
+      nDrawer.animateBurger( pos, opacity );
       // apply styles when moving
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = opacity;
@@ -103,10 +114,97 @@ angular.module('nativeDrawer', [])
       }else{
         nDrawer.endTrue = true;
       }
-    },// Fired on touch end event
+    },
+    animateBurger: function( pos, percentage){
+      var total = nDrawer.maxWidth;
+      var current = total - Math.abs(pos);
+      var currentPerc = Math.floor( (100/total)*current);
+      if( currentPerc > 0 ){
+        document.querySelector("#burger").style.transition = 'none';
+        document.querySelector("#burger #top").style.transition = 'none';
+        document.querySelector("#burger #bottom").style.transition = 'none';
+        //
+        console.log( currentPerc );
+        //
+        // translate3d(0px, 0px, 0px) rotate3d(0, 0, 1, 0deg)
+        var startWidth = 18;
+        var endWidth = 12;
+        var currentWidth = startWidth - Math.floor(((6/100)*currentPerc));
+        
+        // Complete burger animation
+        var rotateComplete = Math.floor(((180/100)*currentPerc));
+        var transformComplete = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, '+rotateComplete+'deg )';
+        document.querySelector("#burger").style.transform = transformComplete;
+
+        // for both elements
+        var rotate = Math.floor(((45/100)*currentPerc));
+        
+        //
+        var x_pos_top = Math.floor(((30/100)*currentPerc));
+        var y_pos_top = Math.floor(((9/100)*currentPerc));
+            y_pos_top = y_pos_top < 9 ? y_pos_top : 9;
+        // translate3d(32px, -9px, 0px) rotate3d(0, 0, 1, 45deg);
+        var top_transform = 'translate3d('+x_pos_top+'px, -'+y_pos_top+'px, 0) rotate3d( 0, 0, 1, '+rotate+'deg )';
+        document.querySelector("#burger #top").style.transform = top_transform;
+        document.querySelector("#burger #top").setAttribute('width', currentWidth);
+
+        //
+        var x_pos_bottom = Math.floor(((9/100)*currentPerc));
+        var y_pos_bottom = Math.floor(((26/100)*currentPerc));
+            y_pos_bottom = y_pos_bottom < 26 ? y_pos_bottom : 26;
+        // translate3d(-8px, 25px, 0px) rotate3d(0, 0, 1, -45deg);
+        var bottom_transform = 'translate3d(-'+x_pos_bottom+'px, '+y_pos_bottom+'px, 0) rotate3d( 0, 0, 1, -'+rotate+'deg )';
+        document.querySelector("#burger #bottom").style.transform = bottom_transform;
+        document.querySelector("#burger #bottom").setAttribute('width', currentWidth);
+      }
+    },
+    toggleBurger: function( toggle ){
+      //
+      document.querySelector("#burger").style.transition = 'all 0.3s ease';
+      document.querySelector("#burger #top").style.transition = 'all 0.3s ease';
+      document.querySelector("#burger #bottom").style.transition = 'all 0.3s ease';
+
+      if(toggle){
+        // ON
+        var top_transform = 'translate3d(30px, -9px, 0) rotate3d( 0, 0, 1, 45deg )';
+        document.querySelector("#burger #top").style.transform = top_transform;
+        document.querySelector("#burger #top").setAttribute('width', 12);
+        //
+        var bottom_transform = 'translate3d(-9px, 26px, 0) rotate3d( 0, 0, 1, -45deg )';
+        document.querySelector("#burger #bottom").style.transform = bottom_transform;
+        document.querySelector("#burger #bottom").setAttribute('width', 12);
+        //
+        var transformComplete = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 180deg )';
+        document.querySelector("#burger").style.transform = transformComplete;
+      }else{
+        // OFF
+        var top_transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
+        document.querySelector("#burger #top").style.transform = top_transform;
+        document.querySelector("#burger #top").setAttribute('width', 18);
+        //
+        var bottom_transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
+        document.querySelector("#burger #bottom").style.transform = bottom_transform;
+        document.querySelector("#burger #bottom").setAttribute('width', 18);
+        //
+        var transformComplete = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 0deg )';
+        document.querySelector("#burger").style.transform = transformComplete;
+      }
+      //
+    },
+    burgerTemplate: function(){
+      //
+      var burgerHolder = document.getElementsByTagName('nlmd-burger');
+      burgerHolder[0].innerHTML = '<svg version="1.1" id="burger" class="menu-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="56px" height="56px" viewBox="0 0 56 56" enable-background="new 0 0 56 56" xml:space="preserve"><rect id="top" x="19" y="20" fill="#fff" width="18" height="2"/><rect id="center" x="19" y="26" fill="#fff" width="18" height="2"/><rect id="bottom" x="19" y="32" fill="#fff" width="18" height="2"/></svg>';
+    },
+    // Fired on touch end event
     touchEnd: function( element ){
       // listen for touch end event on touch devices
       element.addEventListener('touchend', function(e){
+        /*
+        document.querySelector("#nav-toggle span.one").style.transition = '';
+        document.querySelector("#nav-toggle span.one").style.width = '';
+        document.querySelector("#nav-toggle span.one").style.transform = '';
+        */
         // get the touch reference
         var touchobj = e.changedTouches[0] // reference first touch point for this event
         // if the drawer is pulled more than its maxWidth
@@ -135,7 +233,7 @@ angular.module('nativeDrawer', [])
       var options = nDrawer.merge_options(nDrawer.options, config);
       nDrawer.options = options;
       console.log( nDrawer.options );
-
+      nDrawer.burgerTemplate();
       // get references to all needed elements on page
       console.log( 'init drawer' );
         swipe = document.getElementById('swipe-stripe');
@@ -146,7 +244,6 @@ angular.module('nativeDrawer', [])
         drawerH = new Hammer(drawer);
         drawerDimm = document.getElementById( 'drawer-dimm' );
         drawerDimmH = new Hammer(drawerDimm);
-        navToggle = document.getElementById( 'nav-toggle' );
       // get device width and height for proper scaling of drawer
       deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);

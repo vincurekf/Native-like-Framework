@@ -96,47 +96,11 @@ $dark: #333333;
 	visibility: hidden;
 }
 // hamburger icon for toggle button in topbar
-#nav-toggle{
-	position: absolute;
-	top: 18px;
-	left: 18px;
-  span, span:before, span:after{
-  	//box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-    pointer-events: none;
-    background: white;
-    content: "";
-    cursor: pointer;
-    display: block;
-    height: 2px;
-    position: absolute;
-    width: 18px;
-    top: 10px;
-    transition: all 260ms ease-in-out;
-    transform: translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg );
-    z-index: 1110;
-  }
-  span{
-    &:before{
-      top: -6px;
-    }
-    &:after{
-      top: 6px;
-    }
-  }  
-  &.active span{
-    transform: translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg );
-    &:before, &:after {
-      top: 0;
-    }
-    &:before{
-      transform: translate3d(-3px, -4px, 0) rotate3d( 0, 0, 1, -45deg );
-      width: 12px;
-    }
-    &:after{
-      transform: translate3d(-3px, 4px, 0) rotate3d( 0, 0, 1, 45deg );
-      width: 12px;
-    }
-  }
+#burger{
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1102;
 }
 // swipe stripe at the left edge of the screen
 #swipe-stripe{

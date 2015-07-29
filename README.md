@@ -25,7 +25,7 @@ Add drawer, drawer dimm, swipe stripe, content view and menu toggle button to yo
 if you dont want to use the view-content, just leave it, and the same is for action buttons. Read more in **Settings**.
 ```html
 <!-- toggle icon for toggling menu -->
-<a id="nav-toggle" class="menu-icon" href="#"><span></span></a>
+<nlmd-burger ng-click="drawer.toggle();"></nlmd-burger>
 <!-- stripe on the left of the screen to detect slide from side of the screen -->
 <div id="swipe-stripe"></div>
 <!-- body of the menu drawer -->
