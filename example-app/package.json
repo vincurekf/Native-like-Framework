@@ -1,7 +1,7 @@
 {
   "name": "nlmd",
   "version": "1.0.0",
-  "description": "NLMD: Native-like meanu Drawer",
+  "description": "NLMD: Native-like menu Drawer",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^1.3.3",

@@ -17,14 +17,7 @@ angular.module('nativeDrawer', [])
       navToggle, deviceW, viewContent,
       burger, burgerTop, burgerBottom;
   var settings = {};
-  
-  /**
-  * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-  * @param obj1
-  * @param obj2
-  * @returns obj3 a new object based on obj1 and obj2
-  */
-
+  //
   var nDrawer = {
     open: false,
     plusActive: false,
@@ -43,13 +36,12 @@ angular.module('nativeDrawer', [])
       drawer.style.msTransform =
       drawer.style.MozTransform =
       drawer.style.OTransform = 'translateX(0)';
-      drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
+      //drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
 
       drawerDimm.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = '1';
 
-      //navToggle.classList.add("active");
       nDrawer.open = true;
       nDrawer.toggleBurger(true);
     },
@@ -59,13 +51,12 @@ angular.module('nativeDrawer', [])
       drawer.style.msTransform =
       drawer.style.MozTransform =
       drawer.style.OTransform = 'translateX(-' + nDrawer.maxWidth + 'px)';
-      drawer.style.boxShadow = 'none';
+      //drawer.style.boxShadow = 'none';
 
       drawerDimm.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       drawerDimm.style.visibility = 'hidden';
       drawerDimm.style.opacity = '0';
 
-      //navToggle.classList.remove("active");
       nDrawer.open = false;
       nDrawer.toggleBurger(false);
     },
@@ -97,10 +88,12 @@ angular.module('nativeDrawer', [])
       // apply styles when moving
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = opacity;
+      drawerDimm.style.webkitTransform = 'translate(0,0) translateZ(0)';
+      //
       drawer.style.transition = 'none';
       drawer.style.webkitTransform = 'translate(' + pos + 'px,0)' + 'translateZ(0)';
       drawer.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'translateX(' + pos + 'px)';
-      drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
+      //drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
       // if this is final touch (mouse move) event
       // show or hide the drawer (pannig left = open, right = close)
       // and clean our temp values
@@ -126,59 +119,58 @@ angular.module('nativeDrawer', [])
         burgerTop.style.transition = 'none';
         burgerBottom.style.transition = 'none';
         //
-        console.log( currentPerc );
-        // translate3d(0px, 0px, 0px) rotate3d(0, 0, 1, 0deg)
         var startWidth = 18;
         var endWidth = 12;
         var currentWidth = startWidth - Math.floor(((6/100)*currentPerc));
         // for both elements
         var rotate = Math.floor(((45/100)*currentPerc));
-        //
-        var x_pos_top = Math.floor(((30/100)*currentPerc));
-        var y_pos_top = Math.floor(((9/100)*currentPerc));
-            y_pos_top = y_pos_top < 9 ? y_pos_top : 9;
-        //
-        var x_pos_bottom = Math.floor(((9/100)*currentPerc));
-        var y_pos_bottom = Math.floor(((26/100)*currentPerc));
-            y_pos_bottom = y_pos_bottom < 26 ? y_pos_bottom : 26;
+        // for top line
+        var x_pos_top = Math.floor(((8/100)*currentPerc));
+        var y_pos_top = Math.floor(((2/100)*currentPerc));
+            y_pos_top = y_pos_top < 2 ? y_pos_top : 2;
+        // for bottom line
+        var x_pos_bottom = Math.floor(((8/100)*currentPerc));
+        var y_pos_bottom = Math.floor(((2/100)*currentPerc));
+            y_pos_bottom = y_pos_bottom < 2 ? y_pos_bottom : 2;
         // Complete burger animation
         var rotateComplete = Math.floor(((180/100)*currentPerc));
+        
+        if( nDrawer.direction === 'left' && currentPerc < 100 ){
+          rotateComplete = 180+(180-rotateComplete);
+        }
+
         burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d(0,0,1,'+rotateComplete+'deg)';
         burger.style.webkitTransform = 'rotate('+rotateComplete+'deg)';
-        //burger.style.webkitTransform = 'translate(0px,0) translateZ(0) rotate('+rotateComplete+'deg)';
         burger.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate('+rotateComplete+'deg)';
         
-        // translate3d(32px, -9px, 0px) rotate3d(0, 0, 1, 45deg);
-        burgerTop.style.transform = 'translate3d('+x_pos_top+'px, -'+y_pos_top+'px, 0) rotate3d( 0, 0, 1, '+rotate+'deg )';
-        //burgerTop.style.webkitTransform = 'translate('+x_pos_top+'px, -'+y_pos_top+'px) translateZ(0) rotate('+rotate+'deg)';
-        burgerTop.style.webkitTransform = 'rotate('+rotate+'deg)';
+        burgerTop.style.transform = 'translate3d('+x_pos_top+'px, '+y_pos_top+'px, 0) rotate3d( 0, 0, 1, '+rotate+'deg )';
+        burgerTop.style.webkitTransform = 'translate('+x_pos_top+'px, '+y_pos_top+'px) translateZ(0) rotate('+rotate+'deg)';
         burgerTop.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate('+rotate+'deg)';
-        burgerTop.setAttribute('width', currentWidth);
-        
-        // translate3d(-8px, 25px, 0px) rotate3d(0, 0, 1, -45deg);
-        burgerBottom.style.transform = 'translate3d(-'+x_pos_bottom+'px, '+y_pos_bottom+'px, 0) rotate3d( 0, 0, 1, -'+rotate+'deg )';
-        //burgerBottom.style.webkitTransform = 'translate(-'+x_pos_bottom+'px, '+y_pos_bottom+'px) translateZ(0) rotate(-'+rotate+'deg)';
-        burgerBottom.style.webkitTransform = 'rotate(-'+rotate+'deg)';
+        burgerTop.style.width = currentWidth+'px';
+
+        burgerBottom.style.transform = 'translate3d('+x_pos_bottom+'px, -'+y_pos_bottom+'px, 0) rotate3d( 0, 0, 1, -'+rotate+'deg )';
+        burgerBottom.style.webkitTransform = 'translate('+x_pos_bottom+'px, -'+y_pos_bottom+'px) rotate(-'+rotate+'deg)';
         burgerBottom.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate(-'+rotate+'deg)';
-        burgerBottom.setAttribute('width', currentWidth);
+        burgerBottom.style.width = currentWidth+'px';
+
       }
     },
     toggleBurger: function( toggle ){
       //alert('drawer.toggleBurger()!');
       //
-      burger.style.transition = 'all 0.3s ease';
-      burgerTop.style.transition = 'all 0.3s ease';
-      burgerBottom.style.transition = 'all 0.3s ease';
-
+      burger.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
+      burgerTop.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
+      burgerBottom.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
+      //
       if(toggle){
         // ON
-        burgerTop.style.transform = 'translate3d(30px, -9px, 0) rotate3d( 0, 0, 1, 45deg )';
-        burgerTop.style.webkitTransform = 'translate(30px, -9px) translateZ(0) rotate(45deg)';
-        burgerTop.setAttribute('width', 12);
+        burgerTop.style.width = 12+'px';
+        burgerTop.style.transform = 'translate3d(8px, 2px, 0) rotate3d( 0, 0, 1, 45deg )';
+        burgerTop.style.webkitTransform = 'translate(8px, 2px) translateZ(0) rotate(45deg)';
         //
-        burgerBottom.style.transform = 'translate3d(-9px, 26px, 0) rotate3d( 0, 0, 1, -45deg )';
-        burgerBottom.style.webkitTransform = 'translate(-9px, 26px) translateZ(0) rotate(-45deg)';
-        burgerBottom.setAttribute('width', 12);
+        burgerBottom.style.width = 12+'px';
+        burgerBottom.style.transform = 'translate3d(8px, -2px, 0) rotate3d( 0, 0, 1, -45deg )';
+        burgerBottom.style.webkitTransform = 'translate(8px, -2px) translateZ(0) rotate(-45deg)';
         //
         burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 180deg )';
         burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(180deg)';
@@ -186,16 +178,27 @@ angular.module('nativeDrawer', [])
         // OFF
         burgerTop.style.transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
         burgerTop.style.webkitTransform = 'translate(0, 0) translateZ(0) rotate(0deg)';
-        burgerTop.setAttribute('width', 18);
+        burgerTop.style.width = 18+'px';
         //
+        burgerBottom.style.width = 18+'px';
         burgerBottom.style.transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
         burgerBottom.style.webkitTransform = 'translate(0, 0) translateZ(0) rotate(0deg)';
-        burgerBottom.setAttribute('width', 18);
         //
-        burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 0deg )';
-        burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(0deg)';
+        burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 360deg )';
+        burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(360deg)';
       }
       //
+      var timeout = nDrawer.options.speed*1000;
+      console.log( timeout );
+      setTimeout( function(){
+        burger.style.transition = 'none';
+        burgerTop.style.transition = 'none';
+        burgerBottom.style.transition = 'none';
+        if(!toggle){
+          burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 0deg )';
+          burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(0deg)';
+        }
+      }, timeout );
     },
     // Fired on touch end event
     touchEnd: function( element ){
@@ -285,11 +288,11 @@ angular.module('nativeDrawer', [])
       drawerH.on("panleft panright", function( ev ){
         if( nDrawer.open ) nDrawer.move( ev, true );
       });
-      swipeH.on("panright panleft", function(ev) {
-        nDrawer.move( ev );
-      });
       drawerDimmH.on("panleft panright", function(ev) {
         if( nDrawer.open ) nDrawer.move( ev );
+      });
+      swipeH.on("panright panleft", function(ev) {
+        nDrawer.move( ev );
       });
       // register touch end listeners
       nDrawer.touchEnd( swipe );

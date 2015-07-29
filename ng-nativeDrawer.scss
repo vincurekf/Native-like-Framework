@@ -95,11 +95,33 @@ $dark: #333333;
 	visibility: hidden;
 }
 // hamburger icon for toggle button in topbar
-#burger{
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 1101;
+#burger {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 56px;
+  z-index: 1102;
+  display: block;
+  pointer-events: none;
+  #burger-top, #burger-center, #burger-bottom{
+  	position: relative;
+  	left: 19px;
+  	width: 18px;
+  	height: 2px;
+  	background: $white;
+  	border-radius: 2px;
+  	-webkit-backface-visibility: hidden;
+  }
+  #burger-top{
+  	top: 22px;
+  }
+  #burger-center{
+  	top: 26px;
+  }
+  #burger-bottom{
+  	top: 30px;
+  }
 }
 // swipe stripe at the left edge of the screen
 #swipe-stripe{
