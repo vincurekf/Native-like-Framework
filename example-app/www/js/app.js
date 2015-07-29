@@ -9,13 +9,6 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
 
   $ionicPlatform.ready(function() {
 
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
-
     // Native-like Drawer is HERE! ---------------------------
     // the drawer initialization
     $rootScope.drawer = $nativeDrawer;
