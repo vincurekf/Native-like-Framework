@@ -14,16 +14,10 @@ angular.module('nativeDrawer', [])
   // set global variables needed for proper drawer functioning
   var swipe, swipeH, body, bodyH, 
       drawer, drawerH, drawerDimm, drawerDimmH, 
-      navToggle, deviceW, viewContent;
+      navToggle, deviceW, viewContent,
+      burger, burgerTop, burgerBottom;
   var settings = {};
-  
-  /**
-  * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-  * @param obj1
-  * @param obj2
-  * @returns obj3 a new object based on obj1 and obj2
-  */
-
+  //
   var nDrawer = {
     open: false,
     plusActive: false,
@@ -42,13 +36,12 @@ angular.module('nativeDrawer', [])
       drawer.style.msTransform =
       drawer.style.MozTransform =
       drawer.style.OTransform = 'translateX(0)';
-      drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
+      //drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
 
       drawerDimm.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = '1';
 
-      //navToggle.classList.add("active");
       nDrawer.open = true;
       nDrawer.toggleBurger(true);
     },
@@ -58,17 +51,17 @@ angular.module('nativeDrawer', [])
       drawer.style.msTransform =
       drawer.style.MozTransform =
       drawer.style.OTransform = 'translateX(-' + nDrawer.maxWidth + 'px)';
-      drawer.style.boxShadow = 'none';
+      //drawer.style.boxShadow = 'none';
 
       drawerDimm.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       drawerDimm.style.visibility = 'hidden';
       drawerDimm.style.opacity = '0';
 
-      //navToggle.classList.remove("active");
       nDrawer.open = false;
       nDrawer.toggleBurger(false);
     },
     toggle: function(){
+      //alert('drawer.toggle()!');
       if( nDrawer.open ){
         nDrawer.hide();
       }else{
@@ -91,14 +84,16 @@ angular.module('nativeDrawer', [])
       var opacity = ( opacityModder / (nDrawer.maxWidth/100) / 100 ).toFixed(2);
           opacity = opacity < 1 ? opacity : 1;
       // animate burger menu icon
-      nDrawer.animateBurger( pos, opacity );
+      nDrawer.animateBurger( pos );
       // apply styles when moving
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = opacity;
+      drawerDimm.style.webkitTransform = 'translate(0,0) translateZ(0)';
+      //
       drawer.style.transition = 'none';
       drawer.style.webkitTransform = 'translate(' + pos + 'px,0)' + 'translateZ(0)';
       drawer.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'translateX(' + pos + 'px)';
-      drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
+      //drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
       // if this is final touch (mouse move) event
       // show or hide the drawer (pannig left = open, right = close)
       // and clean our temp values
@@ -115,96 +110,100 @@ angular.module('nativeDrawer', [])
         nDrawer.endTrue = true;
       }
     },
-    animateBurger: function( pos, percentage){
+    animateBurger: function( pos ){
       var total = nDrawer.maxWidth;
       var current = total - Math.abs(pos);
       var currentPerc = Math.floor( (100/total)*current);
       if( currentPerc > 0 ){
-        document.querySelector("#burger").style.transition = 'none';
-        document.querySelector("#burger #top").style.transition = 'none';
-        document.querySelector("#burger #bottom").style.transition = 'none';
+        burger.style.transition = 'none';
+        burgerTop.style.transition = 'none';
+        burgerBottom.style.transition = 'none';
         //
-        console.log( currentPerc );
-        //
-        // translate3d(0px, 0px, 0px) rotate3d(0, 0, 1, 0deg)
         var startWidth = 18;
         var endWidth = 12;
         var currentWidth = startWidth - Math.floor(((6/100)*currentPerc));
-        
-        // Complete burger animation
-        var rotateComplete = Math.floor(((180/100)*currentPerc));
-        var transformComplete = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, '+rotateComplete+'deg )';
-        document.querySelector("#burger").style.transform = transformComplete;
-
         // for both elements
         var rotate = Math.floor(((45/100)*currentPerc));
+        // for top line
+        var x_pos_top = Math.floor(((8/100)*currentPerc));
+        var y_pos_top = Math.floor(((2/100)*currentPerc));
+            y_pos_top = y_pos_top < 2 ? y_pos_top : 2;
+        // for bottom line
+        var x_pos_bottom = Math.floor(((8/100)*currentPerc));
+        var y_pos_bottom = Math.floor(((2/100)*currentPerc));
+            y_pos_bottom = y_pos_bottom < 2 ? y_pos_bottom : 2;
+        // Complete burger animation
+        var rotateComplete = Math.floor(((180/100)*currentPerc));
         
-        //
-        var x_pos_top = Math.floor(((30/100)*currentPerc));
-        var y_pos_top = Math.floor(((9/100)*currentPerc));
-            y_pos_top = y_pos_top < 9 ? y_pos_top : 9;
-        // translate3d(32px, -9px, 0px) rotate3d(0, 0, 1, 45deg);
-        var top_transform = 'translate3d('+x_pos_top+'px, -'+y_pos_top+'px, 0) rotate3d( 0, 0, 1, '+rotate+'deg )';
-        document.querySelector("#burger #top").style.transform = top_transform;
-        document.querySelector("#burger #top").setAttribute('width', currentWidth);
+        if( nDrawer.direction === 'left' && currentPerc < 100 ){
+          rotateComplete = 180+(180-rotateComplete);
+        }
 
-        //
-        var x_pos_bottom = Math.floor(((9/100)*currentPerc));
-        var y_pos_bottom = Math.floor(((26/100)*currentPerc));
-            y_pos_bottom = y_pos_bottom < 26 ? y_pos_bottom : 26;
-        // translate3d(-8px, 25px, 0px) rotate3d(0, 0, 1, -45deg);
-        var bottom_transform = 'translate3d(-'+x_pos_bottom+'px, '+y_pos_bottom+'px, 0) rotate3d( 0, 0, 1, -'+rotate+'deg )';
-        document.querySelector("#burger #bottom").style.transform = bottom_transform;
-        document.querySelector("#burger #bottom").setAttribute('width', currentWidth);
+        burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d(0,0,1,'+rotateComplete+'deg)';
+        burger.style.webkitTransform = 'rotate('+rotateComplete+'deg)';
+        burger.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate('+rotateComplete+'deg)';
+        
+        burgerTop.style.transform = 'translate3d('+x_pos_top+'px, '+y_pos_top+'px, 0) rotate3d( 0, 0, 1, '+rotate+'deg )';
+        burgerTop.style.webkitTransform = 'translate('+x_pos_top+'px, '+y_pos_top+'px) translateZ(0) rotate('+rotate+'deg)';
+        burgerTop.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate('+rotate+'deg)';
+        burgerTop.style.width = currentWidth+'px';
+
+        burgerBottom.style.transform = 'translate3d('+x_pos_bottom+'px, -'+y_pos_bottom+'px, 0) rotate3d( 0, 0, 1, -'+rotate+'deg )';
+        burgerBottom.style.webkitTransform = 'translate('+x_pos_bottom+'px, -'+y_pos_bottom+'px) rotate(-'+rotate+'deg)';
+        burgerBottom.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate(-'+rotate+'deg)';
+        burgerBottom.style.width = currentWidth+'px';
+
       }
     },
     toggleBurger: function( toggle ){
+      //alert('drawer.toggleBurger()!');
       //
-      document.querySelector("#burger").style.transition = 'all 0.3s ease';
-      document.querySelector("#burger #top").style.transition = 'all 0.3s ease';
-      document.querySelector("#burger #bottom").style.transition = 'all 0.3s ease';
-
+      burger.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
+      burgerTop.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
+      burgerBottom.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
+      //
       if(toggle){
         // ON
-        var top_transform = 'translate3d(30px, -9px, 0) rotate3d( 0, 0, 1, 45deg )';
-        document.querySelector("#burger #top").style.transform = top_transform;
-        document.querySelector("#burger #top").setAttribute('width', 12);
+        burgerTop.style.width = 12+'px';
+        burgerTop.style.transform = 'translate3d(8px, 2px, 0) rotate3d( 0, 0, 1, 45deg )';
+        burgerTop.style.webkitTransform = 'translate(8px, 2px) translateZ(0) rotate(45deg)';
         //
-        var bottom_transform = 'translate3d(-9px, 26px, 0) rotate3d( 0, 0, 1, -45deg )';
-        document.querySelector("#burger #bottom").style.transform = bottom_transform;
-        document.querySelector("#burger #bottom").setAttribute('width', 12);
+        burgerBottom.style.width = 12+'px';
+        burgerBottom.style.transform = 'translate3d(8px, -2px, 0) rotate3d( 0, 0, 1, -45deg )';
+        burgerBottom.style.webkitTransform = 'translate(8px, -2px) translateZ(0) rotate(-45deg)';
         //
-        var transformComplete = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 180deg )';
-        document.querySelector("#burger").style.transform = transformComplete;
+        burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 180deg )';
+        burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(180deg)';
       }else{
         // OFF
-        var top_transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
-        document.querySelector("#burger #top").style.transform = top_transform;
-        document.querySelector("#burger #top").setAttribute('width', 18);
+        burgerTop.style.transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
+        burgerTop.style.webkitTransform = 'translate(0, 0) translateZ(0) rotate(0deg)';
+        burgerTop.style.width = 18+'px';
         //
-        var bottom_transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
-        document.querySelector("#burger #bottom").style.transform = bottom_transform;
-        document.querySelector("#burger #bottom").setAttribute('width', 18);
+        burgerBottom.style.width = 18+'px';
+        burgerBottom.style.transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
+        burgerBottom.style.webkitTransform = 'translate(0, 0) translateZ(0) rotate(0deg)';
         //
-        var transformComplete = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 0deg )';
-        document.querySelector("#burger").style.transform = transformComplete;
+        burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 360deg )';
+        burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(360deg)';
       }
       //
-    },
-    burgerTemplate: function(){
-      //
-      var burgerHolder = document.getElementsByTagName('nlmd-burger');
-      burgerHolder[0].innerHTML = '<svg version="1.1" id="burger" class="menu-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="56px" height="56px" viewBox="0 0 56 56" enable-background="new 0 0 56 56" xml:space="preserve"><rect id="top" x="19" y="20" fill="#fff" width="18" height="2"/><rect id="center" x="19" y="26" fill="#fff" width="18" height="2"/><rect id="bottom" x="19" y="32" fill="#fff" width="18" height="2"/></svg>';
+      var timeout = nDrawer.options.speed*1000;
+      console.log( timeout );
+      setTimeout( function(){
+        burger.style.transition = 'none';
+        burgerTop.style.transition = 'none';
+        burgerBottom.style.transition = 'none';
+        if(!toggle){
+          burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 0deg )';
+          burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(0deg)';
+        }
+      }, timeout );
     },
     // Fired on touch end event
     touchEnd: function( element ){
       // listen for touch end event on touch devices
       element.addEventListener('touchend', function(e){
-        /*
-        document.querySelector("#nav-toggle span.one").style.transition = '';
-        document.querySelector("#nav-toggle span.one").style.width = '';
-        document.querySelector("#nav-toggle span.one").style.transform = '';
-        */
         // get the touch reference
         var touchobj = e.changedTouches[0] // reference first touch point for this event
         // if the drawer is pulled more than its maxWidth
@@ -233,7 +232,6 @@ angular.module('nativeDrawer', [])
       var options = nDrawer.merge_options(nDrawer.options, config);
       nDrawer.options = options;
       console.log( nDrawer.options );
-      nDrawer.burgerTemplate();
       // get references to all needed elements on page
       console.log( 'init drawer' );
         swipe = document.getElementById('swipe-stripe');
@@ -244,6 +242,11 @@ angular.module('nativeDrawer', [])
         drawerH = new Hammer(drawer);
         drawerDimm = document.getElementById( 'drawer-dimm' );
         drawerDimmH = new Hammer(drawerDimm);
+        // burger elements
+        burger = document.getElementById( 'burger' );
+        burgerTop = document.getElementById( 'burger-top' );
+        burgerBottom = document.getElementById( 'burger-bottom' );
+
       // get device width and height for proper scaling of drawer
       deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -285,11 +288,11 @@ angular.module('nativeDrawer', [])
       drawerH.on("panleft panright", function( ev ){
         if( nDrawer.open ) nDrawer.move( ev, true );
       });
-      swipeH.on("panright panleft", function(ev) {
-        nDrawer.move( ev );
-      });
       drawerDimmH.on("panleft panright", function(ev) {
         if( nDrawer.open ) nDrawer.move( ev );
+      });
+      swipeH.on("panright panleft", function(ev) {
+        nDrawer.move( ev );
       });
       // register touch end listeners
       nDrawer.touchEnd( swipe );

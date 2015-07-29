@@ -6,6 +6,7 @@
     <title></title>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/ng-nativeDrawer.css" rel="stylesheet">
     
     <!-- dependencies -->
     <script src="js/hammer.min.js"></script>
@@ -46,7 +47,11 @@
     </div>
   </div>
   <!-- toggle icon for toggling menu -->
-  <nlmd-burger ng-click="drawer.toggle();"></nlmd-burger>
+  <div id="burger">
+    <div id="burger-top"></div>
+    <div id="burger-center"></div>
+    <div id="burger-bottom"></div>
+  </div>
   <!-- stripe on the left of the screen to detect slide from side of the screen -->
   <div id="swipe-stripe"></div>
   <!-- body of the menu drawer -->
