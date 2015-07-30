@@ -6,7 +6,6 @@
  * This module was mainly developed for android apps build with Ionic
  * but can be used within any Angular project.
  * 
- * TODO: Cleanup of code
  */
 
 angular.module('nativeDrawer', [])
@@ -119,40 +118,34 @@ angular.module('nativeDrawer', [])
         burgerTop.style.transition = 'none';
         burgerBottom.style.transition = 'none';
         //
-        var startWidth = 18;
-        var endWidth = 12;
+        var startWidth = 22;
+        var endWidth = 16;
         var currentWidth = startWidth - Math.floor(((6/100)*currentPerc));
-        // for both elements
+        // for both lines
         var rotate = Math.floor(((45/100)*currentPerc));
-        // for top line
-        var x_pos_top = Math.floor(((8/100)*currentPerc));
-        var y_pos_top = Math.floor(((2/100)*currentPerc));
-            y_pos_top = y_pos_top < 2 ? y_pos_top : 2;
-        // for bottom line
-        var x_pos_bottom = Math.floor(((8/100)*currentPerc));
-        var y_pos_bottom = Math.floor(((2/100)*currentPerc));
-            y_pos_bottom = y_pos_bottom < 2 ? y_pos_bottom : 2;
-        // Complete burger animation
+        var x_pos_top = x_pos_bottom = Math.floor(((10/100)*currentPerc));
+        var y_pos_top = Math.floor(((1/100)*currentPerc));
+            y_pos_top = y_pos_bottom = y_pos_top < 1 ? y_pos_top : 1;
+        // Complete burger rotation
         var rotateComplete = Math.floor(((180/100)*currentPerc));
-        
+        //
         if( nDrawer.direction === 'left' && currentPerc < 100 ){
           rotateComplete = 180+(180-rotateComplete);
         }
-
+        //
         burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d(0,0,1,'+rotateComplete+'deg)';
         burger.style.webkitTransform = 'rotate('+rotateComplete+'deg)';
         burger.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate('+rotateComplete+'deg)';
-        
+        //
         burgerTop.style.transform = 'translate3d('+x_pos_top+'px, '+y_pos_top+'px, 0) rotate3d( 0, 0, 1, '+rotate+'deg )';
         burgerTop.style.webkitTransform = 'translate('+x_pos_top+'px, '+y_pos_top+'px) translateZ(0) rotate('+rotate+'deg)';
         burgerTop.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate('+rotate+'deg)';
         burgerTop.style.width = currentWidth+'px';
-
+        //
         burgerBottom.style.transform = 'translate3d('+x_pos_bottom+'px, -'+y_pos_bottom+'px, 0) rotate3d( 0, 0, 1, -'+rotate+'deg )';
         burgerBottom.style.webkitTransform = 'translate('+x_pos_bottom+'px, -'+y_pos_bottom+'px) rotate(-'+rotate+'deg)';
         burgerBottom.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate(-'+rotate+'deg)';
         burgerBottom.style.width = currentWidth+'px';
-
       }
     },
     toggleBurger: function( toggle ){
@@ -164,13 +157,13 @@ angular.module('nativeDrawer', [])
       //
       if(toggle){
         // ON
-        burgerTop.style.width = 12+'px';
-        burgerTop.style.transform = 'translate3d(8px, 2px, 0) rotate3d( 0, 0, 1, 45deg )';
-        burgerTop.style.webkitTransform = 'translate(8px, 2px) translateZ(0) rotate(45deg)';
+        burgerTop.style.width = 16+'px';
+        burgerTop.style.transform = 'translate3d(10px, 1px, 0) rotate3d( 0, 0, 1, 45deg )';
+        burgerTop.style.webkitTransform = 'translate(10px, 1px) translateZ(0) rotate(45deg)';
         //
-        burgerBottom.style.width = 12+'px';
-        burgerBottom.style.transform = 'translate3d(8px, -2px, 0) rotate3d( 0, 0, 1, -45deg )';
-        burgerBottom.style.webkitTransform = 'translate(8px, -2px) translateZ(0) rotate(-45deg)';
+        burgerBottom.style.width = 16+'px';
+        burgerBottom.style.transform = 'translate3d(10px, -1px, 0) rotate3d( 0, 0, 1, -45deg )';
+        burgerBottom.style.webkitTransform = 'translate(10px, -1px) translateZ(0) rotate(-45deg)';
         //
         burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 180deg )';
         burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(180deg)';
@@ -178,9 +171,9 @@ angular.module('nativeDrawer', [])
         // OFF
         burgerTop.style.transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
         burgerTop.style.webkitTransform = 'translate(0, 0) translateZ(0) rotate(0deg)';
-        burgerTop.style.width = 18+'px';
+        burgerTop.style.width = 22+'px';
         //
-        burgerBottom.style.width = 18+'px';
+        burgerBottom.style.width = 22+'px';
         burgerBottom.style.transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
         burgerBottom.style.webkitTransform = 'translate(0, 0) translateZ(0) rotate(0deg)';
         //

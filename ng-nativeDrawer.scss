@@ -1,10 +1,9 @@
-/* Colors */
+// Colors
 $red: #F00D36;
 $background: #E53241;
 $white: #ffffff;
 $dark: #333333;
-//-> Hamburger menu ---
-//   based on: http://www.elijahmanor.com/css-animated-hamburger-icon/
+// Basic drawer styles
 #drawer{
 	position: fixed;
 	top: 0;
@@ -13,10 +12,8 @@ $dark: #333333;
 	width: 300px;
   background: $white;
 	transform: translateX(-1000px) translateZ(0);
-	//transform: translate3d( -300px, 0px, 0px);
 	z-index: 1101;
 	.username{
-		//background: rgba(0, 0, 0, 0.2);
     font-size: 16px;
     left: 0;
     line-height: 28px;
@@ -106,8 +103,8 @@ $dark: #333333;
   pointer-events: none;
   #burger-top, #burger-center, #burger-bottom{
   	position: relative;
-  	left: 19px;
-  	width: 18px;
+  	left: 16px;
+  	width: 22px;
   	height: 2px;
   	background: $white;
   	border-radius: 2px;
