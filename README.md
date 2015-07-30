@@ -1,15 +1,12 @@
 ![Native-like menu Drawer](title_image.jpg)
 # Native-like Menu Drawer
 Native-like menu implementation for angular mobile/desktop apps.
-<<<<<<< HEAD
-Build with hammer.js for touch support. 4kb minified.
-=======
+
 - depends on hammer.js for better touch support.
 - fully animated burger menu icon
 - animated action button (optional: see settings)
 - adjust content height (optional: see settings)
 - 7kB minified.
->>>>>>> develop
 
 You can find [working example here](http://nlmd.vincurekf.cz).
 
