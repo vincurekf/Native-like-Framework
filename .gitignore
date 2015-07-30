@@ -1,3 +1,7 @@
 /.project
 *.sublime-project
+<<<<<<< HEAD
 /TODO.md
+=======
+TODO.md
+>>>>>>> develop

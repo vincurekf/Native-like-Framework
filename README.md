@@ -1,7 +1,15 @@
 ![Native-like menu Drawer](title_image.jpg)
 # Native-like Menu Drawer
 Native-like menu implementation for angular mobile/desktop apps.
+<<<<<<< HEAD
 Build with hammer.js for touch support. 4kb minified.
+=======
+- depends on hammer.js for better touch support.
+- fully animated burger menu icon
+- animated action button (optional: see settings)
+- adjust content height (optional: see settings)
+- 7kB minified.
+>>>>>>> develop
 
 You can find [working example here](http://nlmd.vincurekf.cz).
 
@@ -25,15 +33,20 @@ Add drawer, drawer dimm, swipe stripe, content view and menu toggle button to yo
 if you dont want to use the view-content, just leave it, and the same is for action buttons. Read more in **Settings**.
 ```html
 <!-- toggle icon for toggling menu -->
-<nlmd-burger ng-click="drawer.toggle();"></nlmd-burger>
+<div id="burger">
+  <div id="burger-top"></div>
+  <div id="burger-center"></div>
+  <div id="burger-bottom"></div>
+</div>
 <!-- stripe on the left of the screen to detect slide from side of the screen -->
 <div id="swipe-stripe"></div>
 <!-- body of the menu drawer -->
 <div id="drawer" ng-click="drawer.hide()">
+  <!-- Here goes your menu content -->
 </div>
 <!-- takes care of the overlay dimming -->
 <div id="drawer-dimm" ng-click="drawer.hide(); drawer.togglePlus(true);"></div>
-<!-- wrapper for manipulationg with view content -->
+<!-- wrapper for manipulation with view content -->
 <div id="view-content">
   <!-- your part of the code, views etc.. -->
   <div ng-view=""></div>
