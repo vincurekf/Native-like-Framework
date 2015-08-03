@@ -6,7 +6,7 @@ Native-like menu implementation for angular mobile/desktop apps.
 - fully animated burger menu icon
 - animated action button (optional: see settings)
 - adjust content height (optional: see settings)
-- 7kB minified.
+- 5.9kB minified.
 
 You can find [working example here](http://nlmd.vincurekf.cz).
 
@@ -122,6 +122,21 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
     // and initialize with options
     $rootScope.drawer.init( options );
     // Done! -------------------------------------------------
+
+    // If you like you can register backbutton handle --------
+    // works only in Ionic apps
+    // but you can check for backspace press etc.
+    $ionicPlatform.registerBackButtonAction(function () {
+      if ( !$rootScope.drawer.open ) {
+        // thedrawer is closed - exit the app
+        // or do whatever you want .)
+        navigator.app.exitApp();
+      } else {
+        // thedrawer is openned - close the drawer
+        $rootScope.drawer.hide();
+      }
+    }, 100);
+    // -------------------------------------------------------
 
   });
 });
