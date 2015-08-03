@@ -27,37 +27,41 @@ angular.module('nativeDrawer', [])
       speed: 0.2,
       animation: 'ease-out',
       modifyViewContent: false,
-      useActionButton: false
+      useActionButton: false,
+      burger: {
+        endX: 6,
+        endY: 6,
+        startScale: 1,
+        endScale: 0.7
+      }
     },
     show: function(){
+      // show drawer with animation
       drawer.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
-      drawer.style.webkitTransform = 'translate(0,0)' + 'translateZ(0)';
-      drawer.style.msTransform =
-      drawer.style.MozTransform =
-      drawer.style.OTransform = 'translateX(0)';
-      //drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
-
+      nDrawer.maxWidth = nDrawer.options.maxWidth > deviceW-56 ? deviceW-56 : nDrawer.options.maxWidth;
+      nDrawer.translate( drawer, 0, '', 0, '', 0, '', nDrawer.maxWidth );
+      // dimm background
       drawerDimm.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = '1';
-
+      // set open state and toggle burger
       nDrawer.open = true;
       nDrawer.toggleBurger(true);
     },
     hide: function(){
+      // hide drawer
       drawer.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
-      drawer.style.webkitTransform = 'translate(-' + nDrawer.maxWidth + 'px,0)' + 'translateZ(0)';
-      drawer.style.msTransform =
-      drawer.style.MozTransform =
-      drawer.style.OTransform = 'translateX(-' + nDrawer.maxWidth + 'px)';
-      //drawer.style.boxShadow = 'none';
-
+      nDrawer.translate( drawer, nDrawer.maxWidth, '-', 0, '', 0, '' );
+      // dimm background
       drawerDimm.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       drawerDimm.style.visibility = 'hidden';
       drawerDimm.style.opacity = '0';
-
+      // toggle burger
+      if( nDrawer.open ){
+        nDrawer.toggleBurger(false);
+      }
+      // set open state
       nDrawer.open = false;
-      nDrawer.toggleBurger(false);
     },
     toggle: function(){
       //alert('drawer.toggle()!');
@@ -84,15 +88,14 @@ angular.module('nativeDrawer', [])
           opacity = opacity < 1 ? opacity : 1;
       // animate burger menu icon
       nDrawer.animateBurger( pos );
-      // apply styles when moving
+      // dimm background
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = opacity;
       drawerDimm.style.webkitTransform = 'translate(0,0) translateZ(0)';
-      //
+      // move the drawer
       drawer.style.transition = 'none';
-      drawer.style.webkitTransform = 'translate(' + pos + 'px,0)' + 'translateZ(0)';
-      drawer.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'translateX(' + pos + 'px)';
-      //drawer.style.boxShadow = '0 0 10px rgba(0,0,0,0.4)';
+      nDrawer.maxWidth = nDrawer.options.maxWidth > deviceW-56 ? deviceW-56 : nDrawer.options.maxWidth;
+      nDrawer.translate( drawer, pos, '', 0, '', 0, '', nDrawer.maxWidth );
       // if this is final touch (mouse move) event
       // show or hide the drawer (pannig left = open, right = close)
       // and clean our temp values
@@ -114,18 +117,14 @@ angular.module('nativeDrawer', [])
       var current = total - Math.abs(pos);
       var currentPerc = Math.floor( (100/total)*current);
       if( currentPerc > 0 ){
-        burger.style.transition = 'none';
-        burgerTop.style.transition = 'none';
-        burgerBottom.style.transition = 'none';
         //
-        var startWidth = 22;
-        var endWidth = 16;
-        var currentWidth = startWidth - Math.floor(((6/100)*currentPerc));
+        //var currentWidth = nDrawer.options.burger.startWidth - Math.floor(((6/100)*currentPerc));
+        var scale = nDrawer.options.burger.startScale - Math.abs((((1-nDrawer.options.burger.endScale)/100)*currentPerc)).toFixed(2);
         // for both lines
         var rotate = Math.floor(((45/100)*currentPerc));
-        var x_pos_top = x_pos_bottom = Math.floor(((10/100)*currentPerc));
-        var y_pos_top = Math.floor(((1/100)*currentPerc));
-            y_pos_top = y_pos_bottom = y_pos_top < 1 ? y_pos_top : 1;
+        var x_pos_top = x_pos_bottom = Math.floor(((nDrawer.options.burger.endX/100)*currentPerc));
+        var y_pos_top = Math.floor(((nDrawer.options.burger.endY/100)*currentPerc));
+            y_pos_top = y_pos_bottom = y_pos_top < nDrawer.options.burger.endY ? y_pos_top : nDrawer.options.burger.endY;
         // Complete burger rotation
         var rotateComplete = Math.floor(((180/100)*currentPerc));
         //
@@ -133,63 +132,61 @@ angular.module('nativeDrawer', [])
           rotateComplete = 180+(180-rotateComplete);
         }
         //
-        burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d(0,0,1,'+rotateComplete+'deg)';
-        burger.style.webkitTransform = 'rotate('+rotateComplete+'deg)';
-        burger.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate('+rotateComplete+'deg)';
+        burger.style.transition = 'none';
+        burgerTop.style.transition = 'none';
+        burgerBottom.style.transition = 'none';
         //
-        burgerTop.style.transform = 'translate3d('+x_pos_top+'px, '+y_pos_top+'px, 0) rotate3d( 0, 0, 1, '+rotate+'deg )';
-        burgerTop.style.webkitTransform = 'translate('+x_pos_top+'px, '+y_pos_top+'px) translateZ(0) rotate('+rotate+'deg)';
-        burgerTop.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate('+rotate+'deg)';
-        burgerTop.style.width = currentWidth+'px';
-        //
-        burgerBottom.style.transform = 'translate3d('+x_pos_bottom+'px, -'+y_pos_bottom+'px, 0) rotate3d( 0, 0, 1, -'+rotate+'deg )';
-        burgerBottom.style.webkitTransform = 'translate('+x_pos_bottom+'px, -'+y_pos_bottom+'px) rotate(-'+rotate+'deg)';
-        burgerBottom.style.msTransform = drawer.style.MozTransform = drawer.style.OTransform = 'rotate(-'+rotate+'deg)';
-        burgerBottom.style.width = currentWidth+'px';
+        nDrawer.translate( burger, 0, '', 0, '', rotateComplete, '', false );
+        nDrawer.translate( burgerTop, 0, '', y_pos_top, '', rotate, '', '', scale );
+        nDrawer.translate( burgerBottom, 0, '', y_pos_bottom, '-', rotate, '-', '', scale );
       }
     },
+    translate: function(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo){
+      var x = x || 0,
+          y = y || 0,
+          pmX = pmX || '',
+          pmY = pmY || '',
+          pmDeg = pmDeg || '',
+          width = width || false,
+          scale = scale ? 'scale3d('+scale+',1,1)' : '',
+          el = myElement;
+      if( el.id === 'burger-top' ){
+        el.style.transformOrigin = '100% 100%';
+      }else if( el.id === 'burger-bottom' ){
+        el.style.transformOrigin = '100% 0%';
+      }
+      el.style.transform = 'translate3d('+pmX+x+'px, '+pmY+y+'px, 0) rotate3d( 0, 0, 1, '+pmDeg+deg+'deg ) ' + scale;
+      el.style.webkitTransform = 'translate('+pmX+x+'px, '+pmY+y+'px) translateZ(0) rotate('+pmDeg+deg+'deg) ' + scale;
+      if( width ) el.style.width = width+'px';
+      // only for mozzila, opera and IE
+      if( mozieo ) el.style.msTransform = el.style.MozTransform = el.style.OTransform = 'translateX('+pmX+x+'px) translateY('+pmY+y+'px) rotate('+pmDeg+deg+'deg)';
+    },
     toggleBurger: function( toggle ){
-      //alert('drawer.toggleBurger()!');
-      //
+      // set transitions length for animation
       burger.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       burgerTop.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       burgerBottom.style.transition = 'all '+nDrawer.options.speed+'s '+nDrawer.options.animation;
       //
       if(toggle){
         // ON
-        burgerTop.style.width = 16+'px';
-        burgerTop.style.transform = 'translate3d(10px, 1px, 0) rotate3d( 0, 0, 1, 45deg )';
-        burgerTop.style.webkitTransform = 'translate(10px, 1px) translateZ(0) rotate(45deg)';
-        //
-        burgerBottom.style.width = 16+'px';
-        burgerBottom.style.transform = 'translate3d(10px, -1px, 0) rotate3d( 0, 0, 1, -45deg )';
-        burgerBottom.style.webkitTransform = 'translate(10px, -1px) translateZ(0) rotate(-45deg)';
-        //
-        burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 180deg )';
-        burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(180deg)';
+        nDrawer.translate( burgerTop, 0, '', nDrawer.options.burger.endY, '', 45, '', '', nDrawer.options.burger.endScale );
+        nDrawer.translate( burgerBottom, 0, '', nDrawer.options.burger.endY, '-', 45, '-', '', nDrawer.options.burger.endScale );
+        nDrawer.translate( burger, 0, '', 0, '-', 180, '' );
       }else{
         // OFF
-        burgerTop.style.transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
-        burgerTop.style.webkitTransform = 'translate(0, 0) translateZ(0) rotate(0deg)';
-        burgerTop.style.width = 22+'px';
-        //
-        burgerBottom.style.width = 22+'px';
-        burgerBottom.style.transform = 'translate3d(0, 0, 0) rotate3d( 0, 0, 1, 0deg )';
-        burgerBottom.style.webkitTransform = 'translate(0, 0) translateZ(0) rotate(0deg)';
-        //
-        burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 360deg )';
-        burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(360deg)';
+        nDrawer.translate( burgerTop, 0, '', 0, '', 0, '', '', nDrawer.options.burger.startScale );
+        nDrawer.translate( burgerBottom, 0, '', 0, '', 0, '', '', nDrawer.options.burger.startScale );
+        nDrawer.translate( burger, 0, '', 0, '-', 360, '' );
+      
       }
-      //
+      // reset burger state after the animation is done
       var timeout = nDrawer.options.speed*1000;
-      console.log( timeout );
       setTimeout( function(){
         burger.style.transition = 'none';
         burgerTop.style.transition = 'none';
         burgerBottom.style.transition = 'none';
         if(!toggle){
-          burger.style.transform = 'translate3d(0px, 0px, 0) rotate3d( 0, 0, 1, 0deg )';
-          burger.style.webkitTransform = 'translate(0px, 0px) translateZ(0) rotate(0deg)';
+          nDrawer.translate( burger, 0, '', 0, '-', 0, '' );
         }
       }, timeout );
     },
@@ -198,14 +195,15 @@ angular.module('nativeDrawer', [])
       // listen for touch end event on touch devices
       element.addEventListener('touchend', function(e){
         // get the touch reference
-        var touchobj = e.changedTouches[0] // reference first touch point for this event
-        // if the drawer is pulled more than its maxWidth
+        // reference first touch point for this event
+        var touchobj = e.changedTouches[0] 
+        // if the drawer is pulled more than 50% of its maxWidth
         var isBigger = touchobj.clientX > (nDrawer.maxWidth/2);
         // combined with the direction
         var isLeft = nDrawer.direction === 'left';
         var isRight = nDrawer.direction === 'right';
         var endTrue = nDrawer.endTrue;
-        // we can decide here if we want show or hide the drawer
+        // decide if show or hide the drawer
         if( endTrue ){
           if( (isBigger && isLeft) || (isBigger && isRight) ){
             nDrawer.show();
@@ -213,7 +211,7 @@ angular.module('nativeDrawer', [])
             nDrawer.hide();
           }
         }
-        // clean up ours temp variables
+        // clean up our temp variables
         nDrawer.direction = false;
         nDrawer.endTrue = false;
         nDrawer.holdingDrawerPosition = null;
@@ -224,7 +222,6 @@ angular.module('nativeDrawer', [])
       // get options passed from initialization and merge them with default ones
       var options = nDrawer.merge_options(nDrawer.options, config);
       nDrawer.options = options;
-      console.log( nDrawer.options );
       // get references to all needed elements on page
       console.log( 'init drawer' );
         swipe = document.getElementById('swipe-stripe');
@@ -239,7 +236,6 @@ angular.module('nativeDrawer', [])
         burger = document.getElementById( 'burger' );
         burgerTop = document.getElementById( 'burger-top' );
         burgerBottom = document.getElementById( 'burger-bottom' );
-
       // get device width and height for proper scaling of drawer
       deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -254,11 +250,7 @@ angular.module('nativeDrawer', [])
       }
       // set initial styles (position and size)
       nDrawer.maxWidth = nDrawer.options.maxWidth > deviceW-56 ? deviceW-56 : nDrawer.options.maxWidth;
-      drawer.style.width = nDrawer.maxWidth+'px';
-      drawer.style.webkitTransform = 'translate(-' + nDrawer.maxWidth + 'px,0)' + 'translateZ(0)';
-      drawer.style.msTransform =
-      drawer.style.MozTransform =
-      drawer.style.OTransform = 'translateX(-' + nDrawer.maxWidth + 'px)';
+      nDrawer.translate( drawer, nDrawer.maxWidth, '-', 0, '', '0', '', nDrawer.maxWidth );
       // listen to resize event, mainly for updating size of drawer when changing view portrait <-> landscape
       window.onresize = function(event) {
         deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -271,10 +263,7 @@ angular.module('nativeDrawer', [])
         nDrawer.maxWidth = nDrawer.options.maxWidth > deviceW-56 ? deviceW-56 : nDrawer.options.maxWidth;
         drawer.style.width = nDrawer.maxWidth+'px';
         if( !nDrawer.open ){
-          drawer.style.webkitTransform = 'translate(-' + nDrawer.maxWidth + 'px,0)' + 'translateZ(0)';
-          drawer.style.msTransform =
-          drawer.style.MozTransform =
-          drawer.style.OTransform = 'translateX(-' + nDrawer.maxWidth + 'px)';
+          nDrawer.translate( drawer, nDrawer.maxWidth, '-', 0, '', '0', '', '' );
         }
       }
       // listen for pan events on elements

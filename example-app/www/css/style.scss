@@ -45,17 +45,15 @@ $dark: #333333;
 		height: 140px;
 	  background: linear-gradient(125deg, $background, $background - #111);
 	}
-	.city{
-		float: right;
-		font-size: 12px;
-	}
 }
 .depth{
 	&.z1{
 		box-shadow: 0 1px 2px 0 rgba(0,0,0,0.4); 
 	}
 }
-
+a{
+	text-decoration: none;
+}
 // pages
 // app.html
 .page{
@@ -68,6 +66,14 @@ $dark: #333333;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		max-width: 5rem;
+		pointer-events: none;
+	}
+	.content{
+		padding: 1.5rem;
+		h2{
+			font-size: 1.2rem;
+			font-weight: lighter;
+		}
 	}
 	&.AppCtrl{
 		background: #303040;
@@ -76,6 +82,12 @@ $dark: #333333;
 			fill: white;
 			opacity: 0.2;
 		}
+		.content{
+			color: $white;
+			h1, h2{
+				color: $white;
+			}
+		}
 	}
 	&.SettingsCtrl{
 		background: #e7e7e7;
@@ -83,6 +95,16 @@ $dark: #333333;
 		.icon{
 			fill: $red;
 			opacity: 0.2;
+		}
+		.content{
+			select, input{
+		    background: rgba(255, 255, 255, 0.7);
+		    border: none;
+				border-bottom: 1px solid $red + #444;
+		    height: 2rem;
+		    width: 100%;
+		    padding: 0.5rem;
+			}
 		}
 	}
 }
