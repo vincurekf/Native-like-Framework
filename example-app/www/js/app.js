@@ -16,7 +16,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
     var options = {
       maxWidth: 300,
       speed: 0.2,
-      animation: 'ease-out',
+      animation: 'ease',
       topBarHeight: 56,
       modifyViewContent: true,
       useActionButton: true
@@ -24,6 +24,18 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
     // initialize with options
     $rootScope.drawer.init( options );
     // Done! -------------------------------------------------
+
+    // If you like you can register backbutton handle --------
+    $ionicPlatform.registerBackButtonAction(function () {
+      if ( !$rootScope.drawer.open ) {
+        // thedrawer is closed - exit the app
+        navigator.app.exitApp();
+      } else {
+        // thedrawer is openned - close
+        $rootScope.drawer.hide();
+      }
+    }, 100);
+    // -------------------------------------------------------
 
   });
 });
