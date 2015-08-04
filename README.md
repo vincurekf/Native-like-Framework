@@ -145,5 +145,11 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
 There is example app alongside with its source code, so feel free to check it and play with it :)
 I hope this will help you.
 
+## Support
+If You feel fancy You can donate me via Bitcoin:
+```
+3BqUd7WnZy4jMBZJc3UHhd7ND8RH69mwgs
+```
+
 ## Licence
 [MIT](http://choosealicense.com/licenses/mit/)
