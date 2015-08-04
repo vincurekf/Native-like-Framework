@@ -21,6 +21,7 @@ angular.module('nativeDrawer', [])
     open: false,
     plusActive: false,
     holdingDrawerPosition: null,
+    burgerBackAnim: false,
     options: {
       maxWidth: 300,
       topBarHeight: 0,
@@ -29,7 +30,6 @@ angular.module('nativeDrawer', [])
       modifyViewContent: false,
       useActionButton: false,
       burger: {
-        endX: 6,
         endY: 6,
         startScale: 1,
         endScale: 0.7
@@ -46,6 +46,7 @@ angular.module('nativeDrawer', [])
       drawerDimm.style.opacity = '1';
       // set open state and toggle burger
       nDrawer.open = true;
+      nDrawer.burgerBackAnim = true;
       nDrawer.toggleBurger(true);
     },
     hide: function(){
@@ -106,8 +107,8 @@ angular.module('nativeDrawer', [])
         }else{
           nDrawer.show();
         }
-        nDrawer.endTrue = false;
         nDrawer.holdingDrawerPosition = null;
+        nDrawer.endTrue = false;
       }else{
         nDrawer.endTrue = true;
       }
@@ -122,13 +123,12 @@ angular.module('nativeDrawer', [])
         var scale = nDrawer.options.burger.startScale - Math.abs((((1-nDrawer.options.burger.endScale)/100)*currentPerc)).toFixed(2);
         // for both lines
         var rotate = Math.floor(((45/100)*currentPerc));
-        var x_pos_top = x_pos_bottom = Math.floor(((nDrawer.options.burger.endX/100)*currentPerc));
         var y_pos_top = Math.floor(((nDrawer.options.burger.endY/100)*currentPerc));
             y_pos_top = y_pos_bottom = y_pos_top < nDrawer.options.burger.endY ? y_pos_top : nDrawer.options.burger.endY;
         // Complete burger rotation
         var rotateComplete = Math.floor(((180/100)*currentPerc));
         //
-        if( nDrawer.direction === 'left' && currentPerc < 100 ){
+        if( nDrawer.burgerBackAnim ){
           rotateComplete = 180+(180-rotateComplete);
         }
         //
@@ -176,8 +176,11 @@ angular.module('nativeDrawer', [])
         // OFF
         nDrawer.translate( burgerTop, 0, '', 0, '', 0, '', '', nDrawer.options.burger.startScale );
         nDrawer.translate( burgerBottom, 0, '', 0, '', 0, '', '', nDrawer.options.burger.startScale );
-        nDrawer.translate( burger, 0, '', 0, '-', 360, '' );
-      
+        if( nDrawer.burgerBackAnim ){
+          nDrawer.translate( burger, 0, '', 0, '-', 360, '' );
+        }else{
+          nDrawer.translate( burger, 0, '', 0, '-', 0, '' );
+        }
       }
       // reset burger state after the animation is done
       var timeout = nDrawer.options.speed*1000;
@@ -187,16 +190,25 @@ angular.module('nativeDrawer', [])
         burgerBottom.style.transition = 'none';
         if(!toggle){
           nDrawer.translate( burger, 0, '', 0, '-', 0, '' );
+          nDrawer.burgerBackAnim = false;
+        }else{
+          nDrawer.burgerBackAnim = true;
         }
       }, timeout );
     },
     // Fired on touch end event
     touchEnd: function( element ){
       // listen for touch end event on touch devices
+      element.addEventListener('mouseup', function(e){
+        onEnd(e, false);
+      }, false);
       element.addEventListener('touchend', function(e){
+        onEnd(e, true);
+      }, false);
+      var onEnd = function(e, touch){
         // get the touch reference
         // reference first touch point for this event
-        var touchobj = e.changedTouches[0] 
+        var touchobj = touch ? e.changedTouches[0] : e; 
         // if the drawer is pulled more than 50% of its maxWidth
         var isBigger = touchobj.clientX > (nDrawer.maxWidth/2);
         // combined with the direction
@@ -204,19 +216,17 @@ angular.module('nativeDrawer', [])
         var isRight = nDrawer.direction === 'right';
         var endTrue = nDrawer.endTrue;
         // decide if show or hide the drawer
-        if( endTrue ){
-          if( (isBigger && isLeft) || (isBigger && isRight) ){
-            nDrawer.show();
-          }else if( (!isBigger && isLeft) || (!isBigger && isRight) ){
-            nDrawer.hide();
-          }
+        if( (isBigger && isLeft && endTrue) || (isBigger && isRight && endTrue) ){
+          nDrawer.show();
+        }else if( (!isBigger && isLeft && endTrue) || (!isBigger && isRight && endTrue) ){
+          nDrawer.hide();
         }
         // clean up our temp variables
         nDrawer.direction = false;
         nDrawer.endTrue = false;
         nDrawer.holdingDrawerPosition = null;
         e.preventDefault()
-      }, false)
+      }
     },// Initialize the drawer
     init: function( config ){
       // get options passed from initialization and merge them with default ones
@@ -243,7 +253,7 @@ angular.module('nativeDrawer', [])
       // used only when the drawer is set to have offset from top (so the topbar remains visible)
       if( nDrawer.options.modifyViewContent ){
         viewContent = document.getElementById( 'view-content' );
-        viewContent.style.position = 'absolute';
+        viewContent.style.position = 'fixed';
         viewContent.style.width = deviceW+'px';
         viewContent.style.height = deviceH-nDrawer.options.topBarHeight+'px';
         viewContent.style.top = nDrawer.options.topBarHeight+'px';
@@ -256,7 +266,7 @@ angular.module('nativeDrawer', [])
         deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         if( nDrawer.options.modifyViewContent ){
-          viewContent.style.position = 'absolute';
+          viewContent.style.position = 'fixed';
           viewContent.style.width = deviceW+'px';
           viewContent.style.height = deviceH-nDrawer.options.topBarHeight+'px';
         }
