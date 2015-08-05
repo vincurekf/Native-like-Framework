@@ -3,19 +3,19 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var exampleApp = angular.module('exampleApp', ['ionic', 'ngRoute', 'ngCordova', 'exampleApp.controllers', 'nativeDrawer']);
+var exampleApp = angular.module('exampleApp', ['ionic', 'ngRoute', 'ngCordova', 'exampleApp.controllers', 'nlFramework']);
 
-exampleApp.run(function($rootScope, $ionicPlatform, $nativeDrawer ) {
+exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer) {
 
   $ionicPlatform.ready(function() {
 
     // Native-like Drawer is HERE! ---------------------------
     // the drawer initialization
-    $rootScope.drawer = $nativeDrawer;
+    $rootScope.drawer = $nlDrawer;
     // default options (all of them)
     var options = {
       maxWidth: 300,
-      speed: 0.2,
+      speed: 0.4,
       animation: 'ease',
       topBarHeight: 56,
       modifyViewContent: true,
