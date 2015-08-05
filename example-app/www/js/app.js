@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 var exampleApp = angular.module('exampleApp', ['ionic', 'ngRoute', 'ngCordova', 'exampleApp.controllers', 'nlFramework']);
 
-exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer) {
+exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlConfig, $nlRefresh) {
 
   $ionicPlatform.ready(function() {
 
@@ -15,7 +15,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer) {
     // default options (all of them)
     var options = {
       maxWidth: 300,
-      speed: 0.4,
+      speed: 0.2,
       animation: 'ease',
       topBarHeight: 56,
       modifyViewContent: true,
@@ -24,6 +24,55 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer) {
     // initialize with options
     $rootScope.drawer.init( options );
     // Done! -------------------------------------------------
+    
+    // swipe from top to refresh!
+    $nlRefresh.init();
+    //
+
+    // assign config object
+    $rootScope.config = $nlConfig;
+    /*
+    // show drawer
+    setTimeout( function(){
+      $rootScope.drawer.show();
+    }, 1000 );
+    // toggle burger
+    setTimeout( function(){
+      $nlBurger.toggle();
+    }, 2000 );
+    setTimeout( function(){
+      $nlBurger.toggle( true );
+    }, 3000 );
+    // hide drawer
+    setTimeout( function(){
+      $rootScope.drawer.hide();
+    }, 4000 );
+
+    // set new options
+    setTimeout( function(){
+      $rootScope.drawer.set({
+        speed: 0.6,
+        maxWidth: 250,
+        animation: 'ease-out'
+      });
+    }, 5000 );
+    // show drawer
+    setTimeout( function(){
+      $rootScope.drawer.show();
+    }, 6000 );
+    // hide drawer
+    setTimeout( function(){
+      $rootScope.drawer.hide();
+    }, 8000 );
+    // set new options
+    setTimeout( function(){
+      $rootScope.drawer.set({
+        speed: 0.2,
+        maxWidth: 300,
+        animation: 'ease'
+      });
+    }, 8500 );
+    */
 
     // If you like you can register backbutton handle --------
     $ionicPlatform.registerBackButtonAction(function () {
