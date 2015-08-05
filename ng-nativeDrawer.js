@@ -12,7 +12,7 @@ var swipe, swipeH, body, bodyH,
     drawer, drawerH, drawerDimm, drawerDimmH, 
     navToggle, deviceW, viewContent,
     burger, burgerTop, burgerBottom,
-    topbarH, refEl;
+    topbar, topbarH, refEl;
 //
 
 angular.module('nlFramework', [])
@@ -31,7 +31,6 @@ angular.module('nlFramework', [])
       animation: 'ease',
       modifyViewContent: false,
       useActionButton: false,
-      useRefresh: true,
       burger: {
         endY: 6,
         startScale: 1,
@@ -115,8 +114,18 @@ angular.module('nlFramework', [])
           pmY = pmY || '',
           pmDeg = pmDeg || '',
           width = width || false,
-          scale = scale ? 'scale3d('+scale+',1,1)' : '',
           el = myElement;
+      
+      if( el.id === 'nlRefresh' ){
+        if( scale ){
+          scale = 'scale3d('+scale+','+scale+',1)';
+        }else{
+          scale = 'scale3d(1,1,1)';
+        }
+      }else{
+        scale = scale ? 'scale3d('+scale+',1,1)' : '';
+      }
+      
       if( el.id === 'burger-top' ){
         el.style.transformOrigin = '100% 100%';
       }else if( el.id === 'burger-bottom' ){
@@ -168,6 +177,7 @@ angular.module('nlFramework', [])
         $nlBurger.toggle(false);
       }
       // set open state
+      nlDrawer.togglePlus(true);
       $nlConfig.options.open = false;
     },
     toggle: function(){
@@ -256,9 +266,8 @@ angular.module('nlFramework', [])
     },
     init: function( config ){
       // get options passed from initialization and merge them with default ones
-      $nlConfig.options = $nlHelpers.merge($nlConfig.options, config);
+        $nlConfig.options = $nlHelpers.merge($nlConfig.options, config);
       // get references to all needed elements on page
-      console.log( 'init drawer' );
         swipe = document.getElementById('swipe-stripe');
         swipeH = new Hammer(swipe);
         body = document.getElementById('cont');
@@ -267,59 +276,55 @@ angular.module('nlFramework', [])
         drawerH = new Hammer(drawer);
         drawerDimm = document.getElementById( 'drawer-dimm' );
         drawerDimmH = new Hammer(drawerDimm);
-        topbar = document.getElementById( 'topbar' );
-        topbarH = new Hammer(topbar);
-        // burger elements
+      // burger elements
         burger = document.getElementById( 'burger' );
         burgerTop = document.getElementById( 'burger-top' );
         burgerBottom = document.getElementById( 'burger-bottom' );
-        // refresh indicator
-        refEl = document.getElementById( 'nlRefresh' );
       // get device width and height for proper scaling of drawer
-      deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-      deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      // modify view-content,
-      // used only when the drawer is set to have offset from top (so the topbar remains visible)
-      if( $nlConfig.options.modifyViewContent ){
-        viewContent = document.getElementById( 'view-content' );
-        viewContent.style.position = 'fixed';
-        viewContent.style.width = deviceW+'px';
-        viewContent.style.height = deviceH-$nlConfig.options.topBarHeight+'px';
-        viewContent.style.top = $nlConfig.options.topBarHeight+'px';
-      }
-      // set initial styles (position and size)
-      $nlConfig.maxWidth = $nlConfig.options.maxWidth > deviceW-56 ? deviceW-56 : $nlConfig.options.maxWidth;
-      $nlHelpers.translate( drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
-      // listen to resize event, mainly for updating size of drawer when changing view portrait <-> landscape
-      window.onresize = function(event) {
         deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      // modify view-content,
         if( $nlConfig.options.modifyViewContent ){
+          viewContent = document.getElementById( 'view-content' );
+          viewContentH = new Hammer(viewContent);
           viewContent.style.position = 'fixed';
           viewContent.style.width = deviceW+'px';
           viewContent.style.height = deviceH-$nlConfig.options.topBarHeight+'px';
+          viewContent.style.top = $nlConfig.options.topBarHeight+'px';
         }
+      // set initial styles (position and size)
         $nlConfig.maxWidth = $nlConfig.options.maxWidth > deviceW-56 ? deviceW-56 : $nlConfig.options.maxWidth;
-        if( !$nlConfig.options.open ){
-          $nlHelpers.translate( drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
-        }else{
-          $nlHelpers.translate( drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
+        $nlHelpers.translate( drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
+      // listen to resize event, mainly for updating size of drawer when changing view portrait <-> landscape
+        window.onresize = function(event) {
+          deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+          deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+          if( $nlConfig.options.modifyViewContent ){
+            viewContent.style.position = 'fixed';
+            viewContent.style.width = deviceW+'px';
+            viewContent.style.height = deviceH-$nlConfig.options.topBarHeight+'px';
+          }
+          $nlConfig.maxWidth = $nlConfig.options.maxWidth > deviceW-56 ? deviceW-56 : $nlConfig.options.maxWidth;
+          if( !$nlConfig.options.open ){
+            $nlHelpers.translate( drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
+          }else{
+            $nlHelpers.translate( drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
+          }
         }
-      }
       // listen for pan events on elements
-      drawerH.on("panleft panright", function( ev ){
-        if( $nlConfig.options.open ) nlDrawer.move( ev, true );
-      });
-      drawerDimmH.on("panleft panright", function(ev) {
-        if( $nlConfig.options.open ) nlDrawer.move( ev );
-      });
-      swipeH.on("panright panleft", function(ev) {
-        nlDrawer.move( ev );
-      });
+        drawerH.on("panleft panright", function( ev ){
+          if( $nlConfig.options.open ) nlDrawer.move( ev, true );
+        });
+        drawerDimmH.on("panleft panright", function(ev) {
+          if( $nlConfig.options.open ) nlDrawer.move( ev );
+        });
+        swipeH.on("panright panleft", function(ev) {
+          nlDrawer.move( ev );
+        });
       // register touch end listeners
-      nlDrawer.touchEnd( swipe );
-      nlDrawer.touchEnd( drawer );
-      nlDrawer.touchEnd( drawerDimm );
+        nlDrawer.touchEnd( swipe );
+        nlDrawer.touchEnd( drawer );
+        nlDrawer.touchEnd( drawerDimm );
     },
     set: function( config ){
       var oldOptions = $nlConfig.options;
@@ -336,11 +341,13 @@ angular.module('nlFramework', [])
           add_panel.classList.add('active');
           drawer_overlay.style.visibility = 'visible';
           drawer_overlay.style.opacity = '1';
+          burger.style['z-index'] = '1104';
         }else{
           if( !$nlConfig.options.open ){
             drawer_overlay.style.visibility = 'hidden';
             drawer_overlay.style.opacity = '0';
           } 
+          burger.style['z-index'] = '1106';
           nlDrawer.plusActive = false;
           add_panel.classList.remove('active');
         }
@@ -352,25 +359,135 @@ angular.module('nlFramework', [])
 .factory('$nlRefresh', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
   var nlRefresh = {
     init: function(){
-      $nlConfig.scroll.top = 0;
-      // chech for scroll position
-      window.addEventListener("scroll", function(event) {
-        $nlConfig.scroll.top   = window.pageYOffset || document.documentElement.scrollTop;
-        $nlConfig.scroll.left  = window.pageXOffset || document.documentElement.scrollLeft;
-      }, false);
-
-      topbarH.on("pandown panup", function( ev ){
-        if( $nlConfig.scroll.top < 1 ){
-          $nlConfig.nlRefresh.direction = ev.type === 'panup' ? 'up' : 'down';
-          refEl.style['z-index'] = '1100';
-          var end = Math.floor(deviceH/4);
-          console.log( 'end', end );
-          var pos = (100/deviceH) * ev.center.y;
-              pos = (pos * (end/100)) + $nlConfig.options.topBarHeight;
-          console.log( 'pos', pos );
-          $nlHelpers.translate(refEl, 0, '', pos, '', 0, '')
+      // get references to elements
+        topbar = document.getElementById( 'topbar' );
+        topbarH = new Hammer(topbar);
+        refEl = document.getElementById( 'nlRefresh' );
+        refIcon = document.getElementById( 'reload-icon' );
+        refIcon.style.transition = 'all '+($nlConfig.options.speed+$nlConfig.options.speed)+'s '+$nlConfig.options.animation;
+        if( !$nlConfig.options.modifyViewContent ){
+          viewContent = document.getElementById( 'view-content' );
+          viewContentH = new Hammer(viewContent);
         }
-      });
+      // set initial values
+        $nlConfig.syncTrue = false;
+        $nlConfig.scroll.top = 0;
+        $nlConfig.center = (deviceW/2) - (refEl.offsetWidth/2);
+      // chech for scroll position
+        window.addEventListener("scroll", function(event) {
+          $nlConfig.scroll.top   = window.pageYOffset || document.documentElement.scrollTop;
+          $nlConfig.scroll.left  = window.pageXOffset || document.documentElement.scrollLeft;
+        }, false);
+        window.onresize = function(event) {
+          $nlConfig.center = (deviceW/2) - (refEl.offsetWidth/2);
+        }
+      // move the element on pan
+        topbarH.on("pan", function( ev ){
+          nlRefresh.move( ev );
+        });
+      // register touch end event
+        nlRefresh.touchEnd( topbar );
+        nlRefresh.touchEnd( viewContent );
+    },
+    move: function( ev ){
+      if( !$nlConfig.syncing ){
+        if( $nlConfig.scroll.top < 1 ){
+          refEl.style.transition = 'none';
+          var end = Math.floor(deviceH/2);
+          var perc = ((100/deviceH) * ev.center.y);
+          if( ev.center.y < end ){
+            $nlConfig.syncTrue = false;
+            var y = perc * (end/100);
+            var rotate = 0.36 * (end/100 * (ev.center.y));
+            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate, '');
+            refIcon.style.fill = "red";
+          }else{
+            $nlConfig.syncTrue = true;
+            refIcon.style.fill = "green";
+            var perc = (end/100 * (ev.center.y - end));
+            var percY = ((100/deviceH) * ev.center.y);
+            var percFull = ((100/(deviceH/2)) * (ev.center.y - end) );
+            console.log( percFull );
+            var y = percY * (end/100);
+                y = y - ((y/100)*percFull)/3.5;
+            var rotate = 0.36 * (end/100 * (ev.center.y));
+            //var rotate = 0.36 * perc + 360;
+            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate, '');
+          }
+        }
+      }
+    },
+    touchEnd: function( element ){
+      // listen for touch end event on touch devices
+      var onTouchDevice = 'ontouchstart' in window ? true : false;
+      if( onTouchDevice ){
+        element.addEventListener('touchend', function(e){
+          onEnd(e, true);
+        }, false);
+      }else{
+        element.addEventListener('mouseup', function(e){
+          onEnd(e, false);
+        }, false);
+      };
+      var onEnd = function(e, touch){
+        var end = Math.floor(deviceH/2);
+        var touchobj = touch ? e.changedTouches[0] : e; 
+        // wait for move event to end (0.1s)
+        // then call callback function
+        setTimeout( function(){
+          if( touchobj.clientY > end && $nlConfig.syncTrue && !$nlConfig.syncing){
+            $nlConfig.syncTrue = false;
+            $nlConfig.syncing = true;
+            refEl.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
+            $nlConfig.nlRefresh.ended = false;
+            nlRefresh.callback();
+            var step = 0;
+            var rotateStep = 0;
+            var rotate = 0.36 * (end/100 * (touchobj.clientY - end)) + 360;
+            $nlConfig.nlRefresh.minY = $nlConfig.options.topBarHeight+$nlConfig.options.topBarHeight/3;
+          
+            $nlHelpers.translate(refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', rotate, ''); 
+            
+            setTimeout( function(){
+              refEl.style.transition = 'all '+($nlConfig.options.speed/2)+'s linear';
+              var waiter = setInterval(function(){ 
+                if( $nlConfig.nlRefresh.ended ){
+                  clearInterval(waiter);
+                }else{
+                  var rotation = rotate+rotateStep;
+                  $nlHelpers.translate(refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', rotation, ''); 
+                  step += 0.1;
+                  rotateStep += 6+step;
+                }
+              }, 25 );
+            }, ($nlConfig.options.speed*1000));
+          
+          }else{
+            refEl.style.transition = 'all '+($nlConfig.options.speed+$nlConfig.options.speed)+'s '+$nlConfig.options.animation;
+            $nlHelpers.translate(refEl, $nlConfig.center, '', 0, '', 0, ''); 
+          }
+        }, 100 );
+      }
+    },
+    callback: function(){
+      setTimeout( function(){
+        $nlConfig.syncEndTrue();
+      }, 2500 );
+    },
+    syncEnd: function(){
+      $nlConfig.nlRefresh.ended = true;
+      setTimeout( function(){
+        refEl.style.transition = 'all '+($nlConfig.options.speed/2)+'s '+$nlConfig.options.animation;
+        $nlHelpers.translate(refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', 0, '', '', '1.2');     
+      }, 100);
+      setTimeout( function(){
+        $nlHelpers.translate(refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', 0, '', '', '0');     
+      }, 200);
+      setTimeout( function(){
+        $nlHelpers.translate(refEl, $nlConfig.center, '', 0, '', 0, '', '', '0');     
+      }, 300);
+      $nlConfig.syncTrue = false;
+      $nlConfig.syncing = false;
     }
   }
   return nlRefresh;

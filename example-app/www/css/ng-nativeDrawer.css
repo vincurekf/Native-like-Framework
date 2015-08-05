@@ -7,7 +7,7 @@
   background: #ffffff;
   -webkit-transform: translateX(-1000px) translateZ(0);
           transform: translateX(-1000px) translateZ(0);
-  z-index: 1101; }
+  z-index: 1105; }
   #drawer .username {
     font-size: 16px;
     left: 0;
@@ -70,8 +70,8 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   opacity: 0;
-  z-index: 1100;
-  visibility: hidden; }
+  visibility: hidden;
+  z-index: 1104; }
 
 #burger {
   position: fixed;
@@ -79,9 +79,8 @@
   left: 0;
   width: 56px;
   height: 56px;
-  z-index: 1102;
   display: block;
-  pointer-events: none; }
+  z-index: 1106; }
   #burger #burger-top, #burger #burger-center, #burger #burger-bottom {
     position: relative;
     left: 18px;
@@ -109,63 +108,88 @@
   background: transparent;
   z-index: 1100; }
 
-.add-panel .switch {
-  z-index: 99999; }
-  .add-panel .switch.active .option.one, .add-panel .switch.active .option.two {
-    z-index: 99999;
-    visibility: visible;
-    opacity: 1; }
-  .add-panel .switch.active .option.one {
-    -webkit-transition: all 0.3s ease-in-out 0s;
-            transition: all 0.3s ease-in-out 0s;
-    -webkit-transform: translate(-4px, -122px) translateZ(0);
-            transform: translate(-4px, -122px) translateZ(0); }
-  .add-panel .switch.active .option.two {
-    -webkit-transition: all 0.2s ease-in-out 0s;
-            transition: all 0.2s ease-in-out 0s;
-    -webkit-transform: translate(-4px, -66px) translateZ(0);
-            transform: translate(-4px, -66px) translateZ(0); }
-  .add-panel .switch.active .plus {
-    z-index: 99999;
-    visibility: visible;
-    opacity: 1;
-    background: #ffffff !important;
-    -webkit-transform: rotate(135deg) !important;
-        -ms-transform: rotate(135deg) !important;
-            transform: rotate(135deg) !important; }
+#topbar {
+  z-index: 1104; }
+
+#nlRefresh {
+  background: white none repeat scroll 0 0;
+  border-radius: 100%;
+  height: 36px;
+  line-height: 36px;
+  position: absolute;
+  text-align: center;
+  -webkit-transform-origin: 50% 50% 0;
+      -ms-transform-origin: 50% 50% 0;
+          transform-origin: 50% 50% 0;
+  width: 36px;
+  z-index: 1103;
+  box-shadow: 0 0 6px -2px rgba(0, 0, 0, 0.6); }
+  #nlRefresh #reload-icon {
+    height: 50%;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    width: 50%; }
+
+.add-panel .switch.active .option.one, .add-panel .switch.active .option.two {
+  visibility: visible;
+  opacity: 1; }
+.add-panel .switch.active .option.one {
+  -webkit-transition: all 0.3s ease-in-out 0s;
+          transition: all 0.3s ease-in-out 0s;
+  -webkit-transform: translate(-4px, -122px) translateZ(0);
+          transform: translate(-4px, -122px) translateZ(0); }
+.add-panel .switch.active .option.two {
+  -webkit-transition: all 0.2s ease-in-out 0s;
+          transition: all 0.2s ease-in-out 0s;
+  -webkit-transform: translate(-4px, -66px) translateZ(0);
+          transform: translate(-4px, -66px) translateZ(0); }
+.add-panel .switch.active .plus {
+  z-index: 1105;
+  visibility: visible;
+  opacity: 1;
+  background: #ffffff !important;
+  -webkit-transform: rotate(135deg) !important;
+      -ms-transform: rotate(135deg) !important;
+          transform: rotate(135deg) !important; }
+.add-panel .switch .option {
+  z-index: 1105; }
   .add-panel .switch .option.one, .add-panel .switch .option.two {
     position: absolute;
     visibility: hidden;
     opacity: 0; }
-  .add-panel .switch .plus {
-    background: #ffffff !important;
-    -webkit-transition: all 0.2s ease-in-out 0s;
-            transition: all 0.2s ease-in-out 0s;
-    position: absolute; }
-  .add-panel .switch .action-button {
-    position: absolute;
-    bottom: 28px;
-    right: 28px;
-    width: 56px;
-    height: 56px;
-    z-index: 100;
-    background: #fff;
-    text-align: center;
-    line-height: 56px;
+.add-panel .switch .plus {
+  background: #ffffff !important;
+  -webkit-transition: all 0.2s ease-in-out 0s;
+          transition: all 0.2s ease-in-out 0s;
+  position: absolute;
+  z-index: 1104; }
+.add-panel .switch .action-button {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  background: #ffffff;
+  text-align: center;
+  line-height: 56px;
+  border-radius: 100%;
+  font-size: 24px; }
+  .add-panel .switch .action-button.one, .add-panel .switch .action-button.two {
+    overflow: hidden;
     border-radius: 100%;
-    font-size: 24px; }
-    .add-panel .switch .action-button.one, .add-panel .switch .action-button.two {
-      overflow: hidden;
-      border-radius: 100%;
-      width: 46px;
-      height: 46px;
-      color: #ffffff;
-      font-size: 18px;
-      line-height: 49px; }
-    .add-panel .switch .action-button.single {
-      bottom: 33px;
-      right: 33px; }
-    .add-panel .switch .action-button.one {
-      background: #F00D36; }
-    .add-panel .switch .action-button.two {
-      background: #E53241; }
+    width: 46px;
+    height: 46px;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 49px; }
+  .add-panel .switch .action-button.single {
+    bottom: 33px;
+    right: 33px; }
+  .add-panel .switch .action-button.one {
+    background: #F00D36; }
+  .add-panel .switch .action-button.two {
+    background: #E53241; }

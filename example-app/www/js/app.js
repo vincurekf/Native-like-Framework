@@ -27,11 +27,21 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlCon
     
     // swipe from top to refresh!
     $nlRefresh.init();
+    // set custom callback
+    // DON'T FORGET to call $nlRefresh.syncEnd(); after finish!
+    $nlRefresh.callback = function(){
+      // here is just timeout to wait 5sec before ending sync animation
+      setTimeout( function(){
+        console.log( 'custom callback onSync' );
+        // after doing some stuff end syncing animation
+        $nlRefresh.syncEnd();
+      }, 5000 );
+    };
     //
 
+    /*
     // assign config object
     $rootScope.config = $nlConfig;
-    /*
     // show drawer
     setTimeout( function(){
       $rootScope.drawer.show();
@@ -47,7 +57,9 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlCon
     setTimeout( function(){
       $rootScope.drawer.hide();
     }, 4000 );
+    */
 
+    /*
     // set new options
     setTimeout( function(){
       $rootScope.drawer.set({
@@ -76,7 +88,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlCon
 
     // If you like you can register backbutton handle --------
     $ionicPlatform.registerBackButtonAction(function () {
-      if ( !$rootScope.drawer.open ) {
+      if ( !$nlConfig.open ) {
         // thedrawer is closed - exit the app
         navigator.app.exitApp();
       } else {

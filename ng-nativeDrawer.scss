@@ -12,7 +12,7 @@ $dark: #333333;
 	width: 300px;
   background: $white;
 	transform: translateX(-1000px) translateZ(0);
-	z-index: 1101;
+	z-index: 1105;
 	.username{
     font-size: 16px;
     left: 0;
@@ -88,8 +88,8 @@ $dark: #333333;
 	height: 100%;
 	background: rgba(0,0,0,0.6);
 	opacity: 0;
-	z-index: 1100;
 	visibility: hidden;
+	z-index: 1104;
 }
 // hamburger icon for toggle button in topbar
 #burger {
@@ -98,9 +98,9 @@ $dark: #333333;
   left: 0;
   width: 56px;
   height: 56px;
-  z-index: 1102;
   display: block;
-  pointer-events: none;
+  //pointer-events: none;
+  z-index: 1106;
   #burger-top, #burger-center, #burger-bottom{
   	position: relative;
   	left: 18px;
@@ -131,15 +131,36 @@ $dark: #333333;
 	background: transparent;
 	z-index: 1100;
 }
+#topbar{
+	z-index: 1104;
+}
+#nlRefresh{
+	background: white none repeat scroll 0 0;
+	border-radius: 100%;
+	height: 36px;
+	line-height: 36px;
+	position: absolute;
+	text-align: center;
+	transform-origin: 50% 50% 0;
+	width: 36px;
+	z-index: 1103;
+	box-shadow: 0 0 6px -2px rgba(0,0,0,0.6);
+	#reload-icon {
+		height: 50%;
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 50%;
+	}
+}
 // BONUS
 // action button for your app!
 .add-panel{
   .switch{
-    z-index: 99999;
     &.active{
     	.option{
     		&.one, &.two {
-	  			z-index: 99999;
 	        visibility: visible;
 	        opacity: 1;
 	      }
@@ -153,7 +174,7 @@ $dark: #333333;
 	      }
     	}
       .plus{
-      	z-index: 99999;
+      	z-index: 1105;
         visibility: visible;
         opacity: 1;
         background: $white !important;
@@ -161,17 +182,18 @@ $dark: #333333;
       }
     }
     .option{
+			z-index: 1105;
 	    &.one, &.two {
 	      position: absolute;
 	      visibility: hidden;
 	      opacity: 0;
-	      //transform: translate(0,0) translateZ(0);
 	    }
     }
     .plus {
       background: $white !important;
       transition: all 0.2s ease-in-out 0s;
       position: absolute;
+			z-index: 1104;
     }
     .action-button{
 			position: absolute;
@@ -179,8 +201,7 @@ $dark: #333333;
 			right: 28px;
 			width: 56px;
 			height: 56px;
-			z-index: 100;
-			background: #fff;
+			background: $white;
 			text-align: center;
 			line-height: 56px;
 			border-radius: 100%;
