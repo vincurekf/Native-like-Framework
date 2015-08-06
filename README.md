@@ -115,6 +115,7 @@ So you have:
 ```#nlContent``` which is where you content belongs
 
 ```#nlburger``` the burger menu icon
+
 ```#nlRefresh``` pull-to-refresh indicator
 
 ## Objects
@@ -169,7 +170,7 @@ Now you just need to initialize your drawer. In your main javascript file where 
 // load nlFramework in your app
 var exampleApp = angular.module('exampleApp', ['ionic', 'nlFramework']);
 // include all parts of nlFramework
-exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlRefresh) {
+exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlRefresh, $nlConfig) {
     
   $ionicPlatform.ready(function() {
 
