@@ -31,7 +31,7 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
 
 ```html
   
-  <!-- action button -->
+<!-- action button -->
   <div id="nlActionButton" class="switch">
     <div class="action-button depth z1 option one" ng-click="drawer.togglePlus()">
         2
@@ -39,7 +39,7 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
     <div class="action-button depth z1 option two" ng-click="drawer.togglePlus()">
         1
     </div>
-    <div class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
+    <div id="nlPlus" class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
       <span>
         +
       </span>
@@ -60,45 +60,31 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
   </div>
 
   <!-- top bar with title ( current cestion, action, etc.) -->
-  <div id="topbar" class="fixed depth z1">
+  <div id="nlTopbar" class="depth z1">
     <div class="title">
       {{ title }}
     </div>
   </div>
 
   <!-- toggle icon for toggling menu -->
-  <div id="burger" ng-click="drawer.toggle()">
+  <div id="nlBurger" ng-click="drawer.toggle()">
     <div id="burger-top"></div>
     <div id="burger-center"></div>
     <div id="burger-bottom"></div>
   </div>
 
   <!-- stripe on the left of the screen to detect slide from side of the screen -->
-  <div id="swipe-stripe"></div>
+  <div id="nlSwipe"></div>
 
   <!-- body of the menu drawer -->
-  <div id="drawer" ng-click="drawer.hide()">
-    <div id="topbar" class="drawer large">
-      <img class="gravatar depth z1" src="./img/free-flat-icons-set-thumb.jpg">
-      <div class="username">
-        <strong>John</strong><br>
-        Doe
-      </div>
-    </div>
-    <ul class="nav">
-      <li><a href="#app">App</a></li>
-      <li><a href="#settings">Settings</a></li>
-      <div class="bottom">
-        <li><a href="#settings">Settings</a></li>
-      </div>
-    </ul>
+  <div id="nlDrawer" ng-click="drawer.hide()">
   </div>
 
   <!-- takes care of the overlay dimming -->
-  <div id="drawer-dimm" ng-click="drawer.hide();"></div>
+  <div id="nlDimm" ng-click="drawer.hide();"></div>
   
   <!-- view content - used as a wrapper -->
-  <div id="view-content">
+  <div id="nlContent">
     <!-- your part of the code, views etc.. -->
     <div ng-view="" class="page {{ title }}"></div>
   </div>
