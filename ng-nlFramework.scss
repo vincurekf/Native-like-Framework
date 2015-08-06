@@ -4,7 +4,7 @@ $background: #E53241;
 $white: #ffffff;
 $dark: #333333;
 // Basic drawer styles
-#drawer{
+#nlDrawer{
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -12,7 +12,7 @@ $dark: #333333;
 	width: 300px;
   background: $white;
 	transform: translateX(-1000px) translateZ(0);
-	z-index: 1101;
+	z-index: 1105;
 	.username{
     font-size: 16px;
     left: 0;
@@ -79,7 +79,7 @@ $dark: #333333;
 	}
 }
 // drawer dimmer to dimm background when the menu is openned
-#drawer-dimm{
+#nlDimm{
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -88,19 +88,19 @@ $dark: #333333;
 	height: 100%;
 	background: rgba(0,0,0,0.6);
 	opacity: 0;
-	z-index: 1100;
 	visibility: hidden;
+	z-index: 1104;
 }
 // hamburger icon for toggle button in topbar
-#burger {
+#nlBurger {
   position: fixed;
   top: 0;
   left: 0;
   width: 56px;
   height: 56px;
-  z-index: 1102;
   display: block;
-  pointer-events: none;
+  //pointer-events: none;
+  z-index: 1106;
   #burger-top, #burger-center, #burger-bottom{
   	position: relative;
   	left: 18px;
@@ -122,7 +122,7 @@ $dark: #333333;
   }
 }
 // swipe stripe at the left edge of the screen
-#swipe-stripe{
+#nlSwipe{
 	width: 15px;
 	height: 100%;
 	position: fixed;
@@ -131,79 +131,118 @@ $dark: #333333;
 	background: transparent;
 	z-index: 1100;
 }
+
+#nlTopbar{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 56px;
+	line-height: 56px;
+	background: $background;
+	color: $white;
+	z-index: 1104;
+	.title{
+		position: fixed;
+		top: 0;
+		left: 56px;
+		line-height: 56px;
+		color: $white;
+		font-size: 18px;
+		z-index: 1110;
+		pointer-events: none;
+	}
+}
+
+#nlRefresh{
+	background: white none repeat scroll 0 0;
+	border-radius: 100%;
+	width: 42px;
+	height: 42px;
+	line-height: 42px;
+	position: absolute;
+	text-align: center;
+	transform-origin: 50% 50% 0;
+	z-index: 1103;
+	box-shadow: 0 0 6px -2px rgba(0,0,0,0.6);
+	#reload-icon {
+		height: 50%;
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 50%;
+	}
+}
 // BONUS
 // action button for your app!
-.add-panel{
-  .switch{
-    z-index: 99999;
-    &.active{
-    	.option{
-    		&.one, &.two {
-	  			z-index: 99999;
-	        visibility: visible;
-	        opacity: 1;
-	      }
-	      &.one{
-	      	transition: all 0.3s ease-in-out 0s;
-	      	transform: translate(-4px, -122px) translateZ(0);
-	      }
-	      &.two{
-	      	transition: all 0.2s ease-in-out 0s;
-	      	transform: translate(-4px, -66px) translateZ(0);
-	      }
-    	}
-      .plus{
-      	z-index: 99999;
+#nlActionButton{
+  &.active{
+  	.option{
+  		&.one, &.two {
         visibility: visible;
         opacity: 1;
-        background: $white !important;
-      	transform: rotate(135deg) !important;
       }
-    }
-    .option{
-	    &.one, &.two {
-	      position: absolute;
-	      visibility: hidden;
-	      opacity: 0;
-	      //transform: translate(0,0) translateZ(0);
-	    }
-    }
-    .plus {
+      &.one{
+      	transition: all 0.3s ease-in-out 0s;
+      	transform: translate(-4px, -122px) translateZ(0);
+      }
+      &.two{
+      	transition: all 0.2s ease-in-out 0s;
+      	transform: translate(-4px, -66px) translateZ(0);
+      }
+  	}
+    .plus{
+    	z-index: 1105;
+      visibility: visible;
+      opacity: 1;
       background: $white !important;
-      transition: all 0.2s ease-in-out 0s;
-      position: absolute;
+    	transform: rotate(135deg) !important;
     }
-    .action-button{
-			position: absolute;
-			bottom: 28px;
-			right: 28px;
-			width: 56px;
-			height: 56px;
-			z-index: 100;
-			background: #fff;
-			text-align: center;
-			line-height: 56px;
-			border-radius: 100%;
-			font-size: 24px;
-			&.one, &.two{
-				overflow: hidden;
-				border-radius: 100%;
-				width: 46px;
-				height: 46px;
-				color: $white;
-				font-size: 18px;
-				line-height: 49px;
-			}
-			&.single{
-				bottom: 33px;
-				right: 33px;
-			}
-			&.one{
-				background: $red;
-			}
-			&.two {
-				background: $background;
-			}
-		}
   }
+  .option{
+		z-index: 1105;
+    &.one, &.two {
+      position: absolute;
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+  .plus {
+    background: $white !important;
+    transition: all 0.2s ease-in-out 0s;
+    position: absolute;
+		z-index: 1104;
+  }
+  .action-button{
+		position: absolute;
+		bottom: 28px;
+		right: 28px;
+		width: 56px;
+		height: 56px;
+		background: $white;
+		text-align: center;
+		line-height: 56px;
+		border-radius: 100%;
+		font-size: 24px;
+		&.one, &.two{
+			overflow: hidden;
+			border-radius: 100%;
+			width: 46px;
+			height: 46px;
+			color: $white;
+			font-size: 18px;
+			line-height: 49px;
+		}
+		&.single{
+			bottom: 33px;
+			right: 33px;
+		}
+		&.one{
+			background: $red;
+		}
+		&.two {
+			background: $background;
+		}
+	}
 }
