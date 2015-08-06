@@ -39,9 +39,10 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlCon
     };
     //
 
-    /*
     // assign config object
     $rootScope.config = $nlConfig;
+    
+    /*
     // show drawer
     setTimeout( function(){
       $rootScope.drawer.show();

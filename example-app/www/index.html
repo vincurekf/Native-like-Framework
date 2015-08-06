@@ -6,7 +6,7 @@
     <title></title>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/ng-nativeDrawer.css" rel="stylesheet">
+    <link href="css/ng-nlFramework.css" rel="stylesheet">
     
     <!-- dependencies -->
     <script src="js/hammer.min.js"></script>
@@ -21,11 +21,27 @@
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
-    <script src="js/ng-nativeDrawer.js"></script>
+    <script src="js/ng-nlFramework.js"></script>
 
   </head>
   <body ng-app="exampleApp" id="cont" ng-controller="AppCtrl">
+
+  <!-- action button -->
+  <div id="nlActionButton" class="switch">
+    <div class="action-button depth z1 option one" ng-click="drawer.togglePlus()">
+        2
+    </div>
+    <div class="action-button depth z1 option two" ng-click="drawer.togglePlus()">
+        1
+    </div>
+    <div id="nlPlus" class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
+      <span>
+        +
+      </span>
+    </div>
+  </div>
   
+  <!-- pull-to-refresh indicator -->
   <div id="nlRefresh">
     <svg version="1.1" id="reload-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 342.5 342.5" style="enable-background:new 0 0 342.5 342.5;" xml:space="preserve">
     <path d="M254.37,22.255c-1.161-0.642-2.53-0.795-3.803-0.428c-1.274,0.367-2.35,1.226-2.992,2.387l-21.758,39.391
@@ -36,39 +52,28 @@
       C14.788,95.484,1.638,133,1.638,171.52c0,93.976,76.455,170.431,170.431,170.431c93.976,0,170.431-76.455,170.431-170.431
       C342.5,109.478,308.731,52.283,254.37,22.255z"/>
     </svg>
-</div>
-
-  <div class="add-panel">
-    <div class="switch" id="add-panel-switch">
-      <div class="action-button depth z1 option one" ng-click="drawer.togglePlus()">
-          2
-      </div>
-      <div class="action-button depth z1 option two" ng-click="drawer.togglePlus()">
-          1
-      </div>
-      <div class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
-        <span>
-          +
-        </span>
-      </div>
-    </div>
   </div>
-  <div id="topbar" class="fixed depth z1">
+
+  <!-- top bar with title ( current cestion, action, etc.) -->
+  <div id="nlTopbar" class="depth z1">
     <div class="title">
       {{ title }}
     </div>
   </div>
+
   <!-- toggle icon for toggling menu -->
-  <div id="burger" ng-click="drawer.toggle()">
+  <div id="nlBurger" ng-click="drawer.toggle()">
     <div id="burger-top"></div>
     <div id="burger-center"></div>
     <div id="burger-bottom"></div>
   </div>
+
   <!-- stripe on the left of the screen to detect slide from side of the screen -->
-  <div id="swipe-stripe"></div>
+  <div id="nlSwipe"></div>
+
   <!-- body of the menu drawer -->
-  <div id="drawer" ng-click="drawer.hide()">
-    <div id="topbar" class="drawer large">
+  <div id="nlDrawer" ng-click="drawer.hide()">
+    <div class="topbar drawer large">
       <img class="gravatar depth z1" src="./img/free-flat-icons-set-thumb.jpg">
       <div class="username">
         <strong>John</strong><br>
@@ -83,10 +88,12 @@
       </div>
     </ul>
   </div>
+
   <!-- takes care of the overlay dimming -->
-  <div id="drawer-dimm" ng-click="drawer.hide();"></div>
+  <div id="nlDimm" ng-click="drawer.hide();"></div>
   
-  <div id="view-content">
+  <!-- view content - used as a wrapper -->
+  <div id="nlContent">
     <!-- your part of the code, views etc.. -->
     <div ng-view="" class="page {{ title }}"></div>
   </div>
