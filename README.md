@@ -31,7 +31,7 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
 
 ```html
   
-<!-- action button -->
+  <!-- action button -->
   <div id="nlActionButton" class="switch">
     <div class="action-button depth z1 option one" ng-click="drawer.togglePlus()">
         2
@@ -100,7 +100,7 @@ So you have:
 
 ```#nlContent``` which is where you content belongs
 
-```#nlburger``` the burger menu icon
+```#nlBurger``` the burger menu icon
 
 ```#nlRefresh``` pull-to-refresh indicator
 
@@ -116,7 +116,7 @@ You can use the parts separately:
  - ```hide()```: hides the drawer (slide out)
  - ```toggle()```: toggles the drawer (show/hide)
  - ```togglePlus()```: toggles the action button (ON/OFF)
- - ```open```: returns true/false if the drawer is open/closed
+ - ```openned```: returns true/false if the drawer is openned/closed
 
 
 - **$nlBurger**
@@ -124,23 +124,24 @@ You can use the parts separately:
  - ```toggle(false)```: Toggles the burger OFF - inactive
 
 
-- **nlRefresh**
+- **$nlRefresh**
  - ```init()```: call in your app if you wish to use **pull-to-sync**
  - ```callback()```: your custom callback function
    - remeber to call ```syncEnd()``` at the end of your process to end the animation
  - ```syncEnd()```: as mentioned above, this ends the syncing animation
 
-- **nlConfig**: contains all options and variables of nlFramework
- - ```options```: contains onlu drawer and burger options
-  - ```burger```: burger options it self
+- **$nlConfig**: contains all options and variables of nlFramework
+ - ```options```: contains drawer and burger options (see [Configuration](#configuration))
+  - ```burger```: burger options only
+  - ```refresh```: pull-to-refresh options
 
 
 or You can use **nlFramework** and then call its parts:
-- **nlFramework**
- - ```drawer```: shortcut to **nlDrawer**
- - ```burger```: shortcut to **nlBurger**
- - ```refresh```: shortcut to **nlRefresh**
- - ```config```: shortcut to **nlConfig**
+- **$nlFramework**
+ - ```drawer```: shortcut to **$nlDrawer**
+ - ```burger```: shortcut to **$nlBurger**
+ - ```refresh```: shortcut to **$nlRefresh**
+ - ```config```: shortcut to **$nlConfig**
 
 ## Configuration
 
@@ -156,6 +157,10 @@ var options: {
   burger: { // you can adjust the burger look a bit
     startScale: 1, //X scale of bottom and top line of burger menu at starting point (OFF state)
     endScale: 0.7 //X scale of bottom and top line of burger menu at end point (ON state)
+  },
+  refresh: {
+    defaultColor: '#aa3344', // default(inactive) color
+    activeColor: '#558844' // active color
   }
 };
 
@@ -217,6 +222,20 @@ $rootScope.config = $nlFramework.config;
       animation: 'ease-out'
     });
 
+    // swipe from top to refresh!
+    $rootScope.refresh.init();
+    // set custom callback
+    // DON'T FORGET to call $nlRefresh.syncEnd(); after finish!
+    $rootScope.refresh.callback = function(){
+      // here is just timeout to wait 5sec before ending sync animation
+      setTimeout( function(){
+        console.log( 'custom callback onSync' );
+        // after doing some stuff end syncing animation
+        $rootScope.refresh.syncEnd();
+      }, 5000 );
+    };
+    //
+
     // If you like you can register backbutton handle --------
     // this is for ionic but you can use any whatever you want
     $ionicPlatform.registerBackButtonAction(function () {
@@ -238,10 +257,12 @@ There is example app alongside with its source code, so feel free to check it an
 I hope this will help you.
 
 ## Support
-If You feel fancy You can donate me.
+If You feel fancy You can donate me some schmeckels!
 ```
 Bitcoin: 35VFPig1euHDiiGhG4LpSqAAev5FKqU3MN
 ```
 
 ## Licence
-[MIT](http://choosealicense.com/licenses/mit/)
+Released under [MIT Licence](http://choosealicense.com/licenses/mit/)
+
+Copyright © 2015 Filip Vincůrek

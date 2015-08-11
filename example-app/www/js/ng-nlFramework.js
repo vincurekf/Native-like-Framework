@@ -41,6 +41,10 @@ angular.module('nlFramework', [])
       animation: 'ease',
       modifyViewContent: true,
       useActionButton: true,
+      refresh: {
+        activeColor: '#558844',
+        defaultColor: '#aa3344'
+      },
       burger: {
         endY: 6,
         startScale: 1,
@@ -280,9 +284,10 @@ angular.module('nlFramework', [])
       // animate burger menu icon
       $nlBurger.animate( pos );
       // dimm background
+      drawerDimm.style.transition = 'none';
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = opacity;
-      drawerDimm.style.webkitTransform = 'translate(0,0) translateZ(0)';
+      //drawerDimm.style.webkitTransform = 'translate(0,0) translateZ(0)';
       // move the drawer
       drawer.style.transition = 'none';
       $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
@@ -346,6 +351,7 @@ angular.module('nlFramework', [])
       // action button
       // used only if enabled in setting when initializing
       if ( $nlConfig.options.useActionButton ){
+        drawerDimm.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
         if ( !nlDrawer.plusActive && !hide ){
           nlDrawer.plusActive = true;
           burger.style['z-index'] = '1104';
@@ -358,10 +364,8 @@ angular.module('nlFramework', [])
         }else{
           nlDrawer.plusActive = false;
           burger.style['z-index'] = '1106';
-          if ( !nlDrawer.openned ){
-            drawerDimm.style.visibility = 'hidden';
-            drawerDimm.style.opacity = '0';
-          } 
+          drawerDimm.style.visibility = 'hidden';
+          drawerDimm.style.opacity = '0';
           actionPlus.style['z-index'] = '1104';
           actionPanel.classList.remove('active');
         }
@@ -407,27 +411,28 @@ angular.module('nlFramework', [])
       if ( !$nlConfig.syncing ){
         if ( $nlConfig.scroll.top < 1 ){
           refEl.style.transition = 'none';
-          refIcon.style.transition = 'none';
           var end = Math.floor($nlConfig.deviceH/2);
           var perc = ((100/$nlConfig.deviceH) * ev.center.y);
           if ( ev.center.y < end ){
             $nlConfig.syncTrue = false;
             var y = (perc/2) * (end/100);
-            var opacity = (perc*2) * (1/100);
+            var opacity = (perc*2) * (0.5/100);
             var rotate = 0.36 * (end/100 * (ev.center.y));
+            refIcon.style.transition = 'none';
+            refIcon.style.fill = $nlConfig.options.refresh.defaultColor;
             $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
             $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);
-            refIcon.style.fill = "red";
           }else{
+            refIcon.style.transition = 'fill '+$nlConfig.options.speed*4+'s '+$nlConfig.options.animation;
             $nlConfig.syncTrue = true;
-            refIcon.style.fill = "green";
             var perc = (end/100 * (ev.center.y - end));
             var percY = ((100/$nlConfig.deviceH) * ev.center.y);
             var percFull = ((100/($nlConfig.deviceH/2)) * (ev.center.y - end) );
             var y = percY/2 * (end/100);
                 y = y - ((y/100)*percFull)/3.5;
             var rotate = 0.36 * (end/100 * (ev.center.y));
-            $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
+            refIcon.style.fill = $nlConfig.options.refresh.activeColor;
+            $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', '1');
             $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);
           }
         }
