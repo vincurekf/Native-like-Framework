@@ -8,7 +8,7 @@
  */
 
 // set global variables needed for proper drawer functioning
-var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH, 
+var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
     navToggle, viewContent,
     burger, burgerTop, burgerBottom,
     topbar, topbarH, refEl;
@@ -44,7 +44,7 @@ angular.module('nlFramework', [])
       var total = $nlConfig.maxWidth;
       var current = total - Math.abs(pos);
       var currentPerc = Math.floor( (100/total)*current);
-      if( currentPerc > 0 ){
+      if ( currentPerc > 0 ){
         //
         //var currentWidth = $nlConfig.options.burger.startWidth - Math.floor(((6/100)*currentPerc));
         var scale = $nlConfig.options.burger.startScale - Math.abs((((1-$nlConfig.options.burger.endScale)/100)*currentPerc)).toFixed(2);
@@ -55,7 +55,7 @@ angular.module('nlFramework', [])
         // Complete burger rotation
         var rotateComplete = Math.floor(((180/100)*currentPerc));
         //
-        if( $nlConfig.options.reverse ){
+        if ( $nlConfig.options.reverse ){
           rotateComplete = 180+(180-rotateComplete);
         }
         //
@@ -74,7 +74,7 @@ angular.module('nlFramework', [])
       burgerTop.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       burgerBottom.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       //
-      if(toggle){
+      if (toggle){
         // ON
         $nlHelpers.translate( burgerTop, 0, '', $nlConfig.options.burger.endY, '', 45, '', '', $nlConfig.options.burger.endScale );
         $nlHelpers.translate( burgerBottom, 0, '', $nlConfig.options.burger.endY, '-', 45, '-', '', $nlConfig.options.burger.endScale );
@@ -83,7 +83,7 @@ angular.module('nlFramework', [])
         // OFF
         $nlHelpers.translate( burgerTop, 0, '', 0, '', 0, '', '', $nlConfig.options.burger.startScale );
         $nlHelpers.translate( burgerBottom, 0, '', 0, '', 0, '', '', $nlConfig.options.burger.startScale );
-        if( $nlConfig.options.reverse ){
+        if ( $nlConfig.options.reverse ){
           $nlHelpers.translate( burger, 0, '', 0, '-', 360, '' );
         }else{
           $nlHelpers.translate( burger, 0, '', 0, '-', 0, '' );
@@ -94,7 +94,7 @@ angular.module('nlFramework', [])
         burger.style.transition = 'none';
         burgerTop.style.transition = 'none';
         burgerBottom.style.transition = 'none';
-        if(!toggle){
+        if (!toggle){
           $nlHelpers.translate( burger, 0, '', 0, '-', 0, '' );
           $nlConfig.options.reverse = false;
         }else{
@@ -106,7 +106,7 @@ angular.module('nlFramework', [])
 }])
 .factory('$nlHelpers', function(){
   return {
-    translate: function(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo){
+    translate: function(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo, opacity){
       var x = x || 0,
           y = y || 0,
           pmX = pmX || '',
@@ -115,8 +115,8 @@ angular.module('nlFramework', [])
           width = width || false,
           el = myElement;
       
-      if( el.id === 'nlRefresh' ){
-        if( scale ){
+      if ( el.id === 'nlRefresh' ){
+        if ( scale ){
           scale = 'scale3d('+scale+','+scale+',1)';
         }else{
           scale = 'scale3d(1,1,1)';
@@ -125,17 +125,18 @@ angular.module('nlFramework', [])
         scale = scale ? 'scale3d('+scale+',1,1)' : '';
       }
       
-      if( el.id === 'burger-top' ){
+      if ( el.id === 'burger-top' ){
         el.style.transformOrigin = '100% 100%';
-      }else if( el.id === 'burger-bottom' ){
+      }else if ( el.id === 'burger-bottom' ){
         el.style.transformOrigin = '100% 0%';
       }
       el.style.transform = 'translate3d('+pmX+x+'px, '+pmY+y+'px, 0) rotate3d( 0, 0, 1, '+pmDeg+deg+'deg ) ' + scale;
       el.style.webkitTransform = 'translate('+pmX+x+'px, '+pmY+y+'px) translateZ(0) rotate('+pmDeg+deg+'deg) ' + scale;
-      if( width ) el.style.width = width+'px';
-      if( width ) el.style['max-width'] = width+'px';
+      if ( width ) el.style.width = width+'px';
+      if ( opacity ) el.style.opacity = opacity;
+      if ( width ) el.style['max-width'] = width+'px';
       // only for mozzila, opera and IE
-      if( mozieo ) el.style.msTransform = el.style.MozTransform = el.style.OTransform = 'translateX('+pmX+x+'px) translateY('+pmY+y+'px) rotate('+pmDeg+deg+'deg)';
+      if ( mozieo ) el.style.msTransform = el.style.MozTransform = el.style.OTransform = 'translateX('+pmX+x+'px) translateY('+pmY+y+'px) rotate('+pmDeg+deg+'deg)';
     },
     merge: function(obj1,obj2){
       var obj3 = {};
@@ -166,7 +167,7 @@ angular.module('nlFramework', [])
         $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
       // modify view-content,
-        if( $nlConfig.options.modifyViewContent ){
+        if ( $nlConfig.options.modifyViewContent ){
           viewContent = document.getElementById( 'nlContent' );
           viewContentH = new Hammer(viewContent);
           viewContent.style.position = 'fixed';
@@ -175,7 +176,7 @@ angular.module('nlFramework', [])
           viewContent.style.top = $nlConfig.options.topBarHeight+'px';
         }
       // use action button?
-        if( $nlConfig.options.useActionButton ){
+        if ( $nlConfig.options.useActionButton ){
           actionPanel = document.getElementById('nlActionButton');
           actionPlus = document.getElementById('nlPlus');
         }
@@ -186,13 +187,13 @@ angular.module('nlFramework', [])
         window.onresize = function(event) {
           $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
           $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-          if( $nlConfig.options.modifyViewContent ){
+          if ( $nlConfig.options.modifyViewContent ){
             viewContent.style.position = 'fixed';
             viewContent.style.width = $nlConfig.deviceW+'px';
             viewContent.style.height = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           }
           $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
-          if( !$nlConfig.options.open ){
+          if ( !nlDrawer.open ){
             $nlHelpers.translate( drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
           }else{
             $nlHelpers.translate( drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
@@ -200,10 +201,10 @@ angular.module('nlFramework', [])
         }
       // listen for pan events on elements
         drawerH.on("panleft panright", function( ev ){
-          if( $nlConfig.options.open ) nlDrawer.move( ev, true );
+          if ( nlDrawer.open ) nlDrawer.move( ev, true );
         });
         drawerDimmH.on("panleft panright", function(ev) {
-          if( $nlConfig.options.open ) nlDrawer.move( ev );
+          if ( nlDrawer.open ) nlDrawer.move( ev );
         });
         swipeH.on("panright panleft", function(ev) {
           nlDrawer.move( ev );
@@ -223,7 +224,7 @@ angular.module('nlFramework', [])
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = '1';
       // set open state and toggle burger
-      $nlConfig.options.open = true;
+      nlDrawer.open = true;
       $nlConfig.options.reverse = true;
       $nlBurger.toggle(true);
     },
@@ -236,16 +237,16 @@ angular.module('nlFramework', [])
       drawerDimm.style.visibility = 'hidden';
       drawerDimm.style.opacity = '0';
       // toggle burger
-      if( $nlConfig.options.open ){
+      if ( nlDrawer.open ){
         $nlBurger.toggle(false);
       }
       // set open state
       nlDrawer.togglePlus(true);
-      $nlConfig.options.open = false;
+      nlDrawer.open = false;
     },
     toggle: function(){
       //alert('drawer.toggle()!');
-      if( $nlConfig.options.open ){
+      if ( nlDrawer.open ){
         nlDrawer.hide();
       }else{
         nlDrawer.show();
@@ -257,7 +258,7 @@ angular.module('nlFramework', [])
       // figure out position, depending on wheter we are holding drawer itself somwhere in the middle
       // or just the edge
       var pos = ev.center.x - $nlConfig.maxWidth;
-      if( hold ){
+      if ( hold ){
         $nlConfig.options.holdPos = $nlConfig.options.holdPos ? $nlConfig.options.holdPos : pos;
         pos = pos + Math.abs($nlConfig.options.holdPos);
       };
@@ -279,9 +280,9 @@ angular.module('nlFramework', [])
       // if this is final touch (mouse move) event
       // show or hide the drawer (pannig left = open, right = close)
       // and clean our temp values
-      $nlConfig.options.open = true;
-      if( ev.isFinal ){
-        if( $nlConfig.options.direction === 'left' ){
+      nlDrawer.open = true;
+      if ( ev.isFinal ){
+        if ( $nlConfig.options.direction === 'left' ){
           nlDrawer.hide();
         }else{
           nlDrawer.show();
@@ -294,8 +295,8 @@ angular.module('nlFramework', [])
     },
     touchEnd: function( element ){
       // listen for touch end event on touch devices
-      var onTouchDevice = 'ontouchstart' in window ? true : false;
-      if( onTouchDevice ){
+      var $nlConfig.onTouch = 'ontouchstart' in window ? true : false;
+      if ( $nlConfig.onTouch ){
         element.addEventListener('touchend', function(e){
           onEnd(e, true);
         }, false);
@@ -315,9 +316,9 @@ angular.module('nlFramework', [])
         var isRight = $nlConfig.options.direction === 'right';
         var endTrue = $nlConfig.options.endTrue;
         // decide if show or hide the drawer
-        if( (isBigger && isLeft && endTrue) || (isBigger && isRight && endTrue) ){
+        if ( (isBigger && isLeft && endTrue) || (isBigger && isRight && endTrue) ){
           nlDrawer.show();
-        }else if( (!isBigger && isLeft && endTrue) || (!isBigger && isRight && endTrue) ){
+        }else if ( (!isBigger && isLeft && endTrue) || (!isBigger && isRight && endTrue) ){
           nlDrawer.hide();
         }
         // clean up our temp variables
@@ -334,8 +335,8 @@ angular.module('nlFramework', [])
     togglePlus: function( hide ){
       // action button
       // used only if enabled in setting when initializing
-      if( $nlConfig.options.useActionButton ){
-        if( !nlDrawer.plusActive && !hide ){
+      if ( $nlConfig.options.useActionButton ){
+        if ( !nlDrawer.plusActive && !hide ){
           nlDrawer.plusActive = true;
           burger.style['z-index'] = '1104';
           actionPlus.style['z-index'] = '1106';
@@ -347,7 +348,7 @@ angular.module('nlFramework', [])
         }else{
           nlDrawer.plusActive = false;
           burger.style['z-index'] = '1106';
-          if( !$nlConfig.options.open ){
+          if ( !nlDrawer.open ){
             drawerDimm.style.visibility = 'hidden';
             drawerDimm.style.opacity = '0';
           } 
@@ -362,13 +363,15 @@ angular.module('nlFramework', [])
 .factory('$nlRefresh', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
   var nlRefresh = {
     init: function(){
+      // are we on touch device?
+        $nlConfig.onTouch = 'ontouchstart' in window ? true : false;
       // get references to elements
         topbar = document.getElementById( 'nlTopbar' );
         topbarH = new Hammer(topbar);
         refEl = document.getElementById( 'nlRefresh' );
         refIcon = document.getElementById( 'reload-icon' );
-        refIcon.style.transition = 'all '+($nlConfig.options.speed+$nlConfig.options.speed)+'s '+$nlConfig.options.animation;
-        if( !$nlConfig.options.modifyViewContent ){
+        refIcon.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
+        if ( !$nlConfig.options.modifyViewContent ){
           viewContent = document.getElementById( 'nlContent' );
           viewContentH = new Hammer(viewContent);
         }
@@ -391,16 +394,18 @@ angular.module('nlFramework', [])
     },
     move: function( ev ){
       $nlConfig.center = ($nlConfig.deviceW/2) - (refEl.offsetWidth/2);
-      if( !$nlConfig.syncing ){
-        if( $nlConfig.scroll.top < 1 ){
+      if ( !$nlConfig.syncing ){
+        if ( $nlConfig.scroll.top < 1 ){
           refEl.style.transition = 'none';
           var end = Math.floor($nlConfig.deviceH/2);
           var perc = ((100/$nlConfig.deviceH) * ev.center.y);
-          if( ev.center.y < end ){
+          if ( ev.center.y < end ){
             $nlConfig.syncTrue = false;
             var y = perc * (end/100);
+            var opacity = (perc*2) * (1/100);
             var rotate = 0.36 * (end/100 * (ev.center.y));
-            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate, '');
+            $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
+            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);
             refIcon.style.fill = "red";
           }else{
             $nlConfig.syncTrue = true;
@@ -412,15 +417,15 @@ angular.module('nlFramework', [])
                 y = y - ((y/100)*percFull)/3.5;
             var rotate = 0.36 * (end/100 * (ev.center.y));
             //var rotate = 0.36 * perc + 360;
-            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate, '');
+            $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
+            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);
           }
         }
       }
     },
     touchEnd: function( element ){
       // listen for touch end event on touch devices
-      var onTouchDevice = 'ontouchstart' in window ? true : false;
-      if( onTouchDevice ){
+      if ( $nlConfig.onTouch ){
         element.addEventListener('touchend', function(e){
           onEnd(e, true);
         }, false);
@@ -435,8 +440,8 @@ angular.module('nlFramework', [])
         // wait for move event to end (0.1s)
         // then call callback function
         setTimeout( function(){
-          refEl.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
-          if( touchobj.clientY > end && $nlConfig.syncTrue && !$nlConfig.syncing){
+          refEl.style.transition = 'all '+($nlConfig.options.speed/2)+'s '+$nlConfig.options.animation;
+          if ( touchobj.clientY > end && $nlConfig.syncTrue && !$nlConfig.syncing){
             $nlConfig.syncTrue = false;
             $nlConfig.syncing = true;
             $nlConfig.nlRefresh.ended = false;
@@ -451,7 +456,7 @@ angular.module('nlFramework', [])
             setTimeout( function(){
               refEl.style.transition = 'all '+($nlConfig.options.speed/2)+'s linear';
               var waiter = setInterval(function(){ 
-                if( $nlConfig.nlRefresh.ended ){
+                if ( $nlConfig.nlRefresh.ended ){
                   clearInterval(waiter);
                 }else{
                   var rotation = rotate+rotateStep;
@@ -461,12 +466,11 @@ angular.module('nlFramework', [])
                 }
               }, 25 );
             }, ($nlConfig.options.speed*1000));
-          
           }else{
-            refEl.style.transition = 'all '+($nlConfig.options.speed+$nlConfig.options.speed)+'s '+$nlConfig.options.animation;
+            refEl.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
             $nlHelpers.translate(refEl, $nlConfig.center, '', 0, '', 0, ''); 
           }
-        }, 100 );
+        }, 50 );
       }
     },
     callback: function(){

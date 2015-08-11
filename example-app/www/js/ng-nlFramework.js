@@ -101,12 +101,13 @@ angular.module('nlFramework', [])
           $nlConfig.options.reverse = true;
         }
       }, $nlConfig.options.speed*1000 );
-    }
+    },
+    template: ""
   }
 }])
 .factory('$nlHelpers', function(){
   return {
-    translate: function(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo){
+    translate: function(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo, opacity){
       var x = x || 0,
           y = y || 0,
           pmX = pmX || '',
@@ -133,6 +134,7 @@ angular.module('nlFramework', [])
       el.style.transform = 'translate3d('+pmX+x+'px, '+pmY+y+'px, 0) rotate3d( 0, 0, 1, '+pmDeg+deg+'deg ) ' + scale;
       el.style.webkitTransform = 'translate('+pmX+x+'px, '+pmY+y+'px) translateZ(0) rotate('+pmDeg+deg+'deg) ' + scale;
       if( width ) el.style.width = width+'px';
+      if( opacity ) el.style.opacity = opacity;
       if( width ) el.style['max-width'] = width+'px';
       // only for mozzila, opera and IE
       if( mozieo ) el.style.msTransform = el.style.MozTransform = el.style.OTransform = 'translateX('+pmX+x+'px) translateY('+pmY+y+'px) rotate('+pmDeg+deg+'deg)';
@@ -192,7 +194,7 @@ angular.module('nlFramework', [])
             viewContent.style.height = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           }
           $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
-          if( !$nlConfig.options.open ){
+          if( !nlDrawer.open ){
             $nlHelpers.translate( drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
           }else{
             $nlHelpers.translate( drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
@@ -200,10 +202,10 @@ angular.module('nlFramework', [])
         }
       // listen for pan events on elements
         drawerH.on("panleft panright", function( ev ){
-          if( $nlConfig.options.open ) nlDrawer.move( ev, true );
+          if( nlDrawer.open ) nlDrawer.move( ev, true );
         });
         drawerDimmH.on("panleft panright", function(ev) {
-          if( $nlConfig.options.open ) nlDrawer.move( ev );
+          if( nlDrawer.open ) nlDrawer.move( ev );
         });
         swipeH.on("panright panleft", function(ev) {
           nlDrawer.move( ev );
@@ -223,7 +225,7 @@ angular.module('nlFramework', [])
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = '1';
       // set open state and toggle burger
-      $nlConfig.options.open = true;
+      nlDrawer.open = true;
       $nlConfig.options.reverse = true;
       $nlBurger.toggle(true);
     },
@@ -236,16 +238,16 @@ angular.module('nlFramework', [])
       drawerDimm.style.visibility = 'hidden';
       drawerDimm.style.opacity = '0';
       // toggle burger
-      if( $nlConfig.options.open ){
+      if( nlDrawer.open ){
         $nlBurger.toggle(false);
       }
       // set open state
       nlDrawer.togglePlus(true);
-      $nlConfig.options.open = false;
+      nlDrawer.open = false;
     },
     toggle: function(){
       //alert('drawer.toggle()!');
-      if( $nlConfig.options.open ){
+      if( nlDrawer.open ){
         nlDrawer.hide();
       }else{
         nlDrawer.show();
@@ -279,7 +281,7 @@ angular.module('nlFramework', [])
       // if this is final touch (mouse move) event
       // show or hide the drawer (pannig left = open, right = close)
       // and clean our temp values
-      $nlConfig.options.open = true;
+      nlDrawer.open = true;
       if( ev.isFinal ){
         if( $nlConfig.options.direction === 'left' ){
           nlDrawer.hide();
@@ -347,7 +349,7 @@ angular.module('nlFramework', [])
         }else{
           nlDrawer.plusActive = false;
           burger.style['z-index'] = '1106';
-          if( !$nlConfig.options.open ){
+          if( !nlDrawer.open ){
             drawerDimm.style.visibility = 'hidden';
             drawerDimm.style.opacity = '0';
           } 
@@ -367,7 +369,7 @@ angular.module('nlFramework', [])
         topbarH = new Hammer(topbar);
         refEl = document.getElementById( 'nlRefresh' );
         refIcon = document.getElementById( 'reload-icon' );
-        refIcon.style.transition = 'all '+($nlConfig.options.speed+$nlConfig.options.speed)+'s '+$nlConfig.options.animation;
+        refIcon.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
         if( !$nlConfig.options.modifyViewContent ){
           viewContent = document.getElementById( 'nlContent' );
           viewContentH = new Hammer(viewContent);
@@ -399,8 +401,11 @@ angular.module('nlFramework', [])
           if( ev.center.y < end ){
             $nlConfig.syncTrue = false;
             var y = perc * (end/100);
+            var opacity = (perc*2) * (1/100);
             var rotate = 0.36 * (end/100 * (ev.center.y));
-            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate, '');
+            //(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo)
+            $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
+            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);
             refIcon.style.fill = "red";
           }else{
             $nlConfig.syncTrue = true;
@@ -412,7 +417,8 @@ angular.module('nlFramework', [])
                 y = y - ((y/100)*percFull)/3.5;
             var rotate = 0.36 * (end/100 * (ev.center.y));
             //var rotate = 0.36 * perc + 360;
-            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate, '');
+            $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
+            $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);
           }
         }
       }
@@ -435,7 +441,7 @@ angular.module('nlFramework', [])
         // wait for move event to end (0.1s)
         // then call callback function
         setTimeout( function(){
-          refEl.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
+          refEl.style.transition = 'all '+($nlConfig.options.speed/2)+'s '+$nlConfig.options.animation;
           if( touchobj.clientY > end && $nlConfig.syncTrue && !$nlConfig.syncing){
             $nlConfig.syncTrue = false;
             $nlConfig.syncing = true;
@@ -461,12 +467,11 @@ angular.module('nlFramework', [])
                 }
               }, 25 );
             }, ($nlConfig.options.speed*1000));
-          
           }else{
-            refEl.style.transition = 'all '+($nlConfig.options.speed+$nlConfig.options.speed)+'s '+$nlConfig.options.animation;
+            refEl.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
             $nlHelpers.translate(refEl, $nlConfig.center, '', 0, '', 0, ''); 
           }
-        }, 100 );
+        }, 50 );
       }
     },
     callback: function(){

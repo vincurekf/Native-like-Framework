@@ -113,6 +113,7 @@ So you have:
  - ```hide()```: hides the drawer (slide out)
  - ```toggle()```: toggles the drawer (show/hide)
  - ```togglePlus()```: toggles the action button (ON/OFF)
+ - ```open```: returns true/false if the drawer is open/closed
 
 
 - **$nlBurger**

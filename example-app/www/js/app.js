@@ -89,7 +89,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlCon
 
     // If you like you can register backbutton handle --------
     $ionicPlatform.registerBackButtonAction(function () {
-      if ( !$nlConfig.open ) {
+      if ( !$nlDrawer.open ) {
         // thedrawer is closed - exit the app
         navigator.app.exitApp();
       } else {
