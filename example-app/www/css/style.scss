@@ -5,7 +5,7 @@ $background: #E53241;
 $white: #ffffff;
 $dark: #333333;
 // topbar with the toggle button
-#topbar{
+.topbar{
 	.gravatar{
 		border-radius: 50%;
 		bottom: 20px;
@@ -15,16 +15,6 @@ $dark: #333333;
 		right: 20px;
 		width: 66px;
 	}
-	.title{
-		position: fixed;
-		top: 0;
-		left: 56px;
-		line-height: 56px;
-		color: $white;
-		pointer-events: none;
-		font-size: 18px;
-		z-index: 1110;
-	}
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -33,8 +23,6 @@ $dark: #333333;
 	line-height: 56px;
 	background: $background;
 	color: $white;
-	//text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-	z-index: 110;
 	&.fixed{
 		position: fixed;
 	}
@@ -60,6 +48,7 @@ a{
 	position: relative;
 	width: 100%;
 	height: 100%;
+	overflow: auto;
 	.icon{
 		position: absolute;
 		top: 50%;
