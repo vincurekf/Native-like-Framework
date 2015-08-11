@@ -7,7 +7,7 @@
  * but can be used within any Angular project.
  */
 
-// set global variables needed for proper drawer functioning
+// set global variables needed for proper functioning
 var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
     navToggle, viewContent,
     burger, burgerTop, burgerBottom,
@@ -17,7 +17,7 @@ var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
 angular.module('nlFramework', [])
 .factory('$nlConfig', function(){
   return {
-    open: false,
+    openned: false,
     plusActive: false,
     holdPos: null,
     reverse: false,
@@ -38,6 +38,17 @@ angular.module('nlFramework', [])
     }
   }
 })
+.factory('$nlFramework', 
+  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', 
+  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh){
+  var nlFramework = {
+    drawer: $nlDrawer,
+    burger: $nlBurger,
+    refresh: $nlRefresh,
+    config: $nlConfig
+  };
+  return nlFramework;
+}])
 .factory('$nlBurger', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
   return {
     animate: function( pos ){
@@ -151,7 +162,6 @@ angular.module('nlFramework', [])
     init: function( config ){
       // get options passed from initialization and merge them with default ones
         $nlConfig.options = $nlHelpers.merge($nlConfig.options, config);
-        console.log( $nlConfig.options );
       // get references to all needed elements on page
         swipe = document.getElementById('nlSwipe');
         swipeH = new Hammer(swipe);
@@ -193,7 +203,7 @@ angular.module('nlFramework', [])
             viewContent.style.height = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           }
           $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
-          if ( !nlDrawer.open ){
+          if ( !nlDrawer.openned ){
             $nlHelpers.translate( drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
           }else{
             $nlHelpers.translate( drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
@@ -201,10 +211,10 @@ angular.module('nlFramework', [])
         }
       // listen for pan events on elements
         drawerH.on("panleft panright", function( ev ){
-          if ( nlDrawer.open ) nlDrawer.move( ev, true );
+          if ( nlDrawer.openned ) nlDrawer.move( ev, true );
         });
         drawerDimmH.on("panleft panright", function(ev) {
-          if ( nlDrawer.open ) nlDrawer.move( ev );
+          if ( nlDrawer.openned ) nlDrawer.move( ev );
         });
         swipeH.on("panright panleft", function(ev) {
           nlDrawer.move( ev );
@@ -224,7 +234,7 @@ angular.module('nlFramework', [])
       drawerDimm.style.visibility = 'visible';
       drawerDimm.style.opacity = '1';
       // set open state and toggle burger
-      nlDrawer.open = true;
+      nlDrawer.openned = true;
       $nlConfig.options.reverse = true;
       $nlBurger.toggle(true);
     },
@@ -237,16 +247,16 @@ angular.module('nlFramework', [])
       drawerDimm.style.visibility = 'hidden';
       drawerDimm.style.opacity = '0';
       // toggle burger
-      if ( nlDrawer.open ){
+      if ( nlDrawer.openned ){
         $nlBurger.toggle(false);
       }
       // set open state
       nlDrawer.togglePlus(true);
-      nlDrawer.open = false;
+      nlDrawer.openned = false;
     },
     toggle: function(){
       //alert('drawer.toggle()!');
-      if ( nlDrawer.open ){
+      if ( nlDrawer.openned ){
         nlDrawer.hide();
       }else{
         nlDrawer.show();
@@ -280,7 +290,7 @@ angular.module('nlFramework', [])
       // if this is final touch (mouse move) event
       // show or hide the drawer (pannig left = open, right = close)
       // and clean our temp values
-      nlDrawer.open = true;
+      nlDrawer.openned = true;
       if ( ev.isFinal ){
         if ( $nlConfig.options.direction === 'left' ){
           nlDrawer.hide();
@@ -295,7 +305,7 @@ angular.module('nlFramework', [])
     },
     touchEnd: function( element ){
       // listen for touch end event on touch devices
-      var $nlConfig.onTouch = 'ontouchstart' in window ? true : false;
+      $nlConfig.onTouch = 'ontouchstart' in window ? true : false;
       if ( $nlConfig.onTouch ){
         element.addEventListener('touchend', function(e){
           onEnd(e, true);
@@ -348,7 +358,7 @@ angular.module('nlFramework', [])
         }else{
           nlDrawer.plusActive = false;
           burger.style['z-index'] = '1106';
-          if ( !nlDrawer.open ){
+          if ( !nlDrawer.openned ){
             drawerDimm.style.visibility = 'hidden';
             drawerDimm.style.opacity = '0';
           } 
