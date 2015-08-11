@@ -15,6 +15,17 @@ var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
 //
 
 angular.module('nlFramework', [])
+.factory('$nlFramework', 
+  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', 
+  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh){
+  var nlFramework = {
+    drawer: $nlDrawer,
+    burger: $nlBurger,
+    refresh: $nlRefresh,
+    config: $nlConfig
+  };
+  return nlFramework;
+}])
 .factory('$nlConfig', function(){
   return {
     openned: false,
@@ -38,17 +49,6 @@ angular.module('nlFramework', [])
     }
   }
 })
-.factory('$nlFramework', 
-  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', 
-  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh){
-  var nlFramework = {
-    drawer: $nlDrawer,
-    burger: $nlBurger,
-    refresh: $nlRefresh,
-    config: $nlConfig
-  };
-  return nlFramework;
-}])
 .factory('$nlBurger', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
   return {
     animate: function( pos ){
@@ -407,11 +407,12 @@ angular.module('nlFramework', [])
       if ( !$nlConfig.syncing ){
         if ( $nlConfig.scroll.top < 1 ){
           refEl.style.transition = 'none';
+          refIcon.style.transition = 'none';
           var end = Math.floor($nlConfig.deviceH/2);
           var perc = ((100/$nlConfig.deviceH) * ev.center.y);
           if ( ev.center.y < end ){
             $nlConfig.syncTrue = false;
-            var y = perc * (end/100);
+            var y = (perc/2) * (end/100);
             var opacity = (perc*2) * (1/100);
             var rotate = 0.36 * (end/100 * (ev.center.y));
             $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
@@ -423,10 +424,9 @@ angular.module('nlFramework', [])
             var perc = (end/100 * (ev.center.y - end));
             var percY = ((100/$nlConfig.deviceH) * ev.center.y);
             var percFull = ((100/($nlConfig.deviceH/2)) * (ev.center.y - end) );
-            var y = percY * (end/100);
+            var y = percY/2 * (end/100);
                 y = y - ((y/100)*percFull)/3.5;
             var rotate = 0.36 * (end/100 * (ev.center.y));
-            //var rotate = 0.36 * perc + 360;
             $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
             $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);
           }
