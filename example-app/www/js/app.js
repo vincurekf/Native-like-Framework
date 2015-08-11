@@ -5,13 +5,20 @@
 // the 2nd parameter is an array of 'requires'
 var exampleApp = angular.module('exampleApp', ['ionic', 'ngRoute', 'ngCordova', 'exampleApp.controllers', 'nlFramework']);
 
-exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlConfig, $nlRefresh) {
+exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
 
   $ionicPlatform.ready(function() {
 
+    // assign parts for better usage
+    $rootScope.fw = $nlFramework;
+    $rootScope.drawer = $nlFramework.drawer;
+    $rootScope.refresh = $nlFramework.refresh;
+    $rootScope.burger = $nlFramework.burger;
+    $rootScope.config = $nlFramework.config;
+    // show me config
+    console.log( $rootScope.config );
+
     // Native-like Drawer is HERE! ---------------------------
-    // the drawer initialization
-    $rootScope.drawer = $nlDrawer;
     // default options (all of them)
     var options = {
       maxWidth: 300,
@@ -26,41 +33,21 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlCon
     // Done! -------------------------------------------------
     
     // swipe from top to refresh!
-    $nlRefresh.init();
+    $rootScope.refresh.init();
     // set custom callback
     // DON'T FORGET to call $nlRefresh.syncEnd(); after finish!
-    $nlRefresh.callback = function(){
+    $rootScope.refresh.callback = function(){
       // here is just timeout to wait 5sec before ending sync animation
       setTimeout( function(){
         console.log( 'custom callback onSync' );
         // after doing some stuff end syncing animation
-        $nlRefresh.syncEnd();
+        $rootScope.refresh.syncEnd();
       }, 5000 );
     };
     //
 
-    // assign config object
-    $rootScope.config = $nlConfig;
     
-    /*
-    // show drawer
-    setTimeout( function(){
-      $rootScope.drawer.show();
-    }, 1000 );
-    // toggle burger
-    setTimeout( function(){
-      $nlBurger.toggle();
-    }, 2000 );
-    setTimeout( function(){
-      $nlBurger.toggle( true );
-    }, 3000 );
-    // hide drawer
-    setTimeout( function(){
-      $rootScope.drawer.hide();
-    }, 4000 );
-    */
-
-    /*
+    /* examples of usage
     // set new options
     setTimeout( function(){
       $rootScope.drawer.set({
@@ -68,28 +55,30 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlCon
         maxWidth: 250,
         animation: 'ease-out'
       });
-    }, 5000 );
+    }, 500 );
+    
     // show drawer
     setTimeout( function(){
       $rootScope.drawer.show();
-    }, 6000 );
+    }, 1000 );
+    
+    // toggle burger
+    setTimeout( function(){
+      $rootScope.burger.toggle();
+    }, 2000 );
+    setTimeout( function(){
+      $rootScope.burger.toggle( true );
+    }, 3000 );
+    
     // hide drawer
     setTimeout( function(){
       $rootScope.drawer.hide();
-    }, 8000 );
-    // set new options
-    setTimeout( function(){
-      $rootScope.drawer.set({
-        speed: 0.2,
-        maxWidth: 300,
-        animation: 'ease'
-      });
-    }, 8500 );
+    }, 4000 );
     */
 
     // If you like you can register backbutton handle --------
     $ionicPlatform.registerBackButtonAction(function () {
-      if ( !$nlConfig.open ) {
+      if ( !$rootScope.drawer.openned ) {
         // thedrawer is closed - exit the app
         navigator.app.exitApp();
       } else {
