@@ -108,7 +108,7 @@
   background: transparent;
   z-index: 1100; }
 
-#nlTopbar {
+#nlTopbar, .topbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -118,7 +118,13 @@
   background: #E53241;
   color: #ffffff;
   z-index: 1104; }
-  #nlTopbar .title {
+  #nlTopbar.drawer, .topbar.drawer {
+    position: relative; }
+  #nlTopbar.large, .topbar.large {
+    height: 140px;
+    background: -webkit-linear-gradient(325deg, #E53241, #d42130);
+    background: linear-gradient(125deg, #E53241, #d42130); }
+  #nlTopbar .title, .topbar .title {
     position: fixed;
     top: 0;
     left: 56px;
@@ -127,6 +133,14 @@
     font-size: 18px;
     z-index: 1110;
     pointer-events: none; }
+  #nlTopbar .gravatar, .topbar .gravatar {
+    border-radius: 50%;
+    bottom: 20px;
+    height: 66px;
+    overflow: hidden;
+    position: absolute;
+    right: 20px;
+    width: 66px; }
 
 #nlRefresh {
   background: white none repeat scroll 0 0;
@@ -210,3 +224,6 @@
     background: #F00D36; }
   #nlActionButton .action-button.two {
     background: #E53241; }
+
+.depth.z1 {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4); }
