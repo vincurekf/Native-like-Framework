@@ -11,17 +11,19 @@
 var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
     navToggle, viewContent,
     burger, burgerTop, burgerBottom,
-    topbar, topbarH, refEl;
+    topbar, topbarH, refEl,
+    toast, toastH;
 //
 
 angular.module('nlFramework', [])
 .factory('$nlFramework', 
-  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', 
-  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh){
+  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', 
+  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast){
   var nlFramework = {
     drawer: $nlDrawer,
     burger: $nlBurger,
     refresh: $nlRefresh,
+    toast: $nlToast,
     config: $nlConfig
   };
   return nlFramework;
@@ -207,7 +209,7 @@ angular.module('nlFramework', [])
             viewContent.style.height = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           }
           $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
-          if ( !nlDrawer.openned ){
+      if ( !nlDrawer.openned ){
             $nlHelpers.translate( drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
           }else{
             $nlHelpers.translate( drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
@@ -510,4 +512,142 @@ angular.module('nlFramework', [])
     }
   }
   return nlRefresh;
+}])
+.factory('$nlToast', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
+  var nlToast = {
+    init: function( config ){
+      // get options passed from initialization and merge them with default ones
+        $nlConfig.options = $nlHelpers.merge($nlConfig.options, config);
+      // get references to all needed elements on page
+        toast = document.getElementById('nlToast');
+        toastH = new Hammer(toast);
+      // listen for pan events on elements
+        toastH.on("panleft panright", function( ev ){
+          nlToast.move( ev );
+        });
+      // register touch end listeners
+        nlToast.touchEnd( toast );
+    },
+    show: function( text, trueCb, falseCb, timeout ){
+      console.log( trueCb, falseCb );
+
+      if( typeof trueCb === 'function' ){
+        nlToast.trueCb = trueCb;
+      }else{
+        nlToast.trueCb = function(){};
+      }
+
+      if( typeof falseCb === 'function' ){
+        nlToast.falseCb = falseCb;
+      }else{
+        nlToast.falseCb =  function(){};
+      }
+      
+      if(text) toast.innerHTML = text;
+      toast.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+      $nlHelpers.translate( toast, 0, '', 0, '', 0, '' );
+      if( timeout ){
+        setTimeout( function(){
+          nlToast.hide( true );
+        }, timeout);
+      }
+    },
+    center: function(){
+      toast.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+      $nlHelpers.translate( toast, 0, '', 0, '', 0, '' );
+    },
+    right: function(){
+      nlToast.trueCb();
+      toast.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+      $nlHelpers.translate( toast, $nlConfig.deviceW, '', 0, '', 0, '' );
+      setTimeout( function(){
+        nlToast.hide();
+      }, $nlConfig.options.speed/2*1000);
+    },
+    left: function(){
+      nlToast.falseCb();
+      toast.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+      $nlHelpers.translate( toast, $nlConfig.deviceW, '-', 0, '', 0, '' );
+      setTimeout( function(){
+        nlToast.hide();
+      }, $nlConfig.options.speed/2*1000);
+    },
+    hide: function( transitions ){
+      console.log( transitions );
+      if( transitions ){
+        toast.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
+      }else{
+        toast.style.transition = 'none';
+      }
+      setTimeout( function(){
+        $nlHelpers.translate( toast, 0, '', $nlConfig.deviceH, '', 0, '' );
+      }, 100);
+    },
+    move: function( ev ){
+      toast.style.transition = 'none';
+      var pos = ev.center.x - $nlConfig.maxWidth;
+      nlToast.holdPos = nlToast.holdPos ? nlToast.holdPos : pos;
+      pos = pos + Math.abs(nlToast.holdPos);
+      // pos = pos < 0 ? pos : 0;
+      nlToast.direction = ev.type === 'panleft' ? 'left' : 'right';
+      // calculate opacity of background dimmer based on touch position (within max width range 0-100%)
+      // move the drawer
+      toast.style.transition = 'none';
+      $nlHelpers.translate( toast, pos, '', 0, '', 0 );
+      // if this is final touch (mouse move) event
+      // show or hide the drawer (pannig left = open, right = close)
+      // and clean our temp values
+      if ( ev.isFinal ){
+        if ( nlToast.direction === 'left' ){
+          nlToast.left();
+        }else{
+          nlToast.right();
+        }
+        nlToast.holdPos = null;
+        nlToast.endTrue = false;
+      }else{
+        nlToast.endTrue = true;
+      }
+    },
+    touchEnd: function( element ){
+      // listen for touch end event on touch devices
+      $nlConfig.onTouch = 'ontouchstart' in window ? true : false;
+      if ( $nlConfig.onTouch ){
+        element.addEventListener('touchend', function(e){
+          onEnd(e, true);
+        }, false);
+      }else{
+        element.addEventListener('mouseup', function(e){
+          onEnd(e, false);
+        }, false);
+      };
+      var onEnd = function(e, touch){
+        // get the touch reference
+        // reference first touch point for this event
+        var touchobj = touch ? e.changedTouches[0] : e; 
+        // if the drawer is pulled more than 50% of its maxWidth
+        var isBigger = touchobj.clientX > ($nlConfig.deviceW/2);
+        // combined with the direction
+        
+        var isLeft = nlToast.direction === 'left';
+        var isRight = nlToast.direction === 'right';
+        var endTrue = nlToast.endTrue;
+        // decide if show or hide the drawer
+        if( endTrue ) nlToast.center();
+
+        // clean up our temp variables
+        nlToast.direction = false;
+        nlToast.endTrue = false;
+        nlToast.holdPos = null;
+        e.preventDefault()
+      }
+    },
+    trueCb: function(){
+      console.log( 'True Callback' );
+    },
+    falseCb: function(){
+      console.log( 'False Callback' );
+    }
+  };
+  return nlToast; 
 }]);

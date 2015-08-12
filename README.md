@@ -7,6 +7,7 @@ Native-like **menu**, **pull-to-sync**, **action button** and **burger menu icon
 - animated action button (optional: see settings)
 - adjust content height (optional: see settings)
 - animated **pull-to-refresh** with callback (needs content-view: see settings)
+- **in-app-toast** messages with true/false callback
 - ~10kB minified.
 
 You can find [working example here](http://nlmd.vincurekf.cz).
@@ -16,7 +17,7 @@ If you are developing application for android with Phonegap or Ionic or other al
 this is exactly for you. 
 I've been struggling with menu implementations, found some but never got the feel and usability i wanted. No touch support or slow/no animations, if there was animations, they mostly have lags.
 
-With this menu you have touch support, slide open/close, toggle function, action button, pull-to-refresh and all with smooth hardware accelerated animations.
+With this menu you have touch support, slide open/close, toggle function, action button, pull-to-refresh, in app toast notfication and all with smooth hardware accelerated animations.
 
 ## Basic usage
 Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your project:
@@ -58,6 +59,9 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
       C342.5,109.478,308.731,52.283,254.37,22.255z"/>
     </svg>
   </div>
+
+  <!-- toast notification element -->
+  <div id="nlToast"></div>
 
   <!-- top bar with title ( current cestion, action, etc.) -->
   <div id="nlTopbar" class="depth z1">
@@ -104,6 +108,8 @@ So you have:
 
 ```#nlRefresh``` pull-to-refresh indicator
 
+```#nlToast``` toast notification
+
 ## Objects
 
 You have two ways of using nlFramework.
@@ -123,6 +129,15 @@ You can use the parts separately:
  - ```toggle(true)```: Toggles the burger ON - active
  - ```toggle(false)```: Toggles the burger OFF - inactive
 
+
+- **$nlToast**
+ - ```init()```: initialize the toast notifications
+ - ```show(text, trueCallback, falseCallback, timeout)```: show notification
+  - ```show()``` accepts parameters:
+  - ```text``` can be any string
+  - ```trueCallback``` can be any function (optional)
+  - ```falseCallback``` can be any function (optional)
+  - ```timeout```: if you don't specify timeout, notification stays until canceled by user (optional)
 
 - **$nlRefresh**
  - ```init()```: call in your app if you wish to use **pull-to-sync**
@@ -178,7 +193,7 @@ Now you just need to initialize your drawer. In your main javascript file where 
 var exampleApp = angular.module('exampleApp', ['ionic', 'nlFramework']);
 
 // include all parts of nlFramework
-exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlRefresh, $nlConfig) {
+exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlRefresh, $nlConfig, $nlToast) {
 
 // Or include just core module
 exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework)
@@ -188,6 +203,7 @@ $rootScope.drawer = $nlFramework.drawer;
 $rootScope.refresh = $nlFramework.refresh;
 $rootScope.burger = $nlFramework.burger;
 $rootScope.config = $nlFramework.config;
+$rootScope.toast = $nlFramework.toast;
 
   $ionicPlatform.ready(function() {
 
@@ -234,6 +250,20 @@ $rootScope.config = $nlFramework.config;
         $rootScope.refresh.syncEnd();
       }, 5000 );
     };
+    //
+
+    // in app toast message
+    $rootScope.toast.init();
+    // optional
+    $rootScope.toastOk = function(){
+      console.log('Custom CB TRUE');
+    }
+    // optional
+    $rootScope.toastFalse = function(){
+      console.log('Custom CB False');
+    }
+    // timeout is also optional
+    $rootScope.toast.show('A am a Toast! Yum!', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
     //
 
     // If you like you can register backbutton handle --------
