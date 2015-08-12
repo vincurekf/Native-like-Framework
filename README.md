@@ -22,8 +22,8 @@ With this menu you have touch support, slide open/close, toggle function, action
 Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your project:
 ```html
 <script src="hammer.js"></script>
-<script src="ng-nativeDrawer-min.js"></script>
-<link href="ng-nativeDrawer.css" rel="stylesheet">
+<script src="ng-nlFramework-min.js"></script>
+<link href="ng-nlFramework.css" rel="stylesheet">
 ```
 
 ## Html elements
