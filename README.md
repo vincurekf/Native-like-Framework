@@ -1,6 +1,6 @@
 ![Native-like Framework](title_image.jpg)
 # Native-like Framework
-Native-like **menu**, **pull-to-sync**, **action button** and **burger menu icon** implementation for angular mobile/desktop apps.
+Native-like **menu**, **pull-to-sync**, **action button**, **in-app-toast** notification and **burger menu icon** implementation for angular mobile/desktop apps.
 
 - using hammer.js for better touch support.
 - fully animated burger menu icon
