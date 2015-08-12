@@ -142,6 +142,26 @@
     right: 20px;
     width: 66px; }
 
+#nlToast {
+  background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
+  border-radius: 0.2rem;
+  bottom: 1rem;
+  color: #fff;
+  left: 5%;
+  line-height: 1.6rem;
+  max-width: 90%;
+  min-height: 3rem;
+  padding: 0.7rem 1rem;
+  position: fixed;
+  right: 5%;
+  -webkit-transform: translate3d(0px, 200%, 0px);
+          transform: translate3d(0px, 200%, 0px);
+  -webkit-transform-origin: 50% 50% 0;
+      -ms-transform-origin: 50% 50% 0;
+          transform-origin: 50% 50% 0;
+  width: 30rem;
+  z-index: 1104; }
+
 #nlRefresh {
   background: white none repeat scroll 0 0;
   border-radius: 100%;

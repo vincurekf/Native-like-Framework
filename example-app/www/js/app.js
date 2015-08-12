@@ -15,6 +15,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     $rootScope.refresh = $nlFramework.refresh;
     $rootScope.burger = $nlFramework.burger;
     $rootScope.config = $nlFramework.config;
+    $rootScope.toast = $nlFramework.toast;
     // show me config
     console.log( $rootScope.config );
 
@@ -46,7 +47,19 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     };
     //
 
-    
+    // in app toast message
+    $rootScope.toast.init();
+    //
+    $rootScope.toastOk = function(){
+      console.log('Custom CB TRUE');
+    }
+    $rootScope.toastFalse = function(){
+      console.log('Custom CB False');
+    }
+    //
+    $rootScope.toast.show('A am a Toast! Yum!', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
+    //
+
     /* examples of usage
     // set new options
     setTimeout( function(){

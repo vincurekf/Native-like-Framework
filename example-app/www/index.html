@@ -28,10 +28,10 @@
 
   <!-- action button -->
   <div id="nlActionButton" class="switch">
-    <div class="action-button depth z1 option one" ng-click="drawer.togglePlus()">
+    <div class="action-button depth z1 option one" ng-click="toast.show('Action 2', toastOk, toastFalse ); drawer.togglePlus()">
         2
     </div>
-    <div class="action-button depth z1 option two" ng-click="drawer.togglePlus()">
+    <div class="action-button depth z1 option two" ng-click="toast.show('Action 1', toastOk, toastFalse ); drawer.togglePlus()">
         1
     </div>
     <div id="nlPlus" class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
@@ -55,8 +55,15 @@
   </div>
 
   <!-- toast element -->
-  <div id="nlToast"></div>
-
+  <div id="nlToast" class="depth z1">
+    <!-- 
+    <i class="action">
+      <svg version="1.1" id="diss" class="diss" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 28 28" style="enable-background:new 0 0 28 28;" xml:space="preserve">
+        <g><path d="M0,24l4,4l10-10l10,10l4-4L18,14L28,4l-4-4L14,10L4,0L0,4l10,10L0,24z"/></g>
+      </svg> | Action
+    </i>
+    -->
+  </div>
   <!-- top bar with title ( current cestion, action, etc.) -->
   <div id="nlTopbar" class="depth z1">
     <div class="title">
