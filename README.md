@@ -257,7 +257,7 @@ There is example app alongside with its source code, so feel free to check it an
 I hope this will help you.
 
 ## Support
-If You feel fancy You can donate me some schmeckels!
+If You feel fancy You can donate me some [schmeckels](https://www.youtube.com/watch?v=-D_422Z3rUE)!
 ```
 Bitcoin: 35VFPig1euHDiiGhG4LpSqAAev5FKqU3MN
 ```
