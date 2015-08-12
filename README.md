@@ -8,7 +8,7 @@ Native-like **menu**, **pull-to-sync**, **action button**, **in-app-toast** noti
 - adjust content height (optional: see settings)
 - animated **pull-to-refresh** with callback (needs content-view: see settings)
 - **in-app-toast** messages with true/false callback
-- ~10kB minified.
+- ~13kB minified.
 
 You can find [working example here](http://nlmd.vincurekf.cz).
 
