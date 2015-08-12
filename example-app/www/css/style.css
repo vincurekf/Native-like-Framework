@@ -1,33 +1,4 @@
 /* Colors */
-.topbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 56px;
-  line-height: 56px;
-  background: #E53241;
-  color: #ffffff; }
-  .topbar .gravatar {
-    border-radius: 50%;
-    bottom: 20px;
-    height: 66px;
-    overflow: hidden;
-    position: absolute;
-    right: 20px;
-    width: 66px; }
-  .topbar.fixed {
-    position: fixed; }
-  .topbar.drawer {
-    position: relative; }
-  .topbar.large {
-    height: 140px;
-    background: -webkit-linear-gradient(325deg, #E53241, #d42130);
-    background: linear-gradient(125deg, #E53241, #d42130); }
-
-.depth.z1 {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4); }
-
 a {
   text-decoration: none; }
 

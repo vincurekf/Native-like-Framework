@@ -1,49 +1,12 @@
 
 /* Colors */
-$red: #F00D36;
-$background: #E53241;
+$mainColor: #F00D36;
 $white: #ffffff;
-$dark: #333333;
-// topbar with the toggle button
-.topbar{
-	.gravatar{
-		border-radius: 50%;
-		bottom: 20px;
-		height: 66px;
-		overflow: hidden;
-		position: absolute;
-		right: 20px;
-		width: 66px;
-	}
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 56px;
-	line-height: 56px;
-	background: $background;
-	color: $white;
-	&.fixed{
-		position: fixed;
-	}
-	&.drawer{
-		position: relative;
-	}
-	&.large{
-		height: 140px;
-	  background: linear-gradient(125deg, $background, $background - #111);
-	}
-}
-.depth{
-	&.z1{
-		box-shadow: 0 1px 2px 0 rgba(0,0,0,0.4); 
-	}
-}
+
 a{
 	text-decoration: none;
 }
 // pages
-// app.html
 .page{
 	position: relative;
 	width: 100%;
@@ -82,14 +45,14 @@ a{
 		background: #e7e7e7;
 		color: white;
 		.icon{
-			fill: $red;
+			fill: $mainColor;
 			opacity: 0.2;
 		}
 		.content{
 			select, input{
 		    background: rgba(255, 255, 255, 0.7);
 		    border: none;
-				border-bottom: 1px solid $red + #444;
+				border-bottom: 1px solid $mainColor + #444;
 		    height: 2rem;
 		    width: 100%;
 		    padding: 0.5rem;
