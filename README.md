@@ -138,16 +138,17 @@ You can use the parts separately:
 - **$nlToast**
  - ```init()```: initialize the toast notifications
  - ```show(text, trueCallback, falseCallback, timeout)```: show notification
-  - ```show()``` accepts parameters:
-  - ```text``` can be any string
-  - ```trueCallback``` can be any function (optional)
-  - ```falseCallback``` can be any function (optional)
-  - ```timeout```: if you don't specify timeout, notification stays until canceled by user (optional)
+   - ```show()``` accepts parameters:
+   - ```text``` can be any string
+   - ```position``` display 'top' or 'bottom' toast (optional)
+   - ```trueCallback``` can be any function (optional)
+   - ```falseCallback``` can be any function (optional)
+   - ```timeout```: if you don't specify timeout, notification stays until canceled by user (optional)
 
 - **$nlConfig**: contains all options and variables of nlFramework
  - ```options```: contains drawer and burger options (see [Configuration](#configuration))
-  - ```burger```: burger options only
-  - ```refresh```: pull-to-refresh options
+   - ```burger```: burger options only
+   - ```refresh```: pull-to-refresh options
 
 
 or You can use **nlFramework** and then call its parts:
@@ -263,7 +264,7 @@ $rootScope.toast = $nlFramework.toast;
     $rootScope.toastFalse = function(){
       console.log('Custom CB False');
     }
-    // show the notification
+    // show the toast!
     $rootScope.toast.show(
       'A am a Toast! Yum!', // notification text 
       'top', // position, top or default bottom (optional)
