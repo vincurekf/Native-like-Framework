@@ -115,6 +115,7 @@ So you have:
 You have two ways of using nlFramework.
 
 You can use the parts separately:
+
 - **$nlDrawer**
  - ```init()```: initializes the drawer
  - ```set()```: set new options (see [Configuration](#configuration))
@@ -124,20 +125,9 @@ You can use the parts separately:
  - ```togglePlus()```: toggles the action button (ON/OFF)
  - ```openned```: returns true/false if the drawer is openned/closed
 
-
 - **$nlBurger**
  - ```toggle(true)```: Toggles the burger ON - active
  - ```toggle(false)```: Toggles the burger OFF - inactive
-
-
-- **$nlToast**
- - ```init()```: initialize the toast notifications
- - ```show(text, trueCallback, falseCallback, timeout)```: show notification
-  - ```show()``` accepts parameters:
-  - ```text``` can be any string
-  - ```trueCallback``` can be any function (optional)
-  - ```falseCallback``` can be any function (optional)
-  - ```timeout```: if you don't specify timeout, notification stays until canceled by user (optional)
 
 - **$nlRefresh**
  - ```init()```: call in your app if you wish to use **pull-to-sync**
@@ -145,17 +135,29 @@ You can use the parts separately:
    - remeber to call ```syncEnd()``` at the end of your process to end the animation
  - ```syncEnd()```: as mentioned above, this ends the syncing animation
 
+- **$nlToast**
+ - ```init()```: initialize the toast notifications
+ - ```show(text, trueCallback, falseCallback, timeout)```: show notification
+   - ```show()``` accepts parameters:
+   - ```text``` can be any string
+   - ```position``` display 'top' or 'bottom' toast (optional)
+   - ```trueCallback``` can be any function (optional)
+   - ```falseCallback``` can be any function (optional)
+   - ```timeout```: if you don't specify timeout, notification stays until canceled by user (optional)
+
 - **$nlConfig**: contains all options and variables of nlFramework
  - ```options```: contains drawer and burger options (see [Configuration](#configuration))
-  - ```burger```: burger options only
-  - ```refresh```: pull-to-refresh options
+   - ```burger```: burger options only
+   - ```refresh```: pull-to-refresh options
 
 
 or You can use **nlFramework** and then call its parts:
+
 - **$nlFramework**
  - ```drawer```: shortcut to **$nlDrawer**
  - ```burger```: shortcut to **$nlBurger**
  - ```refresh```: shortcut to **$nlRefresh**
+ - ```toast```: shortcut to **$nlToast**
  - ```config```: shortcut to **$nlConfig**
 
 ## Configuration
@@ -254,16 +256,22 @@ $rootScope.toast = $nlFramework.toast;
 
     // in app toast message
     $rootScope.toast.init();
-    // optional
+    // false callbach function
     $rootScope.toastOk = function(){
       console.log('Custom CB TRUE');
     }
-    // optional
+    // false callbach function
     $rootScope.toastFalse = function(){
       console.log('Custom CB False');
     }
-    // timeout is also optional
-    $rootScope.toast.show('A am a Toast! Yum!', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
+    // show the toast!
+    $rootScope.toast.show(
+      'A am a Toast! Yum!', // notification text 
+      'top', // position, top or default bottom (optional)
+      $rootScope.toastOk, // on swipe right (optional)
+      $rootScope.toastFalse, // on swipe left (optional)
+      2500 // timeout (optional)
+    );
     //
 
     // If you like you can register backbutton handle --------

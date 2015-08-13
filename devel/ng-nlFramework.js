@@ -528,7 +528,14 @@ angular.module('nlFramework', [])
       // register touch end listeners
         nlToast.touchEnd( toast );
     },
-    show: function( text, trueCb, falseCb, timeout ){
+    show: function( text, position, trueCb, falseCb, timeout ){
+      if( position === 'top' ){
+        toast.style.top = '75px';
+        toast.style.bottom = 'auto';
+      }else{
+        toast.style.top = '';
+        toast.style.bottom = '1rem';
+      }
       console.log( trueCb, falseCb );
 
       if( typeof trueCb === 'function' ){
@@ -544,8 +551,18 @@ angular.module('nlFramework', [])
       }
       
       if(text) toast.innerHTML = text;
-      toast.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
-      $nlHelpers.translate( toast, 0, '', 0, '', 0, '' );
+      
+      if( position === 'top' ){
+        toast.style.transition = 'none';
+        $nlHelpers.translate( toast, 0, '', $nlConfig.deviceH, '-', 0, '' );
+      }else{
+        toast.style.transition = 'none';
+        $nlHelpers.translate( toast, 0, '', $nlConfig.deviceH, '', 0, '' );
+      }
+      setTimeout( function(){
+        toast.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+        $nlHelpers.translate( toast, 0, '', 0, '', 0, '' );
+      }, 100);
       if( timeout ){
         setTimeout( function(){
           nlToast.hide( true );
@@ -585,7 +602,7 @@ angular.module('nlFramework', [])
     },
     move: function( ev ){
       toast.style.transition = 'none';
-      var pos = ev.center.x - $nlConfig.maxWidth;
+      var pos = ev.center.x - $nlConfig.deviceW;
       nlToast.holdPos = nlToast.holdPos ? nlToast.holdPos : pos;
       pos = pos + Math.abs(nlToast.holdPos);
       // pos = pos < 0 ? pos : 0;
