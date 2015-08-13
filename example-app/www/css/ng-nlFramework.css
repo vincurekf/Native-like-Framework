@@ -143,8 +143,8 @@
     width: 66px; }
 
 #nlToast {
-  background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
-  border-radius: 0.2rem;
+  background: #212121;
+  border-radius: 1.5rem;
   bottom: 1rem;
   color: #fff;
   left: 5%;
@@ -160,7 +160,7 @@
       -ms-transform-origin: 50% 50% 0;
           transform-origin: 50% 50% 0;
   width: 30rem;
-  z-index: 1105; }
+  z-index: 1104; }
 
 #nlRefresh {
   background: white none repeat scroll 0 0;

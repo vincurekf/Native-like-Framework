@@ -57,7 +57,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
       console.log('Custom CB False');
     }
     //
-    $rootScope.toast.show('A am a Toast! Yum!', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
+    $rootScope.toast.show('A am a Toast! Yum!', '', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
     //
 
     /* examples of usage
