@@ -78,6 +78,33 @@
     <div id="burger-bottom"></div>
   </div>
 
+  <!-- toggle icon for toggling menu -->
+  <!-- udelat pres ng-repeat, moznosti hazet do array 
+  arr = {
+    id: 1,
+    title: 'Title',
+    callback: function(){}
+  },{
+    id: 1,
+    title: 'Title',
+    callback: function(){}
+  };  
+  -->
+  <div id="nlMenu" class="nlMenu main">
+    <div id="icon" ng-click="menu.show('nlMenu')">
+      <div id="dot-top"></div>
+      <div id="dot-center"></div>
+      <div id="dot-bottom"></div>
+    </div>
+    <div id="nlMenuContent" ng-click="menu.hide('nlMenu')">
+      <ul>
+        <li >Item 1</li>
+        <li>Item 1</li>
+        <li>Item 1</li>
+      </ul>
+    </div>
+  </div>
+
   <!-- stripe on the left of the screen to detect slide from side of the screen -->
   <div id="nlSwipe"></div>
 

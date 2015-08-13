@@ -17,13 +17,14 @@ var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
 
 angular.module('nlFramework', [])
 .factory('$nlFramework', 
-  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', 
-  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast){
+  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', 
+  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast, $nlMenu){
   var nlFramework = {
     drawer: $nlDrawer,
     burger: $nlBurger,
     refresh: $nlRefresh,
     toast: $nlToast,
+    menu: $nlMenu,
     config: $nlConfig
   };
   return nlFramework;
@@ -667,4 +668,31 @@ angular.module('nlFramework', [])
     }
   };
   return nlToast; 
+}])
+.factory('$nlMenu', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
+  var nlMenu = {
+    init: function( id ){
+        if( id !== 'init' || id !== 'show' || id !== 'hide'){
+          nlMenu[id] = document.getElementById(id);
+        }
+      // 
+      console.log( nlMenu );
+    },
+    show: function( id ){
+      console.log( child, id, nlMenu[id] );
+      var child = nlMenu[id].children[1];
+      child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+      child.style.opacity = '1';
+      child.style.visibility = 'visible';
+    },
+    hide: function( id ){
+      console.log( child, id, nlMenu[id] );
+      var child = nlMenu[id].children[1];
+      console.log( child );
+      child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+      child.style.opacity = '0';
+      child.style.visibility = 'hidden';
+    }
+  };
+  return nlMenu; 
 }]);
