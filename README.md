@@ -212,7 +212,7 @@ $nlDrawer.set( options );
 ```
 
 ## Styles
-There is **ng-nativeDrawer.scss** file with default styles and color which are there for you prepared to customize the look of menu however you like.
+There is **ng-nlFramework.scss** file with default styles and color which are there for you prepared to customize the look of menu however you like.
 
 ## Full example code
 Now you just need to initialize your drawer. In your main javascript file where you start your angulat app you need to assign the drawer module and call the initialization:
