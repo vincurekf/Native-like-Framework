@@ -98,9 +98,9 @@
     </div>
     <div id="nlMenuContent" ng-click="menu.hide('nlMenu')">
       <ul>
-        <li >Item 1</li>
-        <li>Item 1</li>
-        <li>Item 1</li>
+        <li ng-click="toast.show('Selected Share','','','',2500)">Share</li>
+        <li ng-click="toast.show('Selected Edit','','','',2500)">Edit</li>
+        <li ng-click="toast.show('Selected Hug someone','','','',2500)">Hug someone</li>
       </ul>
     </div>
   </div>

@@ -131,15 +131,18 @@
     top: 26px; }
   .nlMenu #nlMenuContent {
     background: #ffffff;
+    color: #333333;
     position: absolute;
     right: 0.5rem;
     top: 0.5rem;
     line-height: 1.5rem;
     border-radius: 2px;
     padding: 0.5rem 0.9rem;
-    z-index: 1104; }
+    z-index: 1104;
+    visibility: hidden; }
     .nlMenu #nlMenuContent li {
-      white-space: nowrap; }
+      white-space: nowrap;
+      line-height: 2rem; }
 
 #nlSwipe {
   width: 15px;

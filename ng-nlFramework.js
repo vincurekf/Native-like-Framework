@@ -671,27 +671,48 @@ angular.module('nlFramework', [])
 }])
 .factory('$nlMenu', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
   var nlMenu = {
-    init: function( id ){
-        if( id !== 'init' || id !== 'show' || id !== 'hide'){
-          nlMenu[id] = document.getElementById(id);
-        }
-      // 
-      console.log( nlMenu );
+    menu: [],
+    init: function(){
+      if ( !$nlConfig.options.modifyViewContent ){
+        viewContent = document.getElementById( 'nlContent' );
+        viewContentH = new Hammer(viewContent);
+      }
+      viewContentH.on('tap', function( ev ){
+        nlMenu.hide();
+      });
+    },
+    add: function( id ){
+      if( id !== 'init' || id !== 'show' || id !== 'hide'){
+        nlMenu.menu[id] = document.getElementById(id);
+      } 
+      //console.log( nlMenu );
     },
     show: function( id ){
-      console.log( child, id, nlMenu[id] );
-      var child = nlMenu[id].children[1];
-      child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
-      child.style.opacity = '1';
-      child.style.visibility = 'visible';
+      setTimeout( function(){
+        var child = nlMenu.menu[id].children[1];
+        child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+        child.style.opacity = '1';
+        child.style.visibility = 'visible';
+        $nlHelpers.translate( child, 0, '', 0, '', 0 );
+      }, 150);
     },
     hide: function( id ){
-      console.log( child, id, nlMenu[id] );
-      var child = nlMenu[id].children[1];
-      console.log( child );
-      child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
-      child.style.opacity = '0';
-      child.style.visibility = 'hidden';
+      if( !id ){
+        var menuClass = document.getElementsByClassName("nlMenu");
+        if( menuClass ){
+          for( var i=0; menuClass.length > i; i++ ){
+            menuClass[i].children[1].style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+            menuClass[i].children[1].style.opacity = '0';
+            menuClass[i].children[1].style.visibility = 'hidden';  
+          }
+        }
+      }else{
+        //console.log( child, id, nlMenu.menu[id] );
+        var child = nlMenu.menu[id].children[1];
+        child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+        child.style.opacity = '0';
+        child.style.visibility = 'hidden';
+      }
     }
   };
   return nlMenu; 

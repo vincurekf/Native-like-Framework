@@ -57,11 +57,15 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     $rootScope.toastFalse = function(){
       console.log('Custom CB False');
     }
-    //
     $rootScope.toast.show('A am a Toast! Yum!', '', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
     //
-
-    $rootScope.menu.init('nlMenu');
+    
+    
+    $rootScope.menu.init();
+    $rootScope.menu.add('nlMenu');
+    $rootScope.log = function(){
+      console.log('EJ!');
+    }
     //$rootScope.menu.hide('nlMenu');
     /* examples of usage
     // set new options
