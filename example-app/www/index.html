@@ -28,13 +28,13 @@
 
   <!-- action button -->
   <div id="nlActionButton" class="switch">
-    <div class="action-button depth z1 option one" ng-click="toast.show('Action 2', 'top', toastOk, toastFalse ); drawer.togglePlus()">
+    <div class="action-button depth z1 option one" ng-click="toast.show({title: 'At the TOP!', position: 'top', timeout: 2500});">
         2
     </div>
-    <div class="action-button depth z1 option two" ng-click="toast.show('Action 1', '', toastOk, toastFalse ); drawer.togglePlus()">
+    <div class="action-button depth z1 option two" ng-click="toast.show({title: 'At the BOTTOM!', timeout: 2500});">
         1
     </div>
-    <div id="nlPlus" class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
+    <div id="nlPlus" class="action-button depth z1 plus">
       <span>
         +
       </span>
@@ -71,18 +71,35 @@
     </div>
   </div>
 
-  <!-- toggle icon for toggling menu -->
-  <div id="nlBurger" ng-click="drawer.toggle()">
+  <!-- toggle icon for toggling drawer -->
+  <div id="nlBurger">
     <div id="burger-top"></div>
     <div id="burger-center"></div>
     <div id="burger-bottom"></div>
+  </div>
+
+  <!-- secondary menu -->
+  <div id="nlMenu" class="main">
+    <div id="nlIcon">
+      <div id="dot-top"></div>
+      <div id="dot-center"></div>
+      <div id="dot-bottom"></div>
+    </div>
+    <div id="nlMenuContent">
+      <!-- place your menu content here -->
+      <ul>
+        <li ng-click="toast.show({title:'Selected Share',timeout: 2500})">Share</li>
+        <li ng-click="toast.show({title:'Selected Edit',timeout: 2500})">Edit</li>
+        <li ng-click="toast.show({title:'Thanks!',timeout: 1000})">Hug someone</li>
+      </ul>
+    </div>
   </div>
 
   <!-- stripe on the left of the screen to detect slide from side of the screen -->
   <div id="nlSwipe"></div>
 
   <!-- body of the menu drawer -->
-  <div id="nlDrawer" ng-click="drawer.hide()">
+  <div id="nlDrawer">
     <div class="topbar drawer large">
       <img class="gravatar depth z1" src="./img/free-flat-icons-set-thumb.jpg">
       <div class="username">
@@ -100,12 +117,12 @@
   </div>
 
   <!-- takes care of the overlay dimming -->
-  <div id="nlDimm" ng-click="drawer.hide();"></div>
+  <div id="nlDimm"></div>
   
   <!-- view content - used as a wrapper -->
   <div id="nlContent">
     <!-- your part of the code, views etc.. -->
-    <div ng-view="" class="page {{ title }}"></div>
+    <div id="nlInner" ng-view="" class="page {{ title }}"></div>
   </div>
 
   </body>

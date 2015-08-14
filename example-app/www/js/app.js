@@ -16,11 +16,11 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     $rootScope.burger = $nlFramework.burger;
     $rootScope.config = $nlFramework.config;
     $rootScope.toast = $nlFramework.toast;
+    $rootScope.menu = $nlFramework.menu;
     // show me config
     console.log( $rootScope.config );
 
     // Native-like Drawer is HERE! ---------------------------
-    // default options (all of them)
     var options = {
       maxWidth: 300,
       speed: 0.2,
@@ -56,9 +56,17 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     $rootScope.toastFalse = function(){
       console.log('Custom CB False');
     }
+    var options = {
+      title: 'I\'m a Toast! Yummy!',
+      trueCallback: $rootScope.toastOk,
+      falseCallback: $rootScope.toastFalse,
+      timeout: 2500 
+    }
+    $rootScope.toast.show( options );
     //
-    $rootScope.toast.show('A am a Toast! Yum!', '', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
-    //
+    
+    // initialize secondary menu
+    $rootScope.menu.init();
 
     /* examples of usage
     // set new options

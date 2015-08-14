@@ -1,7 +1,7 @@
 
-var exampleApp = angular.module('exampleApp.controllers', ['ionic', 'ngRoute', 'ngCordova']);
+var exampleApp = angular.module('exampleApp.controllers', ['ionic', 'ngRoute', 'ngCordova', 'nlFramework']);
 
-exampleApp.controller('AppCtrl', function($rootScope, $scope) {
+exampleApp.controller('AppCtrl', function($rootScope, $scope, $nlFramework) {
 	console.log( 'AppCtrl' );
 	$rootScope.title = 'AppCtrl';
 });
