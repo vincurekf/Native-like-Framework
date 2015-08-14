@@ -99,37 +99,37 @@
   #nlBurger #burger-bottom {
     top: 29px; }
 
-.nlMenu {
-  position: relative;
+#nlMenu {
+  position: fixed;
   display: block;
   z-index: 1104;
   height: 56px;
   width: 56px; }
-  .nlMenu.main {
+  #nlMenu.main {
     position: fixed;
     right: 0;
     top: 0; }
-  .nlMenu #icon {
+  #nlMenu #nlIcon {
     height: 56px;
     width: 56px; }
-  .nlMenu #dot-top, .nlMenu #dot-center, .nlMenu #dot-bottom {
-    background: #ffffff;
-    border-radius: 2px;
-    height: 4px;
-    left: 36px;
-    position: relative;
-    -webkit-transform-origin: 95% 50% 0;
-        -ms-transform-origin: 95% 50% 0;
-            transform-origin: 95% 50% 0;
-    width: 4px;
-    -webkit-backface-visibility: hidden; }
-  .nlMenu #dot-top {
-    top: 18px; }
-  .nlMenu #dot-center {
-    top: 22px; }
-  .nlMenu #dot-bottom {
-    top: 26px; }
-  .nlMenu #nlMenuContent {
+    #nlMenu #nlIcon #dot-top, #nlMenu #nlIcon #dot-center, #nlMenu #nlIcon #dot-bottom {
+      background: #ffffff;
+      border-radius: 2px;
+      height: 4px;
+      left: 36px;
+      position: relative;
+      -webkit-transform-origin: 95% 50% 0;
+          -ms-transform-origin: 95% 50% 0;
+              transform-origin: 95% 50% 0;
+      width: 4px;
+      -webkit-backface-visibility: hidden; }
+    #nlMenu #nlIcon #dot-top {
+      top: 18px; }
+    #nlMenu #nlIcon #dot-center {
+      top: 22px; }
+    #nlMenu #nlIcon #dot-bottom {
+      top: 26px; }
+  #nlMenu #nlMenuContent {
     background: #ffffff;
     color: #333333;
     position: absolute;
@@ -140,7 +140,7 @@
     padding: 0.5rem 0.9rem;
     z-index: 1104;
     visibility: hidden; }
-    .nlMenu #nlMenuContent li {
+    #nlMenu #nlMenuContent li {
       white-space: nowrap;
       line-height: 2rem; }
 

@@ -71,32 +71,22 @@
     </div>
   </div>
 
-  <!-- toggle icon for toggling menu -->
+  <!-- toggle icon for toggling drawer -->
   <div id="nlBurger" ng-click="drawer.toggle()">
     <div id="burger-top"></div>
     <div id="burger-center"></div>
     <div id="burger-bottom"></div>
   </div>
 
-  <!-- toggle icon for toggling menu -->
-  <!-- udelat pres ng-repeat, moznosti hazet do array 
-  arr = {
-    id: 1,
-    title: 'Title',
-    callback: function(){}
-  },{
-    id: 1,
-    title: 'Title',
-    callback: function(){}
-  };  
-  -->
-  <div id="nlMenu" class="nlMenu main">
-    <div id="icon" ng-click="menu.show('nlMenu')">
+  <!-- secondary menu -->
+  <div id="nlMenu" class="main">
+    <div id="nlIcon" ng-click="menu.show()">
       <div id="dot-top"></div>
       <div id="dot-center"></div>
       <div id="dot-bottom"></div>
     </div>
-    <div id="nlMenuContent" ng-click="menu.hide('nlMenu')">
+    <div id="nlMenuContent" ng-click="menu.hide()">
+      <!-- place your menu content here -->
       <ul>
         <li ng-click="toast.show('Selected Share','','','',2500)">Share</li>
         <li ng-click="toast.show('Selected Edit','','','',2500)">Edit</li>

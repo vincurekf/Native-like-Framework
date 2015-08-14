@@ -60,13 +60,9 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     $rootScope.toast.show('A am a Toast! Yum!', '', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
     //
     
-    
+    // initialize secondary menu
     $rootScope.menu.init();
-    $rootScope.menu.add('nlMenu');
-    $rootScope.log = function(){
-      console.log('EJ!');
-    }
-    //$rootScope.menu.hide('nlMenu');
+
     /* examples of usage
     // set new options
     setTimeout( function(){

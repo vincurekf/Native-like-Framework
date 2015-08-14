@@ -4,7 +4,6 @@ $secColor: #E53241;
 $white: #ffffff;
 $dark: #333333;
 
-// Basic drawer styles
 #nlDrawer{
 	position: fixed;
 	top: 0;
@@ -79,7 +78,7 @@ $dark: #333333;
 		}
 	}
 }
-// drawer dimmer to dimm background when the menu is openned
+
 #nlDimm{
 	position: fixed;
 	top: 0;
@@ -92,7 +91,7 @@ $dark: #333333;
 	visibility: hidden;
 	z-index: 1104;
 }
-// hamburger icon for toggle button in topbar
+
 #nlBurger {
   position: fixed;
   top: 0;
@@ -122,9 +121,9 @@ $dark: #333333;
   	top: 29px;
   }
 }
-//
-.nlMenu {
-	position: relative;
+
+#nlMenu {
+	position: fixed;
 	display: block;
 	z-index: 1104;
 	height: 56px;
@@ -134,29 +133,29 @@ $dark: #333333;
 		right: 0;
 		top: 0;
 	}
-	#icon{
+	#nlIcon{
 		height: 56px;
 	  width: 56px;
+	  #dot-top, #dot-center, #dot-bottom{
+			background: $white;
+			border-radius: 2px;
+			height: 4px;
+			left: 36px;
+			position: relative;
+			transform-origin: 95% 50% 0;
+			width: 4px;
+			-webkit-backface-visibility: hidden;
+	  }
+	  #dot-top{
+	  	top: 18px;
+	  }
+	  #dot-center{
+	  	top: 22px;
+	  }
+	  #dot-bottom{
+	  	top: 26px;
+	  }
 	}
-  #dot-top, #dot-center, #dot-bottom{
-		background: $white;
-		border-radius: 2px;
-		height: 4px;
-		left: 36px;
-		position: relative;
-		transform-origin: 95% 50% 0;
-		width: 4px;
-		-webkit-backface-visibility: hidden;
-  }
-  #dot-top{
-  	top: 18px;
-  }
-  #dot-center{
-  	top: 22px;
-  }
-  #dot-bottom{
-  	top: 26px;
-  }
 	#nlMenuContent{
 		background: $white;
 		color: $dark;
@@ -174,7 +173,7 @@ $dark: #333333;
 		}
 	}
 }
-// swipe stripe at the left edge of the screen
+
 #nlSwipe{
 	width: 15px;
 	height: 100%;
@@ -261,8 +260,7 @@ $dark: #333333;
 		width: 50%;
 	}
 }
-// BONUS
-// action button for your app!
+
 #nlActionButton{
   &.active{
   	.option{
