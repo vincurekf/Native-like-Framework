@@ -1,13 +1,15 @@
 ![Native-like Framework](title_image.jpg)
 # Native-like Framework
-Native-like **menu**, **pull-to-sync**, **action button**, **in-app-toast** notification and **burger menu icon** implementation for angular mobile/desktop apps.
+Native-like **menu drawer**, **pull-to-sync**, **action button**, **in-app-toast** notification, **three-dot-menu** and **burger menu icon** implementation for angular mobile/desktop apps.
 
 - using hammer.js for better touch support.
-- fully animated burger menu icon
-- animated action button (optional: see settings)
-- adjust content height (optional: see settings)
-- animated **pull-to-refresh** with callback (needs content-view: see settings)
+- fully animated **burger menu icon**
+- nice and smooth **menu drawer** (slide from left)
+- animated action button (optional: see [Configuration](#configuration))
+- adjust content height (optional: see [Configuration](#configuration))
+- animated **pull-to-refresh** with callback (needs content-view: see [Configuration](#configuration))
 - **in-app-toast** messages with true/false callback
+- **three-dot-menu** for secondary actions
 - ~13kB minified.
 
 You can find [working example here](http://nlmd.vincurekf.cz).
@@ -17,7 +19,7 @@ If you are developing application for android with Phonegap or Ionic or other al
 this is exactly for you. 
 I've been struggling with menu implementations, found some but never got the feel and usability i wanted. No touch support or slow/no animations, if there was animations, they mostly have lags.
 
-With this menu you have touch support, slide open/close, toggle function, action button, pull-to-refresh, in app toast notfication and all with smooth hardware accelerated animations.
+With this menu you have touch support, slide open/close, toggle function, action button, pull-to-refresh, in app toast notfication, three-dot-menu and all with smooth hardware accelerated animations.
 
 ## Basic usage
 Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your project:
@@ -77,6 +79,23 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
     <div id="burger-bottom"></div>
   </div>
 
+  <!-- secondary menu -->
+  <div id="nlMenu" class="main">
+    <div id="nlIcon" ng-click="menu.show()">
+      <div id="dot-top"></div>
+      <div id="dot-center"></div>
+      <div id="dot-bottom"></div>
+    </div>
+    <div id="nlMenuContent" ng-click="menu.hide()">
+      <!-- place your menu content here -->
+      <ul>
+        <li ng-click="toast.show('Selected Share','','','',2500)">Share</li>
+        <li ng-click="toast.show('Selected Edit','','','',2500)">Edit</li>
+        <li ng-click="toast.show('Selected Hug someone','','','',2500)">Hug someone</li>
+      </ul>
+    </div>
+  </div>
+
   <!-- stripe on the left of the screen to detect slide from side of the screen -->
   <div id="nlSwipe"></div>
 
@@ -107,6 +126,8 @@ So you have:
 ```#nlBurger``` the burger menu icon
 
 ```#nlRefresh``` pull-to-refresh indicator
+
+```#nlMenu``` three-dot-menu in the top right corner
 
 ```#nlToast``` toast notification
 
@@ -145,6 +166,11 @@ You can use the parts separately:
     - ```falseCallback``` can be any function (optional)
     - ```timeout```: if you don't specify timeout, notification stays until canceled by user (optional)
 
+- **$nlMenu**
+ - ```init()```: initialize the secondary menu
+ - ```show()```: shows the menu
+ - ```hide()```: hides the menu
+
 - **$nlConfig**: contains all options and variables of nlFramework
   - ```options```: contains drawer and burger options (see [Configuration](#configuration))
     - ```burger```: burger options only
@@ -158,6 +184,7 @@ or You can use **nlFramework** and then call its parts:
   - ```burger```: shortcut to **$nlBurger**
   - ```refresh```: shortcut to **$nlRefresh**
   - ```toast```: shortcut to **$nlToast**
+  - ```menu```: shortcut to **$nlMenu**
   - ```config```: shortcut to **$nlConfig**
 
 ## Configuration
@@ -195,7 +222,7 @@ Now you just need to initialize your drawer. In your main javascript file where 
 var exampleApp = angular.module('exampleApp', ['ionic', 'nlFramework']);
 
 // include all parts of nlFramework
-exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlRefresh, $nlConfig, $nlToast) {
+exampleApp.run(function($rootScope, $ionicPlatform, $nlDrawer, $nlBurger, $nlRefresh, $nlConfig, $nlToast, $nlMenu) {
 
 // Or include just core module
 exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework)
@@ -206,6 +233,7 @@ $rootScope.refresh = $nlFramework.refresh;
 $rootScope.burger = $nlFramework.burger;
 $rootScope.config = $nlFramework.config;
 $rootScope.toast = $nlFramework.toast;
+$rootScope.menu = $nlFramework.menu;
 
   $ionicPlatform.ready(function() {
 
@@ -254,6 +282,9 @@ $rootScope.toast = $nlFramework.toast;
     };
     //
 
+    // initialize three-dot-menu
+    $rootScope.menu.init();
+
     // in app toast message
     $rootScope.toast.init();
     // false callbach function
@@ -275,14 +306,13 @@ $rootScope.toast = $nlFramework.toast;
     //
 
     // If you like you can register backbutton handle --------
-    // this is for ionic but you can use any whatever you want
     $ionicPlatform.registerBackButtonAction(function () {
-      if ( !$nlDrawer.openned ) {
+      if ( !$rootScope.drawer.openned ) {
         // thedrawer is closed - exit the app
         navigator.app.exitApp();
       } else {
         // thedrawer is openned - close
-        $nlDrawer.hide();
+        $rootScope.drawer.hide();
       }
     }, 100);
     // -------------------------------------------------------

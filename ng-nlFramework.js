@@ -12,18 +12,19 @@ var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
     navToggle, viewContent,
     burger, burgerTop, burgerBottom,
     topbar, topbarH, refEl,
-    toast, toastH;
+    toast, toastH, menu, menuContent;
 //
 
 angular.module('nlFramework', [])
 .factory('$nlFramework', 
-  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', 
-  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast){
+  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', 
+  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast, $nlMenu){
   var nlFramework = {
     drawer: $nlDrawer,
     burger: $nlBurger,
     refresh: $nlRefresh,
     toast: $nlToast,
+    menu: $nlMenu,
     config: $nlConfig
   };
   return nlFramework;
@@ -52,6 +53,48 @@ angular.module('nlFramework', [])
         startScale: 1,
         endScale: 0.7
       }
+    }
+  }
+})
+.factory('$nlHelpers', function(){
+  return {
+    translate: function(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo, opacity){
+      var x = x || 0,
+          y = y || 0,
+          pmX = pmX || '',
+          pmY = pmY || '',
+          pmDeg = pmDeg || '',
+          width = width || false,
+          el = myElement;
+      
+      if ( el.id === 'nlRefresh' ){
+        if ( scale ){
+          scale = 'scale3d('+scale+','+scale+',1)';
+        }else{
+          scale = 'scale3d(1,1,1)';
+        }
+      }else{
+        scale = scale ? 'scale3d('+scale+',1,1)' : '';
+      }
+      
+      if ( el.id === 'burger-top' ){
+        el.style.transformOrigin = '100% 100%';
+      }else if ( el.id === 'burger-bottom' ){
+        el.style.transformOrigin = '100% 0%';
+      }
+      el.style.transform = 'translate3d('+pmX+x+'px, '+pmY+y+'px, 0) rotate3d( 0, 0, 1, '+pmDeg+deg+'deg ) ' + scale;
+      el.style.webkitTransform = 'translate('+pmX+x+'px, '+pmY+y+'px) translateZ(0) rotate('+pmDeg+deg+'deg) ' + scale;
+      if ( width ) el.style.width = width+'px';
+      if ( opacity ) el.style.opacity = opacity;
+      if ( width ) el.style['max-width'] = width+'px';
+      // only for mozzila, opera and IE
+      if ( mozieo ) el.style.msTransform = el.style.MozTransform = el.style.OTransform = 'translateX('+pmX+x+'px) translateY('+pmY+y+'px) rotate('+pmDeg+deg+'deg)';
+    },
+    merge: function(obj1,obj2){
+      var obj3 = {};
+      for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+      for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+      return obj3;
     }
   }
 })
@@ -121,48 +164,6 @@ angular.module('nlFramework', [])
     }
   }
 }])
-.factory('$nlHelpers', function(){
-  return {
-    translate: function(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo, opacity){
-      var x = x || 0,
-          y = y || 0,
-          pmX = pmX || '',
-          pmY = pmY || '',
-          pmDeg = pmDeg || '',
-          width = width || false,
-          el = myElement;
-      
-      if ( el.id === 'nlRefresh' ){
-        if ( scale ){
-          scale = 'scale3d('+scale+','+scale+',1)';
-        }else{
-          scale = 'scale3d(1,1,1)';
-        }
-      }else{
-        scale = scale ? 'scale3d('+scale+',1,1)' : '';
-      }
-      
-      if ( el.id === 'burger-top' ){
-        el.style.transformOrigin = '100% 100%';
-      }else if ( el.id === 'burger-bottom' ){
-        el.style.transformOrigin = '100% 0%';
-      }
-      el.style.transform = 'translate3d('+pmX+x+'px, '+pmY+y+'px, 0) rotate3d( 0, 0, 1, '+pmDeg+deg+'deg ) ' + scale;
-      el.style.webkitTransform = 'translate('+pmX+x+'px, '+pmY+y+'px) translateZ(0) rotate('+pmDeg+deg+'deg) ' + scale;
-      if ( width ) el.style.width = width+'px';
-      if ( opacity ) el.style.opacity = opacity;
-      if ( width ) el.style['max-width'] = width+'px';
-      // only for mozzila, opera and IE
-      if ( mozieo ) el.style.msTransform = el.style.MozTransform = el.style.OTransform = 'translateX('+pmX+x+'px) translateY('+pmY+y+'px) rotate('+pmDeg+deg+'deg)';
-    },
-    merge: function(obj1,obj2){
-      var obj3 = {};
-      for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-      for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-      return obj3;
-    }
-  }
-})
 .factory('$nlDrawer', [ '$nlConfig', '$nlBurger', '$nlHelpers', function($nlConfig, $nlBurger, $nlHelpers){
   var nlDrawer = {
     init: function( config ){
@@ -485,7 +486,9 @@ angular.module('nlFramework', [])
             }, ($nlConfig.options.speed*1000));
           }else{
             refEl.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
-            $nlHelpers.translate(refEl, $nlConfig.center, '', 0, '', 0, ''); 
+            $nlHelpers.translate(refEl, $nlConfig.center, '', 0, '', 0, '');
+            $nlConfig.syncTrue = false;
+            $nlConfig.syncing = false;
           }
         }, 50 );
       }
@@ -529,6 +532,9 @@ angular.module('nlFramework', [])
         nlToast.touchEnd( toast );
     },
     show: function( text, position, trueCb, falseCb, timeout ){
+      if( $nlConfig.runnigTimeout ) clearTimeout( $nlConfig.runnigTimeout );
+      console.log( $nlConfig.runnigTimeout );
+
       if( position === 'top' ){
         toast.style.top = '75px';
         toast.style.bottom = 'auto';
@@ -536,7 +542,6 @@ angular.module('nlFramework', [])
         toast.style.top = '';
         toast.style.bottom = '1rem';
       }
-      console.log( trueCb, falseCb );
 
       if( typeof trueCb === 'function' ){
         nlToast.trueCb = trueCb;
@@ -549,7 +554,7 @@ angular.module('nlFramework', [])
       }else{
         nlToast.falseCb =  function(){};
       }
-      
+       
       if(text) toast.innerHTML = text;
       
       if( position === 'top' ){
@@ -564,7 +569,7 @@ angular.module('nlFramework', [])
         $nlHelpers.translate( toast, 0, '', 0, '', 0, '' );
       }, 100);
       if( timeout ){
-        setTimeout( function(){
+        $nlConfig.runnigTimeout = setTimeout( function(){
           nlToast.hide( true );
         }, timeout);
       }
@@ -602,18 +607,11 @@ angular.module('nlFramework', [])
     },
     move: function( ev ){
       toast.style.transition = 'none';
-      var pos = ev.center.x - $nlConfig.deviceW;
-      nlToast.holdPos = nlToast.holdPos ? nlToast.holdPos : pos;
-      pos = pos + Math.abs(nlToast.holdPos);
-      // pos = pos < 0 ? pos : 0;
       nlToast.direction = ev.type === 'panleft' ? 'left' : 'right';
-      // calculate opacity of background dimmer based on touch position (within max width range 0-100%)
-      // move the drawer
-      toast.style.transition = 'none';
+      nlToast.holdPos = nlToast.holdPos ? nlToast.holdPos : pos;
+      var pos = ev.center.x - $nlConfig.deviceW;
+      pos = pos + Math.abs(nlToast.holdPos);
       $nlHelpers.translate( toast, pos, '', 0, '', 0 );
-      // if this is final touch (mouse move) event
-      // show or hide the drawer (pannig left = open, right = close)
-      // and clean our temp values
       if ( ev.isFinal ){
         if ( nlToast.direction === 'left' ){
           nlToast.left();
@@ -639,20 +637,13 @@ angular.module('nlFramework', [])
         }, false);
       };
       var onEnd = function(e, touch){
-        // get the touch reference
-        // reference first touch point for this event
-        var touchobj = touch ? e.changedTouches[0] : e; 
-        // if the drawer is pulled more than 50% of its maxWidth
+        var touchobj = touch ? e.changedTouches[0] : e;
         var isBigger = touchobj.clientX > ($nlConfig.deviceW/2);
-        // combined with the direction
-        
         var isLeft = nlToast.direction === 'left';
         var isRight = nlToast.direction === 'right';
         var endTrue = nlToast.endTrue;
-        // decide if show or hide the drawer
         if( endTrue ) nlToast.center();
-
-        // clean up our temp variables
+        // clean up temp variables
         nlToast.direction = false;
         nlToast.endTrue = false;
         nlToast.holdPos = null;
@@ -667,4 +658,32 @@ angular.module('nlFramework', [])
     }
   };
   return nlToast; 
+}])
+.factory('$nlMenu', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
+  var nlMenu = {
+    init: function(){
+      menu = document.getElementById('nlMenu');
+      menuContent = menu.children[1];
+      if ( !$nlConfig.options.modifyViewContent ){
+        viewContent = document.getElementById( 'nlContent' );
+        viewContentH = new Hammer(viewContent);
+      }
+      viewContentH.on('tap', function( ev ){
+        nlMenu.hide();
+      });
+    },
+    show: function(){
+      //child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+      menuContent.style.visibility = 'visible';
+      menuContent.style.opacity = '1';
+      $nlHelpers.translate( menuContent, 0, '', 0, '', 0 );
+    },
+    hide: function(){
+      //child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
+      menuContent.style.visibility = 'hidden';
+      menuContent.style.opacity = '0';
+      $nlHelpers.translate( menuContent, 0, '', 0, '', 0 );
+    }
+  };
+  return nlMenu; 
 }]);
