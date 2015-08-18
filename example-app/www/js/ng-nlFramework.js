@@ -185,11 +185,12 @@ angular.module('nlFramework', [])
         $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
       // modify view-content,
         if ( $nlConfig.options.modifyViewContent ){
+          document.body.style.overflow = 'auto';
           viewContent = document.getElementById( 'nlContent' );
           viewContentH = new Hammer(viewContent);
-          viewContent.style.position = 'fixed';
+          viewContent.style.position = 'relative';
           viewContent.style.width = $nlConfig.deviceW+'px';
-          viewContent.style.height = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
+          viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           viewContent.style.top = $nlConfig.options.topBarHeight+'px';
         }
       // use action button?
@@ -205,9 +206,9 @@ angular.module('nlFramework', [])
           $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
           $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
           if ( $nlConfig.options.modifyViewContent ){
-            viewContent.style.position = 'fixed';
+            viewContent.style.position = 'relative';
             viewContent.style.width = $nlConfig.deviceW+'px';
-            viewContent.style.height = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
+            viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           }
           $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
       if ( !nlDrawer.openned ){
@@ -396,15 +397,23 @@ angular.module('nlFramework', [])
         $nlConfig.syncTrue = false;
         $nlConfig.scroll.top = 0;
         $nlConfig.center = ($nlConfig.deviceW/2) - (refEl.offsetWidth/2);
-      // chech for scroll position
-        window.addEventListener("scroll", function(event) {
-          $nlConfig.scroll.top   = window.pageYOffset || document.documentElement.scrollTop;
-          $nlConfig.scroll.left  = window.pageXOffset || document.documentElement.scrollLeft;
+      // check for scroll position
+        var debugEl = document.getElementById( 'debug' );
+        document.body.addEventListener("scroll", function(event) {
+          //$nlConfig.scroll.top   = window.pageYOffset || document.body.scrollTop;
+          $nlConfig.scroll.top   = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+          debugEl.innerHTML = $nlConfig.scroll.top;
         }, false);
       // move the element on pan
         topbarH.on("pan", function( ev ){
           nlRefresh.move( ev );
         });
+        
+        viewContentH.on("pan", function( ev ){
+          // if is scrolled to top
+          nlRefresh.move( ev );
+         });
+
       // register touch end event
         nlRefresh.touchEnd( topbar );
         nlRefresh.touchEnd( viewContent );
@@ -412,15 +421,17 @@ angular.module('nlFramework', [])
     move: function( ev ){
       $nlConfig.center = ($nlConfig.deviceW/2) - (refEl.offsetWidth/2);
       if ( !$nlConfig.syncing ){
-        if ( $nlConfig.scroll.top < 1 ){
+        if ( $nlConfig.scroll.top === 0 ){
           refEl.style.transition = 'none';
           var end = Math.floor($nlConfig.deviceH/2);
-          var perc = ((100/$nlConfig.deviceH) * ev.center.y);
-          if ( ev.center.y < end ){
+          //var yCenter = ev.center.y;
+          var yCenter = ev.deltaY;
+          var perc = ((100/$nlConfig.deviceH) * yCenter);
+          if ( yCenter < end ){
             $nlConfig.syncTrue = false;
             var y = (perc/2) * (end/100);
             var opacity = (perc*2) * (0.5/100);
-            var rotate = 0.36 * (end/100 * (ev.center.y));
+            var rotate = 0.36 * (end/100 * (yCenter));
             refIcon.style.transition = 'none';
             refIcon.style.fill = $nlConfig.options.refresh.defaultColor;
             $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', opacity);
@@ -428,12 +439,12 @@ angular.module('nlFramework', [])
           }else{
             refIcon.style.transition = 'fill '+$nlConfig.options.speed*4+'s '+$nlConfig.options.animation;
             $nlConfig.syncTrue = true;
-            var perc = (end/100 * (ev.center.y - end));
-            var percY = ((100/$nlConfig.deviceH) * ev.center.y);
-            var percFull = ((100/($nlConfig.deviceH/2)) * (ev.center.y - end) );
+            var perc = (end/100 * (yCenter - end));
+            var percY = ((100/$nlConfig.deviceH) * yCenter);
+            var percFull = ((100/($nlConfig.deviceH/2)) * (yCenter - end) );
             var y = percY/2 * (end/100);
                 y = y - ((y/100)*percFull)/3.5;
-            var rotate = 0.36 * (end/100 * (ev.center.y));
+            var rotate = 0.36 * (end/100 * (yCenter));
             refIcon.style.fill = $nlConfig.options.refresh.activeColor;
             $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', '1');
             $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);

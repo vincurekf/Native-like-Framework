@@ -213,7 +213,7 @@
   width: 42px;
   height: 42px;
   line-height: 42px;
-  position: absolute;
+  position: fixed;
   text-align: center;
   -webkit-transform-origin: 50% 50% 0;
       -ms-transform-origin: 50% 50% 0;
