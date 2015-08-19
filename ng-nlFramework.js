@@ -198,7 +198,12 @@ angular.module('nlFramework', [])
       // use action button?
         if ( $nlConfig.options.useActionButton ){
           $nlElements.actionPanel = document.getElementById('nlActionButton');
+          $nlElements.actionPanelH = new Hammer($nlElements.actionPanel);
           $nlElements.actionPlus = document.getElementById('nlPlus');
+          $nlElements.actionPlusH = new Hammer($nlElements.actionPlus);
+          $nlElements.actionPanelH.on("tap", function(ev) {
+            nlDrawer.togglePlus();
+          });
         }
       // set initial styles (position and size)
         $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;

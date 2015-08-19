@@ -53,11 +53,11 @@ To start using **nlFramework** in your app include
 ```
 
 ## nlFramework modules
-Lets take a look at all the modules that **nlFramework** 
+Lets take a look at all the modules that **nlFramework** has.
 
 ### $nlDrawer
 To make this module work, first you need to insert this HTML elements:   
-**#nlDrawer**, **#nlSwipe**, **nlBurger** (see [$nlBurger](#$nlburger)), **#nlTopbar** and **#nlDimm**:
+**#nlDrawer**, **#nlSwipe**, **#nlBurger** (see [$nlBurger](#nlburger)), **#nlTopbar** and **#nlDimm**:
 ```html
 <!-- body of the menu drawer -->
 <div id="nlDrawer"></div>
@@ -82,7 +82,7 @@ $nlDrawer.init();
 
 And the work is done.   
 Here is what the module contains:
-```js
+
 - **$nlDrawer**
  - ```init()```: initializes the drawer
  - ```show()```: shows the drawer (slide in)
@@ -90,7 +90,7 @@ Here is what the module contains:
  - ```toggle()```: toggles the drawer (show/hide)
  - ```togglePlus()```: toggles the action button (ON/OFF)
  - ```openned```: returns true/false if the drawer is openned/closed
-```
+
 
 
 ### $nlBurger
@@ -105,11 +105,11 @@ This simple module takes care of the burger menu icon animation.
 ```
 
 Here is what **$nlBurger** can do:
-```js
+
 - **$nlBurger**
   - ```toggle(true)```: Toggles the burger ON - active
   - ```toggle(false)```: Toggles the burger OFF - inactive
-```
+
 
 
 ### $nlRefresh
@@ -152,13 +152,13 @@ $nlRefresh.callback = function(){
 ```
 
 Here is what the module contains:
-```js
+
 - **$nlRefresh**
   - ```init()```: call in your app if you wish to use **pull-to-sync**
   - ```callback()```: your custom callback function
     - remeber to call ```syncEnd()``` at the end of your process to end the animation
   - ```syncEnd()```: as mentioned above, this ends the syncing animation
-```
+
 
 
 ### $nlToast
@@ -187,17 +187,16 @@ $nlTaost.show( options )
 Boom, toast!
 
 Here is what **$nlToast** contains:
-```js
+
 - **$nlToast**
   - ```init()```: initialize the toast notifications
-  - ```show(options)```: show notification
-    - accepted options:
+  - ```show(options)```: show notification, accepted options:
     - ```text``` can be any string
     - ```position``` display 'top' or 'bottom' toast (optional)
     - ```trueCallback``` can be any function (optional)
     - ```falseCallback``` can be any function (optional)
     - ```timeout```: number (miliseconds), if you don not set the timeout, notification stays until canceled by user (optional)
-```
+
 
 #### $nlMenu
 three-dot-menu in the top right corner, this is very simple to use, just place your ul->li items with callback here and initialize - tadaa.
@@ -231,12 +230,11 @@ $nlMenu.hide();
 ```
 
 And that is all what **$nlMenu** can do:
-```js
+
 - **$nlMenu**
   - ```init()```: initialize the secondary menu
   - ```show()```: shows the menu
   - ```hide()```: hides the menu
-```
 
 
 ### Additional stuff
@@ -251,17 +249,19 @@ Is where you content belongs, this part is optional and not needed for **nlFrame
 ```
 
 #### #nlActionButton
-action button with two sub actions which will show after the main (**#nlPlus**) button is clicked/tapped
+Action button with two sub actions which will show after the main (**#nlPlus**) button is clicked/tapped.
+
+If you want to use this You need to enable it in configuration when initializing the drawer, see [Configuration](#configuration) for more info.
 ```html
 <!-- action button -->
 <div id="nlActionButton" class="switch">
-  <div class="action-button depth z1 option one" ng-click="drawer.togglePlus()">
-      2
+  <div class="action-button option one" ng-click="toast.show({title: 'At the TOP!', position: 'top', timeout: 2500});">
+    2
   </div>
-  <div class="action-button depth z1 option two" ng-click="drawer.togglePlus()">
-      1
+  <div class="action-button option two" ng-click="toast.show({title: 'At the BOTTOM!', timeout: 2500});">
+    1
   </div>
-  <div id="nlPlus" class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
+  <div id="nlPlus" class="action-button plus">
     <span>
       +
     </span>
@@ -271,16 +271,29 @@ action button with two sub actions which will show after the main (**#nlPlus**) 
 
 ### Objects
 
-Apart from [$nlDrawer](#$nldrawer), [$nlBurger](#$nlburger), [$nlRefresh](#$nlrefresh), [$nlToast](#$nltoast) and [$nlMenu](#$nlmenu) 
-there are also [$nlConfig](#$nlconfig) and core module with shortcuts to all other modules [$nlFramework](#$nlframework).   
+Apart from [$nlDrawer](#nldrawer), [$nlBurger](#nlburger), [$nlRefresh](#nlrefresh), [$nlToast](#nltoast) and [$nlMenu](#nlmenu) 
+there are also [$nlConfig](#nlconfig) which contains all the settings, and core module [$nlFramework](#nlframework) with shortcuts to all other modules.   
 
-### $nlConfig
-You can set custom configuration of some modules and thier HTML elements. **$nlConfig** holds the configuration of all the modules. 
+#### $nlConfig
+You can set custom configuration of some modules and thier HTML elements. 
+**$nlConfig** holds the configuration of all the modules. 
 
 - **$nlConfig**: contains all options and variables of nlFramework
   - ```options```: contains drawer and burger options (see [Configuration](#configuration))
     - ```burger```: burger options only
     - ```refresh```: pull-to-refresh options
+
+#### $nlFramework
+You can use the parts separately or use this one module  which shortcuts to all other modules:
+
+- **$nlFramework**
+  - ```drawer()```: shortcut to [$nlDrawer](#nldrawer)**
+  - ```burger()```: shortcut to **$nlBurger**
+  - ```refresh()```: shortcut to **$nlRefresh**
+  - ```toast()```: shortcut to **$nlToast**
+  - ```menu()```: shortcut to **$nlMenu**
+  - ```config```: shortcut to **$nlConfig**
+  - ```set()```: set **nlFramework** options (see [Configuration](#configuration))
 
 ### Configuration
 You can use **$nlFramework** function ```set()``` to set options.
@@ -313,27 +326,14 @@ var options = {
 $nlFramework.set( options );
 ```
 
-#### $nlFramework
-You can use the parts separately or use this one module  which shortcuts to all other modules:
-
-- **$nlFramework**
-  - ```drawer()```: shortcut to [$nlDrawer](#$nldrawer)**
-  - ```burger()```: shortcut to **$nlBurger**
-  - ```refresh()```: shortcut to **$nlRefresh**
-  - ```toast()```: shortcut to **$nlToast**
-  - ```menu()```: shortcut to **$nlMenu**
-  - ```config```: shortcut to **$nlConfig**
-  - ```set()```: set **nlFramework** options (see [Configuration](#configuration))
-
-
 ### Styles
 There is **ng-nativeDrawer.scss** file with default styles and colors which are there for you prepared to customize the look of nlFramework parts however you like.
 
 ### Example code
-Here is example of all modules in one file.   
 In your main javascript file where you start your angular app 
-you need to initialize the modules:
+you need to initialize the modules.
 
+Here is example of all modules in one file:
 ```js
 // load nlFramework in your app
 var exampleApp = angular.module('exampleApp', ['ionic', 'nlFramework']);
@@ -436,12 +436,15 @@ $rootScope.menu = $nlFramework.menu;
   });
 });
 ```
+
 ## Example app
 There is example app alongside with its source code, so feel free to check it and play with it :)
-I hope this will help you.
+The app is [here](example-app/build).
+
 
 ## Schmeckels
-If You feel fancy You can donate me some [schmeckels](https://www.youtube.com/watch?v=-D_422Z3rUE)!
+I hope this will help you. And if You feel fancy,   
+You can send me some [schmeckels](https://www.youtube.com/watch?v=-D_422Z3rUE)!
 ```
 Bitcoin: 35VFPig1euHDiiGhG4LpSqAAev5FKqU3MN
 ```

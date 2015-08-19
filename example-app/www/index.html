@@ -28,13 +28,13 @@
 
   <!-- action button -->
   <div id="nlActionButton" class="switch">
-    <div class="action-button depth z1 option one" ng-click="toast.show('Action 2', 'top', toastOk, toastFalse ); drawer.togglePlus()">
+    <div class="action-button depth z1 option one" ng-click="toast.show({title: 'At the TOP!', position: 'top', timeout: 2500});">
         2
     </div>
-    <div class="action-button depth z1 option two" ng-click="toast.show('Action 1', '', toastOk, toastFalse ); drawer.togglePlus()">
+    <div class="action-button depth z1 option two" ng-click="toast.show({title: 'At the BOTTOM!', timeout: 2500});">
         1
     </div>
-    <div id="nlPlus" class="action-button depth z1 plus" ng-click="drawer.togglePlus()">
+    <div id="nlPlus" class="action-button depth z1 plus">
       <span>
         +
       </span>
