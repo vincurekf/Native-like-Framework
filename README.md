@@ -287,12 +287,12 @@ You can set custom configuration of some modules and thier HTML elements.
 You can use the parts separately or use this one module  which shortcuts to all other modules:
 
 - **$nlFramework**
-  - ```drawer()```: shortcut to [$nlDrawer](#nldrawer)**
-  - ```burger()```: shortcut to **$nlBurger**
-  - ```refresh()```: shortcut to **$nlRefresh**
-  - ```toast()```: shortcut to **$nlToast**
-  - ```menu()```: shortcut to **$nlMenu**
-  - ```config```: shortcut to **$nlConfig**
+  - ```drawer()```: shortcut to [$nlDrawer](#nldrawer)
+  - ```burger()```: shortcut to [$nlBurger](#nlburger)
+  - ```refresh()```: shortcut to [$nlRefresh](#nlrefresh)
+  - ```toast()```: shortcut to [$nlToast](#nltoast)
+  - ```menu()```: shortcut to [$nlMenu](#nlmenu)
+  - ```config```: shortcut to [$nlConfig](#nlconfig)
   - ```set()```: set **nlFramework** options (see [Configuration](#configuration))
 
 ### Configuration
