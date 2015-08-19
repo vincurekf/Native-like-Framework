@@ -326,13 +326,8 @@ var options = {
 $nlFramework.set( options );
 ```
 
-<<<<<<< HEAD
 ### Styles
 There is **ng-nativeDrawer.scss** file with default styles and colors which are there for you prepared to customize the look of nlFramework parts however you like.
-=======
-## Styles
-There is **ng-nlFramework.scss** file with default styles and color which are there for you prepared to customize the look of menu however you like.
->>>>>>> origin/master
 
 ### Example code
 In your main javascript file where you start your angular app 
