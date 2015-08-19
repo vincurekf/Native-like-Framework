@@ -5,32 +5,136 @@ Native-like **menu drawer**, **pull-to-sync**, **action button**, **in-app-toast
 - using hammer.js for better touch support.
 - fully animated **burger menu icon**
 - nice and smooth **menu drawer** (slide from left)
-- animated action button (optional: see [Configuration](#configuration))
-- adjust content height (optional: see [Configuration](#configuration))
-- animated **pull-to-refresh** with callback (needs content-view: see [Configuration](#configuration))
+- animated **pull-to-refresh** with callback
 - **in-app-toast** messages with true/false callback
 - **three-dot-menu** for secondary actions
+- animated action button (optional: see [Configuration](#configuration))
+- adjust content height (optional: see [Configuration](#configuration))
 - ~13kB minified.
 
 You can find [working example here](http://nlmd.vincurekf.cz).
 
-## What is this for?
+## Content
+  - [Why this?](#why-this)
+  - [Getting started](#getting-started)
+  - [Using elements](#basic-usage)
+
+### Why this?
 If you are developing application for android with Phonegap or Ionic or other alternative,
 this is exactly for you. 
 I've been struggling with menu implementations, found some but never got the feel and usability i wanted. No touch support or slow/no animations, if there was animations, they mostly have lags.
 
-With this menu you have touch support, slide open/close, toggle function, action button, pull-to-refresh, in app toast notfication, three-dot-menu and all with smooth hardware accelerated animations.
+With **nlFramework** you have touch support, slide open/close/toggle menu, action button, pull-to-refresh, in app toast notfication, three-dot-menu and all with smooth hardware accelerated animations.
 
-## Basic usage
-Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your project:
+### Getting started
+To start using **nlFramework** in your app include 
+**hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** in your project:
 ```html
 <script src="hammer.js"></script>
 <script src="ng-nlFramework-min.js"></script>
 <link href="ng-nlFramework.css" rel="stylesheet">
 ```
 
-## Html elements
-**nlFramework** uses these elements to work with,
+## Using elements
+**nlFramework** uses these elements to work with:
+
+#### #nlSwipe
+small stripe to detect swipe from the edge
+```html
+<!-- stripe on the left of the screen to detect slide from side of the screen -->
+<div id="nlSwipe"></div>
+```
+
+#### #nlDrawer
+the main element which contains your menu, you can style this as you wish (like every other element).
+```html
+<!-- body of the menu drawer -->
+<div id="nlDrawer" ng-click="drawer.hide()">
+</div>
+```
+
+#### #nlDimm
+dimms the background when drawer is shown
+```html
+<!-- takes care of the overlay dimming -->
+<div id="nlDimm" ng-click="drawer.hide();"></div>
+```
+
+#### #nlContent
+which is where you content belongs, this part is optional and not needed for **nlFramework** to work. If you are using it, you must add add nlInner to your content element (in this case I am rendering my content in ng-view so that element must have id nlInner), #nlInner just adds basic styles to make the content allways atleast 100% height to fill up the space. (you can see ng-nlFramework.css/scss, nothing fancy)
+```html
+<!-- view content - used as a wrapper -->
+<div id="nlContent">
+  <!-- your part of the code, views etc.. -->
+  <div id="nlInner" ng-view=""></div>
+</div>
+```
+
+#### #nlBurger
+nlFramework has its own burger menu to make animation possible, it's uset for toggling the menu and is allways visible, default position is in the left top corner above **#nlTopbar**
+```html
+<!-- toggle icon for toggling menu -->
+<div id="nlBurger" ng-click="drawer.toggle()">
+  <div id="burger-top"></div>
+  <div id="burger-center"></div>
+  <div id="burger-bottom"></div>
+</div>
+```
+
+#### #nlTopbar
+I assume you want to have topbar in your app, this is it in its simpliest form. It's important for **nlRefresh** because this is the starting point of pulling down.
+```html
+<!-- top bar with title ( current cestion, action, etc.) -->
+<div id="nlTopbar" class="depth z1">
+</div>
+```
+
+#### #nlRefresh
+pull-to-refresh indicator, is hidden behind **#nlTopbar** and waits for pulling to show itself.
+```html
+<!-- pull-to-refresh indicator -->
+<div id="nlRefresh">
+  <svg version="1.1" id="reload-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 342.5 342.5" style="enable-background:new 0 0 342.5 342.5;" xml:space="preserve">
+  <path d="M254.37,22.255c-1.161-0.642-2.53-0.795-3.803-0.428c-1.274,0.367-2.35,1.226-2.992,2.387l-21.758,39.391
+    c-1.335,2.417-0.458,5.459,1.96,6.794C264.616,90.748,287.5,129.495,287.5,171.52c0,63.649-51.782,115.431-115.431,115.431
+    S56.638,235.169,56.638,171.52c0-23.888,7.557-47.427,21.382-66.897l34.478,34.478c1.338,1.337,3.315,1.806,5.109,1.21
+    c1.795-0.596,3.101-2.152,3.374-4.024L139.963,6.271c0.228-1.563-0.295-3.141-1.412-4.258c-1.117-1.117-2.7-1.639-4.258-1.412
+    L4.278,19.584c-1.872,0.273-3.428,1.579-4.023,3.374c-0.596,1.795-0.127,3.772,1.21,5.109l37.292,37.292
+    C14.788,95.484,1.638,133,1.638,171.52c0,93.976,76.455,170.431,170.431,170.431c93.976,0,170.431-76.455,170.431-170.431
+    C342.5,109.478,308.731,52.283,254.37,22.255z"/>
+  </svg>
+</div>
+```
+
+#### #nlMenu
+three-dot-menu in the top right corner, this is very simple to use, just place your ul->li items with callback here and initialize - tadaa.
+
+```html
+<!-- secondary three-dot-menu -->
+<div id="nlMenu" class="main">
+  <!-- do not remove this -->
+  <div id="nlIcon" ng-click="menu.show()">
+    <div id="dot-top"></div>
+    <div id="dot-center"></div>
+    <div id="dot-bottom"></div>
+  </div>
+  <div id="nlMenuContent" ng-click="menu.hide()">
+    <!-- place your menu content here -->
+    <ul>
+      <li ng-click="toast.show('Selected Share','','','',2500)">Share</li>
+      <li ng-click="toast.show('Selected Edit','','','',2500)">Edit</li>
+      <li ng-click="toast.show('Selected Hug someone','','','',2500)">Hug someone</li>
+    </ul>
+  </div>
+</div>
+```
+
+#### #nlToast
+very simple toast notification which shows text that was passed to it
+```html
+<!-- toast notification element -->
+<div id="nlToast"></div>
+```
 
 ```html
   
@@ -72,12 +176,6 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
     </div>
   </div>
 
-  <!-- toggle icon for toggling menu -->
-  <div id="nlBurger" ng-click="drawer.toggle()">
-    <div id="burger-top"></div>
-    <div id="burger-center"></div>
-    <div id="burger-bottom"></div>
-  </div>
 
   <!-- secondary menu -->
   <div id="nlMenu" class="main">
@@ -96,8 +194,12 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
     </div>
   </div>
 
-  <!-- stripe on the left of the screen to detect slide from side of the screen -->
-  <div id="nlSwipe"></div>
+  <!-- toggle icon for toggling menu -->
+  <div id="nlBurger" ng-click="drawer.toggle()">
+    <div id="burger-top"></div>
+    <div id="burger-center"></div>
+    <div id="burger-bottom"></div>
+  </div>
 
   <!-- body of the menu drawer -->
   <div id="nlDrawer" ng-click="drawer.hide()">
@@ -109,27 +211,10 @@ Add **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** to your 
   <!-- view content - used as a wrapper -->
   <div id="nlContent">
     <!-- your part of the code, views etc.. -->
-    <div ng-view="" class="page {{ title }}"></div>
+    <div id="nlInner" ng-view="" class="page {{ title }}"></div>
   </div>
   
 ```
-So you have:
-
-```#nlSwipe```: small stripe to detect swipe from edge
-
-```#nlDrawer```: the main elements which is toggled
-
-```#nlDimm```: dimms the background when drawer is shown
-
-```#nlContent``` which is where you content belongs
-
-```#nlBurger``` the burger menu icon
-
-```#nlRefresh``` pull-to-refresh indicator
-
-```#nlMenu``` three-dot-menu in the top right corner
-
-```#nlToast``` toast notification
 
 ## Objects
 

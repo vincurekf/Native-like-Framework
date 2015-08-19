@@ -8,7 +8,7 @@
  */
 
 // set global variables needed for proper functioning
-var swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
+var body, bodyH, swipe, swipeH, drawer, drawerH, drawerDimm, drawerDimmH,
     navToggle, viewContent,
     burger, burgerTop, burgerBottom,
     topbar, topbarH, refEl,
@@ -170,6 +170,8 @@ angular.module('nlFramework', [])
       // get options passed from initialization and merge them with default ones
         $nlConfig.options = $nlHelpers.merge($nlConfig.options, config);
       // get references to all needed elements on page
+        body = document.body;
+        bodyH = new Hammer(body);
         swipe = document.getElementById('nlSwipe');
         swipeH = new Hammer(swipe);
         drawer = document.getElementById( 'nlDrawer' );
@@ -186,11 +188,11 @@ angular.module('nlFramework', [])
       // modify view-content,
         if ( $nlConfig.options.modifyViewContent ){
           viewContent = document.getElementById( 'nlContent' );
+          console.log( viewContent );
           viewContentH = new Hammer(viewContent);
-          viewContent.style.position = 'fixed';
+          viewContent.style['margin-top'] = $nlConfig.options.topBarHeight+'px';
+          viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           viewContent.style.width = $nlConfig.deviceW+'px';
-          viewContent.style.height = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
-          viewContent.style.top = $nlConfig.options.topBarHeight+'px';
         }
       // use action button?
         if ( $nlConfig.options.useActionButton ){
@@ -205,9 +207,8 @@ angular.module('nlFramework', [])
           $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
           $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
           if ( $nlConfig.options.modifyViewContent ){
-            viewContent.style.position = 'fixed';
             viewContent.style.width = $nlConfig.deviceW+'px';
-            viewContent.style.height = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
+            viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           }
           $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
       if ( !nlDrawer.openned ){
@@ -388,34 +389,33 @@ angular.module('nlFramework', [])
         refEl = document.getElementById( 'nlRefresh' );
         refIcon = document.getElementById( 'reload-icon' );
         refIcon.style.transition = 'all '+($nlConfig.options.speed)+'s '+$nlConfig.options.animation;
-        if ( !$nlConfig.options.modifyViewContent ){
-          viewContent = document.getElementById( 'nlContent' );
-          viewContentH = new Hammer(viewContent);
-        }
       // set initial values
         $nlConfig.syncTrue = false;
         $nlConfig.scroll.top = 0;
         $nlConfig.center = ($nlConfig.deviceW/2) - (refEl.offsetWidth/2);
       // chech for scroll position
+      // not working in webkit
+      /*
         window.addEventListener("scroll", function(event) {
           $nlConfig.scroll.top   = window.pageYOffset || document.documentElement.scrollTop;
           $nlConfig.scroll.left  = window.pageXOffset || document.documentElement.scrollLeft;
         }, false);
+      */
       // move the element on pan
         topbarH.on("pan", function( ev ){
           nlRefresh.move( ev );
         });
       // register touch end event
-        nlRefresh.touchEnd( topbar );
-        nlRefresh.touchEnd( viewContent );
+        nlRefresh.touchEnd( body );
     },
     move: function( ev ){
       $nlConfig.center = ($nlConfig.deviceW/2) - (refEl.offsetWidth/2);
       if ( !$nlConfig.syncing ){
-        if ( $nlConfig.scroll.top < 1 ){
+        //if ( $nlConfig.scroll.top < 1 ){
           refEl.style.transition = 'none';
           var end = Math.floor($nlConfig.deviceH/2);
           var perc = ((100/$nlConfig.deviceH) * ev.center.y);
+
           if ( ev.center.y < end ){
             $nlConfig.syncTrue = false;
             var y = (perc/2) * (end/100);
@@ -438,7 +438,7 @@ angular.module('nlFramework', [])
             $nlHelpers.translate(refIcon, '', '', '', '', '', '', '', '', '', '1');
             $nlHelpers.translate(refEl, $nlConfig.center, '', y, '', rotate);
           }
-        }
+        //}
       }
     },
     touchEnd: function( element ){
@@ -661,15 +661,15 @@ angular.module('nlFramework', [])
 }])
 .factory('$nlMenu', [ '$nlConfig', '$nlHelpers', function($nlConfig, $nlHelpers){
   var nlMenu = {
+    openned: false,
     init: function(){
       menu = document.getElementById('nlMenu');
       menuContent = menu.children[1];
-      if ( !$nlConfig.options.modifyViewContent ){
-        viewContent = document.getElementById( 'nlContent' );
-        viewContentH = new Hammer(viewContent);
-      }
-      viewContentH.on('tap', function( ev ){
-        nlMenu.hide();
+      bodyH.on('tap', function( ev ){
+        console.log(nlMenu.openned);
+        if(nlMenu.openned){
+          nlMenu.hide();
+        }
       });
     },
     show: function(){
@@ -677,12 +677,16 @@ angular.module('nlFramework', [])
       menuContent.style.visibility = 'visible';
       menuContent.style.opacity = '1';
       $nlHelpers.translate( menuContent, 0, '', 0, '', 0 );
+      setTimeout(function(){
+        nlMenu.openned = true;
+      }, 50);
     },
     hide: function(){
       //child.style.transition = 'all '+$nlConfig.options.speed/2+'s '+$nlConfig.options.animation;
       menuContent.style.visibility = 'hidden';
       menuContent.style.opacity = '0';
       $nlHelpers.translate( menuContent, 0, '', 0, '', 0 );
+      nlMenu.openned = false;
     }
   };
   return nlMenu; 

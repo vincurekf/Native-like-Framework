@@ -290,5 +290,13 @@
   #nlActionButton .action-button.two {
     background: #E53241; }
 
+#nlContent {
+  position: relative; }
+  #nlContent #nlInner {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: auto; }
+
 .depth.z1 {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4); }

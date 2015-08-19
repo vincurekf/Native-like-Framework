@@ -332,6 +332,15 @@ $dark: #333333;
 	}
 }
 
+#nlContent{
+	position: relative;
+	#nlInner{
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		overflow: auto;
+	}
+}
 // to add depth to elements
 .depth{
 	&.z1{
