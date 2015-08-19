@@ -25,7 +25,12 @@ angular.module('nlFramework', [])
     refresh: $nlRefresh,
     toast: $nlToast,
     menu: $nlMenu,
-    config: $nlConfig
+    config: $nlConfig,
+    set: function( config ){
+      var oldOptions = $nlConfig.options;
+      $nlConfig.options = $nlHelpers.merge(oldOptions, config);
+    },
+    
   };
   return nlFramework;
 }])
