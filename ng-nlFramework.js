@@ -181,12 +181,13 @@ angular.module('nlFramework', [])
         $nlElements.drawerDimmH = new Hammer($nlElements.drawerDimm);
       // burger elements
         $nlElements.burger = document.getElementById( 'nlBurger' );
+        $nlElements.burgerH = new Hammer($nlElements.burger);
         $nlElements.burgerTop = document.getElementById( 'burger-top' );
         $nlElements.burgerBottom = document.getElementById( 'burger-bottom' );
       // get device width and height for proper scaling of drawer
         $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      // modify view-content,
+      // modify view-content?
         if ( $nlConfig.options.modifyViewContent ){
           $nlElements.viewContent = document.getElementById( 'nlContent' );
           $nlElements.viewContentH = new Hammer($nlElements.viewContent);
@@ -211,7 +212,7 @@ angular.module('nlFramework', [])
             $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.topBarHeight+'px';
           }
           $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
-      if ( !nlDrawer.openned ){
+          if ( !nlDrawer.openned ){
             $nlHelpers.translate( $nlElements.drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
           }else{
             $nlHelpers.translate( $nlElements.drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
@@ -226,6 +227,15 @@ angular.module('nlFramework', [])
         });
         $nlElements.swipeH.on("panright panleft", function(ev) {
           nlDrawer.move( ev );
+        });
+        $nlElements.drawerH.on("tap", function(ev) {
+          nlDrawer.hide();
+        });
+        $nlElements.drawerDimmH.on("tap", function(ev) {
+          nlDrawer.hide();
+        });
+        $nlElements.burgerH.on("tap", function(ev) {
+          nlDrawer.toggle();
         });
       // register touch end listeners
         nlDrawer.touchEnd( $nlElements.swipe );
@@ -523,7 +533,12 @@ angular.module('nlFramework', [])
       // register touch end listeners
         nlToast.touchEnd( $nlElements.toast );
     },
-    show: function( text, position, trueCb, falseCb, timeout ){
+    show: function( options ){
+      var title = options.title || 'I\'m a Toast! Yummy!';
+      var position = options.position || null;
+      var trueCb = options.trueCallback;
+      var falseCb = options.falseCallback;
+      var timeout = options.timeout;
       if( $nlConfig.runnigTimeout ) clearTimeout( $nlConfig.runnigTimeout );
       console.log( $nlConfig.runnigTimeout );
 
@@ -547,7 +562,7 @@ angular.module('nlFramework', [])
         nlToast.falseCb =  function(){};
       }
        
-      if(text) $nlElements.toast.innerHTML = text;
+      if(title) $nlElements.toast.innerHTML = title;
       
       if( position === 'top' ){
         $nlElements.toast.style.transition = 'none';
@@ -656,12 +671,17 @@ angular.module('nlFramework', [])
     openned: false,
     init: function(){
       $nlElements.menu = document.getElementById('nlMenu');
-      $nlElements.menuContent = $nlElements.menu.children[1];
+      $nlElements.menuContent = document.getElementById('nlMenuContent');
+      $nlElements.menuContentH = new Hammer($nlElements.menuContent);
+      $nlElements.menuIcon = document.getElementById('nlIcon');
+      $nlElements.menuIconH = new Hammer($nlElements.menuIcon);
       $nlElements.bodyH.on('tap', function( ev ){
-        console.log(nlMenu.openned);
         if(nlMenu.openned){
           nlMenu.hide();
         }
+      });
+      $nlElements.menuIconH.on('tap', function( ev ){
+        nlMenu.show();
       });
     },
     show: function(){

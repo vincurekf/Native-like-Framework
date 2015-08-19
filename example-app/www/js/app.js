@@ -56,7 +56,13 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     $rootScope.toastFalse = function(){
       console.log('Custom CB False');
     }
-    $rootScope.toast.show('A am a Toast! Yum!', '', $rootScope.toastOk, $rootScope.toastFalse, 2500 );
+    var options = {
+      title: 'I\'m a Toast! Yummy!',
+      trueCallback: $rootScope.toastOk,
+      falseCallback: $rootScope.toastFalse,
+      timeout: 2500 
+    }
+    $rootScope.toast.show( options );
     //
     
     // initialize secondary menu
