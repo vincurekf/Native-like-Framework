@@ -21,7 +21,6 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     console.log( $rootScope.config );
 
     // Native-like Drawer is HERE! ---------------------------
-    // default options (all of them)
     var options = {
       maxWidth: 300,
       speed: 0.2,

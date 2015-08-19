@@ -17,7 +17,7 @@ You can find [working example here](http://nlmd.vincurekf.cz).
 ## Content
   - [Why this?](#why-this)
   - [Getting started](#getting-started)
-  - [Using elements](#using-elements)
+  - [HTML elements](#html-elements)
     - [#nlSwipe](#nlswipe)
     - [#nlDrawer](#nldrawer)
     - [#nlDimm](#nldimm)
