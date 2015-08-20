@@ -240,7 +240,9 @@ angular.module('nlFramework', [])
           nlDrawer.hide();
         });
         $nlElements.burgerH.on("tap", function(ev) {
-          nlDrawer.toggle();
+          if( !$nlElements.burger.hasAttribute("ng-click") ){
+            nlDrawer.toggle();
+          }
         });
       // register touch end listeners
         nlDrawer.touchEnd( $nlElements.swipe );
