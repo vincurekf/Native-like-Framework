@@ -1,6 +1,6 @@
 // Colors
-$mainColor: #F00D36;
-$secColor: #E53241;
+$mainColor: #333;
+$secColor: #444;
 $white: #ffffff;
 $dark: #333333;
 
@@ -341,6 +341,20 @@ $dark: #333333;
 		overflow: auto;
 	}
 }
+
+#nlModal {
+  background: $white;
+  border-radius: 2px;
+  box-shadow: 0 2px 26px 0 #000000;
+  left: 50%;
+  padding: 0.5rem;
+  position: absolute;
+  top: 50%;
+  visibility: hidden;
+  width: 85%;
+  z-index: 1104;
+}
+
 // to add depth to elements
 .depth{
 	&.z1{

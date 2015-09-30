@@ -6,9 +6,7 @@ a {
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   max-width: 5rem;
   pointer-events: none; }
 .page .content {
@@ -39,3 +37,5 @@ a {
     height: 2rem;
     width: 100%;
     padding: 0.5rem; }
+
+/*# sourceMappingURL=style.css.map */

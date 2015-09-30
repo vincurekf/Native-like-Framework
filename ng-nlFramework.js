@@ -9,9 +9,48 @@
 
 angular.module('nlFramework', [])
 .factory('$nlFramework', 
-  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', 
-  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast, $nlMenu){
+  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', '$nlElements', '$nlHelpers', 
+  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast, $nlMenu, $nlElements, $nlHelpers){
   var nlFramework = {
+  	init: function( config ){
+  		nlFramework.set( config );
+  		// add dimmer
+  		//if( config.drawer ){
+			document.body.insertAdjacentHTML( 'afterend', '<div id="nlDimm"></div>' );
+      $nlElements.drawerDimm = document.getElementById( 'nlDimm' );
+      $nlElements.drawerDimmH = new Hammer($nlElements.drawerDimm);
+			//}
+			
+  		// add toast refresh
+  		if( config.refresh ){
+				document.body.insertAdjacentHTML( 'afterend', '<div id="nlRefresh"><svg version="1.1" id="reload-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 342.5 342.5" style="enable-background:new 0 0 342.5 342.5;" xml:space="preserve"><path d="M254.37,22.255c-1.161-0.642-2.53-0.795-3.803-0.428c-1.274,0.367-2.35,1.226-2.992,2.387l-21.758,39.391'
+	      +'c-1.335,2.417-0.458,5.459,1.96,6.794C264.616,90.748,287.5,129.495,287.5,171.52c0,63.649-51.782,115.431-115.431,115.431'
+	      +'S56.638,235.169,56.638,171.52c0-23.888,7.557-47.427,21.382-66.897l34.478,34.478c1.338,1.337,3.315,1.806,5.109,1.21'
+	      +'c1.795-0.596,3.101-2.152,3.374-4.024L139.963,6.271c0.228-1.563-0.295-3.141-1.412-4.258c-1.117-1.117-2.7-1.639-4.258-1.412'
+	      +'L4.278,19.584c-1.872,0.273-3.428,1.579-4.023,3.374c-0.596,1.795-0.127,3.772,1.21,5.109l37.292,37.292'
+	      +'C14.788,95.484,1.638,133,1.638,171.52c0,93.976,76.455,170.431,170.431,170.431c93.976,0,170.431-76.455,170.431-170.431'
+	      +'C342.5,109.478,308.731,52.283,254.37,22.255z"/></svg></div>' );
+  		}
+  		
+  		// add burger menu icon
+  		if( config.burger ){
+  			var burger = '<div id="nlBurger"><div id="burger-top"></div><div id="burger-center"></div><div id="burger-bottom"></div></div>';
+  			document.body.insertAdjacentHTML( 'afterend', burger );
+  			$nlBurger.init();
+  		}
+
+  		// add swipe element
+  		if( config.drawer ){
+				document.body.insertAdjacentHTML( 'afterend', '<div id="nlSwipe"></div>' );
+  			$nlDrawer.init();
+  		}
+  		
+  		// add toast container
+  		if( config.toast ){
+				document.body.insertAdjacentHTML( 'afterend', '<div id="nlToast"></div>' );
+  		}
+
+  	},
     drawer: $nlDrawer,
     burger: $nlBurger,
     refresh: $nlRefresh,
@@ -21,8 +60,7 @@ angular.module('nlFramework', [])
     set: function( config ){
       var oldOptions = $nlConfig.options;
       $nlConfig.options = $nlHelpers.merge(oldOptions, config);
-    },
-    
+    }
   };
   return nlFramework;
 }])
@@ -68,7 +106,7 @@ angular.module('nlFramework', [])
           width = width || false,
           el = myElement;
       
-      if ( el.id === 'nlRefresh' ){
+      if ( el.id === 'nlRefresh'){
         if ( scale ){
           scale = 'scale3d('+scale+','+scale+',1)';
         }else{
@@ -100,7 +138,7 @@ angular.module('nlFramework', [])
   }
 })
 .factory('$nlBurger', [ '$nlConfig', '$nlHelpers', '$nlElements', function($nlConfig, $nlHelpers, $nlElements){
-  return {
+  var nlBurger = {
     animate: function( pos ){
       var total = $nlConfig.maxWidth;
       var current = total - Math.abs(pos);
@@ -129,17 +167,19 @@ angular.module('nlFramework', [])
         $nlHelpers.translate( $nlElements.burgerBottom, 0, '', y_pos_bottom, '-', rotate, '-', '', scale );
       }
     },
-    toggle: function( toggle ){
+    toggle: function(){
       // set transitions length for animation
       $nlElements.burger.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       $nlElements.burgerTop.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       $nlElements.burgerBottom.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       //
-      if (toggle){
+      console.log( nlBurger.isOn );
+      if (!nlBurger.isOn){
         // ON
         $nlHelpers.translate( $nlElements.burgerTop, 0, '', $nlConfig.options.burger.endY, '', 45, '', '', $nlConfig.options.burger.endScale );
         $nlHelpers.translate( $nlElements.burgerBottom, 0, '', $nlConfig.options.burger.endY, '-', 45, '-', '', $nlConfig.options.burger.endScale );
         $nlHelpers.translate( $nlElements.burger, 0, '', 0, '-', 180, '' );
+      	nlBurger.isOn = true;
       }else{
         // OFF
         $nlHelpers.translate( $nlElements.burgerTop, 0, '', 0, '', 0, '', '', $nlConfig.options.burger.startScale );
@@ -149,21 +189,40 @@ angular.module('nlFramework', [])
         }else{
           $nlHelpers.translate( $nlElements.burger, 0, '', 0, '-', 0, '' );
         }
+      	nlBurger.isOn = false;
       }
+      console.log( nlBurger.isOn );
       // reset burger state after the animation is done
       setTimeout( function(){
         $nlElements.burger.style.transition = 'none';
         $nlElements.burgerTop.style.transition = 'none';
         $nlElements.burgerBottom.style.transition = 'none';
-        if (!toggle){
+        if (!nlBurger.isOn){
           $nlHelpers.translate( $nlElements.burger, 0, '', 0, '-', 0, '' );
           $nlConfig.options.reverse = false;
         }else{
           $nlConfig.options.reverse = true;
         }
       }, $nlConfig.options.speed*1000 );
-    }
+    },
+  	init: function(){
+			// burger elements
+			  $nlElements.burger = document.getElementById( 'nlBurger' );
+			  $nlElements.burgerH = new Hammer($nlElements.burger);
+			  $nlElements.burgerTop = document.getElementById( 'burger-top' );
+			  $nlElements.burgerBottom = document.getElementById( 'burger-bottom' );
+			
+      	console.log( $nlConfig );
+      	console.log( $nlConfig.options.drawer );
+        if( typeof $nlConfig.options.drawer !== 'object' ){
+        	console.log('tap from burger');
+	        $nlElements.burgerH.on("tap", function(ev) {
+	          nlBurger.toggle();
+	        });
+        }
+  	}
   }
+  return nlBurger
 }])
 .factory('$nlDrawer', [ '$nlConfig', '$nlBurger', '$nlHelpers', '$nlElements', function($nlConfig, $nlBurger, $nlHelpers, $nlElements){
   var nlDrawer = {
@@ -177,13 +236,6 @@ angular.module('nlFramework', [])
         $nlElements.swipeH = new Hammer($nlElements.swipe);
         $nlElements.drawer = document.getElementById( 'nlDrawer' );
         $nlElements.drawerH = new Hammer($nlElements.drawer);
-        $nlElements.drawerDimm = document.getElementById( 'nlDimm' );
-        $nlElements.drawerDimmH = new Hammer($nlElements.drawerDimm);
-      // burger elements
-        $nlElements.burger = document.getElementById( 'nlBurger' );
-        $nlElements.burgerH = new Hammer($nlElements.burger);
-        $nlElements.burgerTop = document.getElementById( 'burger-top' );
-        $nlElements.burgerBottom = document.getElementById( 'burger-bottom' );
       // get device width and height for proper scaling of drawer
         $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -201,8 +253,10 @@ angular.module('nlFramework', [])
           $nlElements.actionPanelH = new Hammer($nlElements.actionPanel);
           $nlElements.actionPlus = document.getElementById('nlPlus');
           $nlElements.actionPlusH = new Hammer($nlElements.actionPlus);
-          $nlElements.actionPanelH.on("tap", function(ev) {
-            nlDrawer.togglePlus();
+          $nlElements.actionPlusH.on("tap", function(ev) {
+            if( !$nlElements.actionPlus.hasAttribute("ng-click") ){
+              nlDrawer.togglePlus();
+            }
           });
         }
       // set initial styles (position and size)
@@ -227,29 +281,39 @@ angular.module('nlFramework', [])
         $nlElements.drawerH.on("panleft panright", function( ev ){
           if ( nlDrawer.openned ) nlDrawer.move( ev, true );
         });
-        $nlElements.drawerDimmH.on("panleft panright", function(ev) {
-          if ( nlDrawer.openned ) nlDrawer.move( ev );
-        });
-        $nlElements.swipeH.on("panright panleft", function(ev) {
-          nlDrawer.move( ev );
-        });
         $nlElements.drawerH.on("tap", function(ev) {
           nlDrawer.hide();
+        });
+        $nlElements.drawerDimmH.on("panleft panright", function(ev) {
+          if ( nlDrawer.openned ) nlDrawer.move( ev );
         });
         $nlElements.drawerDimmH.on("tap", function(ev) {
           nlDrawer.hide();
         });
-        $nlElements.burgerH.on("tap", function(ev) {
-          if( !$nlElements.burger.hasAttribute("ng-click") ){
-            nlDrawer.toggle();
-          }
+        $nlElements.swipeH.on("panleft panright", function(ev) {
+          nlDrawer.move( ev );
         });
+
+        if( typeof $nlConfig.options.burger === 'object'){
+	        $nlElements.burgerH.on("tap", function(ev) {
+	        	if( !$nlElements.burger.hasAttribute("ng-click") ){
+		        	console.log('tap from drawer');
+	          	//$nlBurger.toggle();
+	          	nlDrawer.toggle();
+	        	}
+	        });
+        }
       // register touch end listeners
         nlDrawer.touchEnd( $nlElements.swipe );
         nlDrawer.touchEnd( $nlElements.drawer );
         nlDrawer.touchEnd( $nlElements.drawerDimm );
     },
+    on: {
+      show: function(){},
+      hide: function(){},
+    },
     show: function(){
+    	console.log( 'show' );
       // show drawer with animation
       $nlElements.drawer.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       $nlConfig.maxWidth = $nlConfig.options.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.maxWidth;
@@ -258,10 +322,16 @@ angular.module('nlFramework', [])
       $nlElements.drawerDimm.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       $nlElements.drawerDimm.style.visibility = 'visible';
       $nlElements.drawerDimm.style.opacity = '1';
-      // set open state and toggle burger
+      // set open state
       nlDrawer.openned = true;
       $nlConfig.options.reverse = true;
-      $nlBurger.toggle(true);
+      //and toggle burger
+      if( typeof $nlConfig.options.burger === 'object'){
+        $nlBurger.toggle();
+      }
+      setTimeout( function () {
+        nlDrawer.on.show();
+      }, $nlConfig.options.speed*1000)
     },
     hide: function(){
       // hide drawer
@@ -271,13 +341,16 @@ angular.module('nlFramework', [])
       $nlElements.drawerDimm.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       $nlElements.drawerDimm.style.visibility = 'hidden';
       $nlElements.drawerDimm.style.opacity = '0';
-      // toggle burger
-      if ( nlDrawer.openned ){
-        $nlBurger.toggle(false);
-      }
       // set open state
       nlDrawer.togglePlus(true);
       nlDrawer.openned = false;
+      //and toggle burger
+      if( typeof $nlConfig.options.burger === 'object'){
+        $nlBurger.toggle();
+      }
+      setTimeout( function () {
+        nlDrawer.on.hide();
+      }, $nlConfig.options.speed*1000)
     },
     toggle: function(){
       //alert('drawer.toggle()!');
@@ -316,13 +389,13 @@ angular.module('nlFramework', [])
       // if this is final touch (mouse move) event
       // show or hide the drawer (pannig left = open, right = close)
       // and clean our temp values
-      nlDrawer.openned = true;
       if ( ev.isFinal ){
         if ( $nlConfig.options.direction === 'left' ){
-          nlDrawer.hide();
-        }else{
-          nlDrawer.show();
+        	console.log( 'left' );
+        }else if( $nlConfig.options.direction === 'right' ){
+        	console.log( 'right' );
         }
+      	//nlDrawer.onEnd(ev, false);
         $nlConfig.options.holdPos = null;
         $nlConfig.options.endTrue = false;
       }else{
@@ -334,35 +407,40 @@ angular.module('nlFramework', [])
       $nlConfig.onTouch = 'ontouchstart' in window ? true : false;
       if ( $nlConfig.onTouch ){
         element.addEventListener('touchend', function(e){
-          onEnd(e, true);
+    			console.log( 'touchend' );
+          nlDrawer.onEnd(e, true);
         }, false);
       }else{
         element.addEventListener('mouseup', function(e){
-          onEnd(e, false);
+    			console.log( 'mouseup' );
+          nlDrawer.onEnd(e, false);
         }, false);
       };
-      var onEnd = function(e, touch){
-        // get the touch reference
-        // reference first touch point for this event
-        var touchobj = touch ? e.changedTouches[0] : e; 
-        // if the drawer is pulled more than 50% of its maxWidth
-        var isBigger = touchobj.clientX > ($nlConfig.options.maxWidth/2);
-        // combined with the direction
-        var isLeft = $nlConfig.options.direction === 'left';
-        var isRight = $nlConfig.options.direction === 'right';
-        var endTrue = $nlConfig.options.endTrue;
-        // decide if show or hide the drawer
-        if ( (isBigger && isLeft && endTrue) || (isBigger && isRight && endTrue) ){
-          nlDrawer.show();
-        }else if ( (!isBigger && isLeft && endTrue) || (!isBigger && isRight && endTrue) ){
-          nlDrawer.hide();
-        }
-        // clean up our temp variables
-        $nlConfig.options.direction = false;
-        $nlConfig.options.endTrue = false;
-        $nlConfig.options.holdPos = null;
-        e.preventDefault()
+    },
+    onEnd: function(e, touch){
+      // get the touch reference
+      // reference first touch point for this event
+      var touchobj = touch ? e.changedTouches[0] : e; 
+      // if the drawer is pulled more than 50% of its maxWidth
+      var isBigger = touchobj.clientX > ($nlConfig.options.maxWidth/2);
+      // combined with the direction
+      var isLeft = $nlConfig.options.direction === 'left';
+      var isRight = $nlConfig.options.direction === 'right';
+      var endTrue = $nlConfig.options.endTrue;
+      // decide if show or hide the drawer
+      console.log( isBigger, isLeft, endTrue );
+      if ( (isBigger && isLeft && endTrue) || (isBigger && isRight && endTrue) ){
+      	console.log( 'onEnd show: '+touch );
+        nlDrawer.show();
+      }else if ( (!isBigger && isLeft && endTrue) || (!isBigger && isRight && endTrue) ){
+      	console.log( 'onEnd hide: '+touch );
+        nlDrawer.hide();
       }
+      // clean up our temp variables
+      $nlConfig.options.direction = false;
+      $nlConfig.options.endTrue = false;
+      $nlConfig.options.holdPos = null;
+      e.preventDefault()
     },
     set: function( config ){
       var oldOptions = $nlConfig.options;
@@ -547,7 +625,6 @@ angular.module('nlFramework', [])
       var falseCb = options.falseCallback;
       var timeout = options.timeout;
       if( $nlConfig.runnigTimeout ) clearTimeout( $nlConfig.runnigTimeout );
-      console.log( $nlConfig.runnigTimeout );
 
       if( position === 'top' ){
         $nlElements.toast.style.top = '75px';

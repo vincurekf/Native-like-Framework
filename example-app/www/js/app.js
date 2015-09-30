@@ -20,7 +20,54 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     // show me config
     console.log( $rootScope.config );
 
+    // initialize the whole framework
+    // Options
+    // 
+    var nlOptions = {
+      // global settings
+      speed: 0.2,
+      animation: 'ease',
+      // use action button
+      actionButton: true,
+      // use toast messages
+      toast: true,
+      // burger specific
+      burger: {
+        startScale: 1, // X scale of bottom and top line of burger menu at starting point (OFF state)
+        endScale: 0.7 // X scale of bottom and top line of burger menu at end point (ON state)
+      },
+      // content specific
+      content:{
+        topBarHeight: 56
+      },
+      // drawer specific
+      drawer: {
+        maxWidth: 300,
+        openCb: function(){
+          console.log('nlDrawer: openned')
+        },
+        closeCb: function(){ 
+          console.log('nlDrawer closed')
+        }
+      },
+      // refresh specific
+      refresh: {
+        defaultColor: '#aa3344', // default(inactive) color
+        activeColor: '#558844', // active color
+        callback: function(){
+          // here is just timeout to wait 5sec before ending sync animation
+          setTimeout( function(){
+            console.log( 'nlRefresh custom callback' );
+            // after doing some stuff end syncing animation
+            $nlRefresh.syncEnd();
+          }, 5000 );
+        }
+      }
+    }
+    $nlFramework.init( nlOptions );
+
     // Native-like Drawer is HERE! ---------------------------
+    /*
     var options = {
       maxWidth: 300,
       speed: 0.2,
@@ -31,6 +78,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     }
     // initialize with options
     $rootScope.drawer.init( options );
+    */
     // Done! -------------------------------------------------
     
     // swipe from top to refresh!
