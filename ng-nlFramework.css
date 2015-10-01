@@ -5,8 +5,7 @@
   bottom: 0;
   width: 300px;
   background: #ffffff;
-  -webkit-transform: translateX(-1000px) translateZ(0);
-          transform: translateX(-1000px) translateZ(0);
+  transform: translateX(-1000px) translateZ(0);
   z-index: 1105; }
   #nlDrawer .username {
     font-size: 16px;
@@ -89,9 +88,7 @@
     background: #ffffff;
     border-radius: 2px;
     -webkit-backface-visibility: hidden;
-    -webkit-transform-origin: 95% 50%;
-        -ms-transform-origin: 95% 50%;
-            transform-origin: 95% 50%; }
+    transform-origin: 95% 50%; }
   #nlBurger #burger-top {
     top: 21px; }
   #nlBurger #burger-center {
@@ -118,9 +115,7 @@
       height: 4px;
       left: 36px;
       position: relative;
-      -webkit-transform-origin: 95% 50% 0;
-          -ms-transform-origin: 95% 50% 0;
-              transform-origin: 95% 50% 0;
+      transform-origin: 95% 50% 0;
       width: 4px;
       -webkit-backface-visibility: hidden; }
     #nlMenu #nlIcon #dot-top {
@@ -160,15 +155,14 @@
   right: 0;
   height: 56px;
   line-height: 56px;
-  background: #E53241;
+  background: #444;
   color: #ffffff;
   z-index: 1104; }
   #nlTopbar.drawer, .topbar.drawer {
     position: relative; }
   #nlTopbar.large, .topbar.large {
     height: 140px;
-    background: -webkit-linear-gradient(325deg, #E53241, #d42130);
-    background: linear-gradient(125deg, #E53241, #d42130); }
+    background: linear-gradient(125deg, #444, #333333); }
   #nlTopbar .title, .topbar .title {
     position: fixed;
     top: 0;
@@ -199,11 +193,8 @@
   padding: 0.7rem 1rem;
   position: fixed;
   right: 5%;
-  -webkit-transform: translate3d(0px, 200%, 0px);
-          transform: translate3d(0px, 200%, 0px);
-  -webkit-transform-origin: 50% 50% 0;
-      -ms-transform-origin: 50% 50% 0;
-          transform-origin: 50% 50% 0;
+  transform: translate3d(0px, 200%, 0px);
+  transform-origin: 50% 50% 0;
   width: 30rem;
   z-index: 1104; }
 
@@ -215,9 +206,7 @@
   line-height: 42px;
   position: absolute;
   text-align: center;
-  -webkit-transform-origin: 50% 50% 0;
-      -ms-transform-origin: 50% 50% 0;
-          transform-origin: 50% 50% 0;
+  transform-origin: 50% 50% 0;
   z-index: 1103;
   box-shadow: 0 0 6px -2px rgba(0, 0, 0, 0.6); }
   #nlRefresh #reload-icon {
@@ -225,32 +214,24 @@
     left: 50%;
     position: absolute;
     top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     width: 50%; }
 
 #nlActionButton.active .option.one, #nlActionButton.active .option.two {
   visibility: visible;
   opacity: 1; }
 #nlActionButton.active .option.one {
-  -webkit-transition: all 0.3s ease-in-out 0s;
-          transition: all 0.3s ease-in-out 0s;
-  -webkit-transform: translate(-4px, -122px) translateZ(0);
-          transform: translate(-4px, -122px) translateZ(0); }
+  transition: all 0.3s ease-in-out 0s;
+  transform: translate(-4px, -122px) translateZ(0); }
 #nlActionButton.active .option.two {
-  -webkit-transition: all 0.2s ease-in-out 0s;
-          transition: all 0.2s ease-in-out 0s;
-  -webkit-transform: translate(-4px, -66px) translateZ(0);
-          transform: translate(-4px, -66px) translateZ(0); }
+  transition: all 0.2s ease-in-out 0s;
+  transform: translate(-4px, -66px) translateZ(0); }
 #nlActionButton.active .plus {
   z-index: 1105;
   visibility: visible;
   opacity: 1;
   background: #ffffff !important;
-  -webkit-transform: rotate(135deg) !important;
-      -ms-transform: rotate(135deg) !important;
-          transform: rotate(135deg) !important; }
+  transform: rotate(135deg) !important; }
 #nlActionButton .option {
   z-index: 1105; }
   #nlActionButton .option.one, #nlActionButton .option.two {
@@ -259,8 +240,7 @@
     opacity: 0; }
 #nlActionButton .plus {
   background: #ffffff !important;
-  -webkit-transition: all 0.2s ease-in-out 0s;
-          transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
   position: absolute;
   z-index: 1104; }
 #nlActionButton .action-button {
@@ -286,9 +266,31 @@
     bottom: 33px;
     right: 33px; }
   #nlActionButton .action-button.one {
-    background: #F00D36; }
+    background: #333; }
   #nlActionButton .action-button.two {
-    background: #E53241; }
+    background: #444; }
+
+#nlContent {
+  position: relative; }
+  #nlContent #nlInner {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: auto; }
+
+#nlModal {
+  background: #ffffff;
+  border-radius: 2px;
+  box-shadow: 0 2px 26px 0 #000000;
+  left: 50%;
+  padding: 0.5rem;
+  position: absolute;
+  top: 50%;
+  visibility: hidden;
+  width: 85%;
+  z-index: 1104; }
 
 .depth.z1 {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4); }
+
+/*# sourceMappingURL=ng-nlFramework.css.map */

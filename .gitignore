@@ -2,3 +2,4 @@
 *.sublime-project
 *.sublime-workspace
 TODO.md
+*.css.map

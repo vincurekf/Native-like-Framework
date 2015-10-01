@@ -20,21 +20,58 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     // show me config
     console.log( $rootScope.config );
 
-    // Native-like Drawer is HERE! ---------------------------
-    var options = {
-      maxWidth: 300,
+    // initialize the whole framework
+    // Options
+    // 
+    var nlOptions = {
+      // global settings
       speed: 0.2,
       animation: 'ease',
-      topBarHeight: 56,
-      modifyViewContent: true,
-      useActionButton: true
-    }
-    // initialize with options
-    $rootScope.drawer.init( options );
-    // Done! -------------------------------------------------
-    
+      // use action button
+      actionButton: true,
+      // use toast messages
+      toast: true,
+      // burger specific
+      burger: {
+        endY: 6,
+        startScale: 1, // X scale of bottom and top line of burger menu at starting point (OFF state)
+        endScale: 0.7 // X scale of bottom and top line of burger menu at end point (ON state)
+      },
+      // content specific
+      content:{
+        topBarHeight: 56,
+        modify: true
+      },
+      // drawer specific
+      drawer: {
+        maxWidth: 300,
+        openCb: function(){
+          console.log('nlDrawer: openned')
+        },
+        closeCb: function(){ 
+          console.log('nlDrawer closed')
+        }
+      },
+      // refresh specific
+      refresh: {
+        defaultColor: '#aa3344', // default(inactive) color
+        activeColor: '#558844', // active color
+        callback: function(){
+          // here is just timeout to wait 5sec before ending sync animation
+          setTimeout( function(){
+            console.log( 'nlRefresh custom callback' );
+            // after doing some stuff end syncing animation
+            $nlRefresh.syncEnd();
+          }, 5000 );
+        }
+      },
+      actionButton: true,
+      secMenu: true
+    };
+    // initialize the framework
+    $nlFramework.init( nlOptions );
+
     // swipe from top to refresh!
-    $rootScope.refresh.init();
     // set custom callback
     // DON'T FORGET to call $nlRefresh.syncEnd(); after finish!
     $rootScope.refresh.callback = function(){
@@ -48,54 +85,23 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     //
 
     // in app toast message
-    $rootScope.toast.init();
-    //
+    // set custom callbacks
     $rootScope.toastOk = function(){
       console.log('Custom CB TRUE');
     }
     $rootScope.toastFalse = function(){
       console.log('Custom CB False');
     }
+    // set options
     var options = {
       title: 'I\'m a Toast! Yummy!',
       trueCallback: $rootScope.toastOk,
       falseCallback: $rootScope.toastFalse,
       timeout: 2500 
     }
+    // show the notification
     $rootScope.toast.show( options );
     //
-    
-    // initialize secondary menu
-    $rootScope.menu.init();
-
-    /* examples of usage
-    // set new options
-    setTimeout( function(){
-      $rootScope.drawer.set({
-        speed: 0.6,
-        maxWidth: 250,
-        animation: 'ease-out'
-      });
-    }, 500 );
-    
-    // show drawer
-    setTimeout( function(){
-      $rootScope.drawer.show();
-    }, 1000 );
-    
-    // toggle burger
-    setTimeout( function(){
-      $rootScope.burger.toggle();
-    }, 2000 );
-    setTimeout( function(){
-      $rootScope.burger.toggle( true );
-    }, 3000 );
-    
-    // hide drawer
-    setTimeout( function(){
-      $rootScope.drawer.hide();
-    }, 4000 );
-    */
 
     // If you like you can register backbutton handle --------
     $ionicPlatform.registerBackButtonAction(function () {
