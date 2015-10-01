@@ -290,13 +290,13 @@ You can use the parts separately or use this one module  which shortcuts to all 
 
 - **$nlFramework**
   - ```drawer()```: shortcut to [$nlDrawer](#nldrawer)
-  - ```burger()```: shortcut to [$nlBurger](#nlBurger)
-  - ```refresh()```: shortcut to [$nlRefresh](#nlRefresh)
-  - ```toast()```: shortcut to [$nlToast](#nlToast)
-  - ```menu()```: shortcut to [$nlMenu](#nlMenu)
-  - ```fab()```: shortcut to [$nlFab](#nlFab)
+  - ```burger()```: shortcut to [$nlBurger](#nlburger)
+  - ```refresh()```: shortcut to [$nlRefresh](#nlrefresh)
+  - ```toast()```: shortcut to [$nlToast](#nltoast)
+  - ```menu()```: shortcut to [$nlMenu](#nlmenu)
+  - ```fab()```: shortcut to [$nlFab](#nlfab)
   - ```set()```: set **nlFramework** options (see [Configuration](#configuration))
-  - ```config```: shortcut to [$nlConfig](#nlConfig)
+  - ```config```: shortcut to [$nlConfig](#nlconfig)
 
 ### Configuration
 You can use **$nlFramework** function ```set()``` to set options.
