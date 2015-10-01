@@ -38,7 +38,8 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
       },
       // content specific
       content:{
-        topBarHeight: 56
+        topBarHeight: 56,
+        modify: true
       },
       // drawer specific
       drawer: {
@@ -62,7 +63,9 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
             $nlRefresh.syncEnd();
           }, 5000 );
         }
-      }
+      },
+      actionButton: true,
+      secMenu: true
     }
     $nlFramework.init( nlOptions );
 
@@ -82,7 +85,6 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     // Done! -------------------------------------------------
     
     // swipe from top to refresh!
-    $rootScope.refresh.init();
     // set custom callback
     // DON'T FORGET to call $nlRefresh.syncEnd(); after finish!
     $rootScope.refresh.callback = function(){
@@ -96,53 +98,51 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     //
 
     // in app toast message
-    $rootScope.toast.init();
-    //
+    // cet custom callbacks
     $rootScope.toastOk = function(){
       console.log('Custom CB TRUE');
     }
     $rootScope.toastFalse = function(){
       console.log('Custom CB False');
     }
+    // set options
     var options = {
       title: 'I\'m a Toast! Yummy!',
       trueCallback: $rootScope.toastOk,
       falseCallback: $rootScope.toastFalse,
       timeout: 2500 
     }
+    // show the notification
     $rootScope.toast.show( options );
     //
-    
-    // initialize secondary menu
-    $rootScope.menu.init();
 
     /* examples of usage
-    // set new options
-    setTimeout( function(){
-      $rootScope.drawer.set({
-        speed: 0.6,
-        maxWidth: 250,
-        animation: 'ease-out'
-      });
-    }, 500 );
-    
-    // show drawer
-    setTimeout( function(){
-      $rootScope.drawer.show();
-    }, 1000 );
-    
-    // toggle burger
-    setTimeout( function(){
-      $rootScope.burger.toggle();
-    }, 2000 );
-    setTimeout( function(){
-      $rootScope.burger.toggle( true );
-    }, 3000 );
-    
-    // hide drawer
-    setTimeout( function(){
-      $rootScope.drawer.hide();
-    }, 4000 );
+      // set new options
+      setTimeout( function(){
+        $rootScope.drawer.set({
+          speed: 0.6,
+          maxWidth: 250,
+          animation: 'ease-out'
+        });
+      }, 500 );
+      
+      // show drawer
+      setTimeout( function(){
+        $rootScope.drawer.show();
+      }, 1000 );
+      
+      // toggle burger
+      setTimeout( function(){
+        $rootScope.burger.toggle();
+      }, 2000 );
+      setTimeout( function(){
+        $rootScope.burger.toggle( true );
+      }, 3000 );
+      
+      // hide drawer
+      setTimeout( function(){
+        $rootScope.drawer.hide();
+      }, 4000 );
     */
 
     // If you like you can register backbutton handle --------
