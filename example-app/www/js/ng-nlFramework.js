@@ -42,6 +42,32 @@ angular.module('nlFramework', [])
       if( config.secMenu ) $nlMenu.init();
       // add toast container
       if( config.actionButton ) $nlFab.init();
+
+      // modify view-content?
+        if ( $nlConfig.options.content.modify ){
+          $nlElements.viewContent = document.getElementById( 'nlContent' );
+          $nlElements.viewContentH = new Hammer($nlElements.viewContent);
+          $nlElements.viewContent.style['margin-top'] = $nlConfig.options.content.topBarHeight+'px';
+          $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
+          $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
+        }
+      // listen to resize event, mainly for updating size of drawer when changing view portrait <-> landscape
+        window.onresize = function(event) {
+          $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+          $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+          if ( config.content.modify ){
+            $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
+            $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
+          }
+          if( config.drawer ){
+            $nlConfig.maxWidth = $nlConfig.options.drawer.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.drawer.maxWidth;
+            if ( !nlDrawer.openned ){
+              $nlHelpers.translate( $nlElements.drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
+            }else{
+              $nlHelpers.translate( $nlElements.drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
+            }
+          }
+        }
     },
     drawer: $nlDrawer,
     burger: $nlBurger,
@@ -272,32 +298,9 @@ angular.module('nlFramework', [])
       // get device width and height for proper scaling of drawer
         $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      // modify view-content?
-        if ( $nlConfig.options.content.modify ){
-          $nlElements.viewContent = document.getElementById( 'nlContent' );
-          $nlElements.viewContentH = new Hammer($nlElements.viewContent);
-          $nlElements.viewContent.style['margin-top'] = $nlConfig.options.content.topBarHeight+'px';
-          $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
-          $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
-        }
       // set initial styles (position and size)
         $nlConfig.maxWidth = $nlConfig.options.drawer.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.drawer.maxWidth;
         $nlHelpers.translate( $nlElements.drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
-      // listen to resize event, mainly for updating size of drawer when changing view portrait <-> landscape
-        window.onresize = function(event) {
-          $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-          $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-          if ( $nlConfig.options.content.modify ){
-            $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
-            $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
-          }
-          $nlConfig.maxWidth = $nlConfig.options.drawer.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.drawer.maxWidth;
-          if ( !nlDrawer.openned ){
-            $nlHelpers.translate( $nlElements.drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
-          }else{
-            $nlHelpers.translate( $nlElements.drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
-          }
-        }
       // listen for pan and tap events on elements
         $nlElements.drawerH.on("panleft panright", function( ev ){
           if ( nlDrawer.openned ) nlDrawer.move( ev, true );
