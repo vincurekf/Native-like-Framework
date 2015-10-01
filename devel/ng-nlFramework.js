@@ -16,13 +16,19 @@ angular.module('nlFramework', [])
       nlFramework.set( config );
       // get body reference
       $nlElements.body = document.body;
+      // add burger menu icon
+      if( config.burger ){
+        var burger = '<div id="nlBurger"><div id="burger-top"></div><div id="burger-center"></div><div id="burger-bottom"></div></div>';
+        if( document.getElementById( 'nlBurger' ) === null ) document.body.insertAdjacentHTML( 'beforeend', burger );
+        $nlBurger.init();
+      }
       // add dimmer
-      document.body.insertAdjacentHTML( 'afterbegin', '<div id="nlDimm"></div>' );
+      document.body.insertAdjacentHTML( 'beforeend', '<div id="nlDimm"></div>' );
       $nlElements.drawerDimm = document.getElementById( 'nlDimm' );
       $nlElements.drawerDimmH = new Hammer($nlElements.drawerDimm);
       // add toast refresh
       if( config.refresh ){
-        document.body.insertAdjacentHTML( 'afterbegin', '<div id="nlRefresh"><svg version="1.1" id="reload-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 342.5 342.5" style="enable-background:new 0 0 342.5 342.5;" xml:space="preserve"><path d="M254.37,22.255c-1.161-0.642-2.53-0.795-3.803-0.428c-1.274,0.367-2.35,1.226-2.992,2.387l-21.758,39.391'
+        document.body.insertAdjacentHTML( 'beforeend', '<div id="nlRefresh"><svg version="1.1" id="reload-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 342.5 342.5" style="enable-background:new 0 0 342.5 342.5;" xml:space="preserve"><path d="M254.37,22.255c-1.161-0.642-2.53-0.795-3.803-0.428c-1.274,0.367-2.35,1.226-2.992,2.387l-21.758,39.391'
         +'c-1.335,2.417-0.458,5.459,1.96,6.794C264.616,90.748,287.5,129.495,287.5,171.52c0,63.649-51.782,115.431-115.431,115.431'
         +'S56.638,235.169,56.638,171.52c0-23.888,7.557-47.427,21.382-66.897l34.478,34.478c1.338,1.337,3.315,1.806,5.109,1.21'
         +'c1.795-0.596,3.101-2.152,3.374-4.024L139.963,6.271c0.228-1.563-0.295-3.141-1.412-4.258c-1.117-1.117-2.7-1.639-4.258-1.412'
@@ -31,37 +37,26 @@ angular.module('nlFramework', [])
         +'C342.5,109.478,308.731,52.283,254.37,22.255z"/></svg></div>' );
         $nlRefresh.init();
       }
-      // add burger menu icon
-      if( config.burger ){
-        var burger = '<div id="nlBurger"><div id="burger-top"></div><div id="burger-center"></div><div id="burger-bottom"></div></div>';
-        if( document.getElementById( 'nlBurger' ) === null ) document.body.insertAdjacentHTML( 'afterbegin', burger );
-        $nlBurger.init();
-      }
       // add swipe element
       if( config.drawer ){
-        document.body.insertAdjacentHTML( 'afterbegin', '<div id="nlSwipe"></div>' );
+        document.body.insertAdjacentHTML( 'beforeend', '<div id="nlSwipe"></div>' );
         $nlDrawer.init();
       }
       // add toast container
       if( config.toast ){
-        document.body.insertAdjacentHTML( 'afterbegin', '<div id="nlToast"></div>' );
+        document.body.insertAdjacentHTML( 'beforeend', '<div id="nlToast"></div>' );
         $nlToast.init();
       }
       // add toast container
-      if( config.secMenu ){
-        $nlMenu.init();
-      }
+      if( config.secMenu ) $nlMenu.init();
       // add toast container
-      if( config.actionButton ){
-        $nlFAB.init();
-      }
+      if( config.actionButton ) $nlFAB.init();
     },
     drawer: $nlDrawer,
     burger: $nlBurger,
     refresh: $nlRefresh,
     toast: $nlToast,
     menu: $nlMenu,
-    modal: $nlFAB,
     config: $nlConfig,
     set: function( config ){
       var oldOptions = $nlConfig.options;
@@ -108,7 +103,7 @@ angular.module('nlFramework', [])
           pmDeg = pmDeg || '',
           width = width || false,
           el = myElement;
-      
+      //
       if ( el.id === 'nlRefresh'){
         if ( scale ){
           scale = 'scale3d('+scale+','+scale+',1)';
@@ -116,14 +111,18 @@ angular.module('nlFramework', [])
           scale = 'scale3d(1,1,1)';
         }
       }else{
+        //
         scale = scale ? 'scale3d('+scale+',1,1)' : '';
       }
-      
+      //
       if ( el.id === 'burger-top' ){
+        //
         el.style.transformOrigin = '100% 100%';
       }else if ( el.id === 'burger-bottom' ){
+        //
         el.style.transformOrigin = '100% 0%';
       }
+      //
       el.style.transform = 'translate3d('+pmX+x+'px, '+pmY+y+'px, 0) rotate3d( 0, 0, 1, '+pmDeg+deg+'deg ) ' + scale;
       el.style.webkitTransform = 'translate('+pmX+x+'px, '+pmY+y+'px) translateZ(0) rotate('+pmDeg+deg+'deg) ' + scale;
       if ( width ) el.style.width = width+'px';
@@ -141,7 +140,6 @@ angular.module('nlFramework', [])
   }
 })
 .factory('$nlBurger', [ '$nlConfig', '$nlHelpers', '$nlElements', function($nlConfig, $nlHelpers, $nlElements){
-  
   var nlBurger = {
     animate: function( pos ){
       var total = $nlConfig.maxWidth;
@@ -177,11 +175,13 @@ angular.module('nlFramework', [])
       $nlElements.burgerTop.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       $nlElements.burgerBottom.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       //
-      if ( toggle || !nlBurger.isOn ){
+      if ( toggle || (toggle && !nlBurger.isOn) ){
         // ON
+        console.log('set on');
         nlBurger.setOn();
       }else{
         // OFF
+        console.log('set off');
         nlBurger.setOff();
       }
     },
@@ -764,6 +764,7 @@ angular.module('nlFramework', [])
       $nlElements.actionPlusH = new Hammer($nlElements.actionPlus);
       $nlElements.actionPlusH.on("tap", function(ev) {
         if( !$nlElements.actionPlus.hasAttribute("ng-click") ){
+          console.log('nlFAB click'):
           nlFAB.toggle();
         }
       });
@@ -793,5 +794,5 @@ angular.module('nlFramework', [])
       }
     }
   };
-  return nlFAB; 
+  return nlFAB;
 }]);
