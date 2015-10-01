@@ -9,8 +9,8 @@
 
 angular.module('nlFramework', [])
 .factory('$nlFramework', 
-  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', '$nlFAB', '$nlHelpers', '$nlElements', 
-  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast, $nlMenu, $nlFAB, $nlHelpers, $nlElements){
+  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', '$nlFab', '$nlHelpers', '$nlElements', 
+  function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast, $nlMenu, $nlFab, $nlHelpers, $nlElements){
   var nlFramework = {
     init: function( config ){
       nlFramework.set( config );
@@ -31,7 +31,7 @@ angular.module('nlFramework', [])
       // add swipe element
       if( config.drawer ){
         document.body.insertAdjacentHTML( 'beforeend', '<div id="nlSwipe"></div>' );
-        $nlDrawer.init();
+        $nlDrawer.init(config.drawer);
       }
       // add toast container
       if( config.toast ){
@@ -41,7 +41,7 @@ angular.module('nlFramework', [])
       // add toast container
       if( config.secMenu ) $nlMenu.init();
       // add toast container
-      if( config.actionButton ) $nlFAB.init();
+      if( config.actionButton ) $nlFab.init();
     },
     drawer: $nlDrawer,
     burger: $nlBurger,
@@ -49,6 +49,7 @@ angular.module('nlFramework', [])
     toast: $nlToast,
     menu: $nlMenu,
     config: $nlConfig,
+    fab: $nlFab,
     set: function( config ){
       var oldOptions = $nlConfig.options;
       $nlConfig.options = $nlHelpers.merge(oldOptions, config);
@@ -85,7 +86,7 @@ angular.module('nlFramework', [])
       // content specific
       content:{
         topBarHeight: 0,
-        modify: flase
+        modify: false
       },
       // drawer specific
       drawer: {
@@ -195,11 +196,9 @@ angular.module('nlFramework', [])
       //
       if ( toggle || (toggle && !nlBurger.isOn) ){
         // ON
-        console.log('set on');
         nlBurger.setOn();
       }else{
         // OFF
-        console.log('set off');
         nlBurger.setOff();
       }
     },
@@ -254,12 +253,13 @@ angular.module('nlFramework', [])
   }
   return nlBurger;
 }])
-.factory('$nlDrawer', [ '$nlConfig', '$nlBurger', '$nlHelpers', '$nlElements', '$nlFAB', function($nlConfig, $nlBurger, $nlHelpers, $nlElements, $nlFAB){
+.factory('$nlDrawer', [ '$nlConfig', '$nlBurger', '$nlHelpers', '$nlElements', '$nlFab', function($nlConfig, $nlBurger, $nlHelpers, $nlElements, $nlFab){
   var nlDrawer = {
     init: function( config ){
+      if( config.openCb ) nlDrawer.on.show = config.openCb;
+      if( config.closeCb ) nlDrawer.on.hide = config.closeCb;
       // get options passed from initialization and merge them with default ones
         $nlConfig.options = $nlHelpers.merge($nlConfig.options, config);
-        console.log( $nlConfig );
       // get references to all needed elements on page
         $nlElements.body = document.body;
         $nlElements.bodyH = new Hammer($nlElements.body);
@@ -361,7 +361,7 @@ angular.module('nlFramework', [])
         $nlBurger.toggle(false);
       }
       // set open state
-      $nlFAB.toggle(true);
+      $nlFab.toggle(true);
       nlDrawer.openned = false;
       setTimeout( function () {
         nlDrawer.on.hide();
@@ -463,7 +463,7 @@ angular.module('nlFramework', [])
         $nlConfig.onTouch = 'ontouchstart' in window ? true : false;
       // get references to elements
 
-        document.body.insertAdjacentHTML( 'beforeend', '<div id="nlRefresh"><svg version="1.1" id="reload-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 342.5 342.5" style="enable-background:new 0 0 342.5 342.5;" xml:space="preserve"><path d="M254.37,22.255c-1.161-0.642-2.53-0.795-3.803-0.428c-1.274,0.367-2.35,1.226-2.992,2.387l-21.758,39.391'
+        document.body.insertAdjacentHTML( 'afterbegin', '<div id="nlRefresh"><svg version="1.1" id="reload-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 342.5 342.5" style="enable-background:new 0 0 342.5 342.5;" xml:space="preserve"><path d="M254.37,22.255c-1.161-0.642-2.53-0.795-3.803-0.428c-1.274,0.367-2.35,1.226-2.992,2.387l-21.758,39.391'
         +'c-1.335,2.417-0.458,5.459,1.96,6.794C264.616,90.748,287.5,129.495,287.5,171.52c0,63.649-51.782,115.431-115.431,115.431'
         +'S56.638,235.169,56.638,171.52c0-23.888,7.557-47.427,21.382-66.897l34.478,34.478c1.338,1.337,3.315,1.806,5.109,1.21'
         +'c1.795-0.596,3.101-2.152,3.374-4.024L139.963,6.271c0.228-1.563-0.295-3.141-1.412-4.258c-1.117-1.117-2.7-1.639-4.258-1.412'
@@ -482,7 +482,6 @@ angular.module('nlFramework', [])
         $nlConfig.center = ($nlConfig.deviceW/2) - ($nlElements.refEl.offsetWidth/2);
       // move the element on pan
         $nlElements.topbarH.on("pan", function( ev ){
-          console.log( 'oan' );
           nlRefresh.move( ev );
         });
       // register touch end event
@@ -679,7 +678,6 @@ angular.module('nlFramework', [])
       }, $nlConfig.options.speed/2*1000);
     },
     hide: function( transitions ){
-      console.log( transitions );
       if( transitions ){
         $nlElements.toast.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
       }else{
@@ -781,18 +779,17 @@ angular.module('nlFramework', [])
   };
   return nlMenu; 
 }])
-.factory('$nlFAB', [ '$nlConfig', '$nlHelpers', '$nlElements', function($nlConfig, $nlHelpers, $nlElements){
-  var nlFAB = {
+.factory('$nlFab', [ '$nlConfig', '$nlHelpers', '$nlElements', function($nlConfig, $nlHelpers, $nlElements){
+  var nlFab = {
     openned: false,
     init: function(){
       $nlElements.actionPanel = document.getElementById('nlActionButton');
       $nlElements.actionPanelH = new Hammer($nlElements.actionPanel);
       $nlElements.actionPlus = document.getElementById('nlPlus');
       $nlElements.actionPlusH = new Hammer($nlElements.actionPlus);
-      $nlElements.actionPlusH.on("tap", function(ev) {
+      $nlElements.actionPanelH.on("tap", function(ev) {
         if( !$nlElements.actionPlus.hasAttribute("ng-click") ){
-          console.log('nlFAB click');
-          nlFAB.toggle();
+          nlFab.toggle();
         }
       });
     },
@@ -801,8 +798,8 @@ angular.module('nlFramework', [])
       // used only if enabled in setting when initializing
       if ( $nlConfig.options.actionButton ){
         $nlElements.drawerDimm.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
-        if ( !nlFAB.active && !hide ){
-          nlFAB.active = true;
+        if ( !nlFab.active && !hide ){
+          nlFab.active = true;
           $nlElements.burger.style['z-index'] = '1104';
           $nlElements.actionPlus.style['z-index'] = '1106';
           $nlElements.actionPanel.classList.add('active');
@@ -811,7 +808,7 @@ angular.module('nlFramework', [])
             $nlElements.drawerDimm.style.opacity = '1';
           }, 100);
         }else{
-          nlFAB.active = false;
+          nlFab.active = false;
           $nlElements.burger.style['z-index'] = '1106';
           $nlElements.drawerDimm.style.visibility = 'hidden';
           $nlElements.drawerDimm.style.opacity = '0';
@@ -821,5 +818,5 @@ angular.module('nlFramework', [])
       }
     }
   };
-  return nlFAB;
+  return nlFab;
 }]);

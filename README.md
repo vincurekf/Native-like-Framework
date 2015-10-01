@@ -57,12 +57,12 @@ Lets take a look at all the modules that **nlFramework** has.
 
 ### $nlDrawer
 To make this module work, first you need to insert element with **#nlDrawer** id.
-You can listen to callback ```openCb``` and ```closeCb```.
 ```html
 <!-- body of the menu drawer -->
 <div id="nlDrawer"></div>
 ```
 then just pass options to ```$nlFramework.init()``` function which will initialize the drawer.
+You can listen to callback ```openCb``` and ```closeCb```.
 ```js
 var nlOptions = { 
   drawer: {
@@ -76,16 +76,17 @@ var nlOptions = {
   }
 }
 ```
-**#nlBurger** (optional see [$nlBurger](#nlburger)), **#nlTopbar** (optional):
-
 And the work is done.   
-Here is what the module contains:
 
+Here is what the module contains:
 - **$nlDrawer**
  - ```show()```: shows the drawer (slide in)
  - ```hide()```: hides the drawer (slide out)
  - ```toggle()```: toggles the drawer (show/hide)
  - ```openned```: returns true/false if the drawer is openned/closed
+
+Optionally tou can use **#nlBurger** (see [$nlBurger](#nlburger)) with **#nlTopbar** (see [$nlTopbap](#nltopbar)).
+
 
 ### $nlBurger
 This simple module takes care of the burger menu icon animation.
@@ -102,7 +103,6 @@ If You want, you can include burger HTML element in your code and assign custom 
   <div id="burger-bottom"></div>
 </div>
 ```
-
 Here is what **$nlBurger** can do:
 
 - **$nlBurger**
@@ -110,10 +110,11 @@ Here is what **$nlBurger** can do:
   - ```setOn()```: Toggles the burger ON
   - ```setOff()```: Toggles the burger OFF
 
+
 ### $nlRefresh
 Pull-to-refresh module.
 Is hidden behind **#nlTopbar** and waits for pulling to show itself.  
-For this module to work, pass options to $nlFramework.init(), which will initialize the module and adds ***#nlTopbar** to your code.
+For this module to work, pass options to $nlFramework.init(), which will initialize the module and adds ***#nlTopbar** and **#nlRefresh** to your code.
 ```javascript
 var nlOptions = {
   refresh: true
@@ -161,7 +162,7 @@ Now you can start using notifications.
 Set the options and bring the toast:
 ```js
 function toastOk(){
-  console.log('Custom CB TRUE');
+  console.log('Custom CB True');
 }
 function toastFalse(){
   console.log('Custom CB False');
@@ -237,13 +238,13 @@ Is where you content belongs, this part is optional and not needed for **nlFrame
 </div>
 ```
 
-#### #nlActionButton
+#### #nlFab
 Action button with two sub actions which will show after the main (**#nlPlus**) button is clicked/tapped.
 
 If you want to use this You need to enable it in configuration when initializing the drawer, see [Configuration](#configuration) for more info.
 ```html
 <!-- action button -->
-<div id="nlActionButton" class="switch">
+<div id="nlFab" class="switch">
   <div class="action-button option one" ng-click="toast.show({title: 'At the TOP!', position: 'top', timeout: 2500});">
     2
   </div>
@@ -257,6 +258,11 @@ If you want to use this You need to enable it in configuration when initializing
   </div>
 </div>
 ```
+And that is all what **$nlFab** can do:
+
+- **$nlFab**
+  - ```toggle()```: toggles the FAB icon
+
 
 ### Objects
 Apart from [$nlDrawer](#nldrawer), [$nlBurger](#nlburger), [$nlRefresh](#nlrefresh), [$nlToast](#nltoast) and [$nlMenu](#nlmenu) 
@@ -282,8 +288,9 @@ You can use the parts separately or use this one module  which shortcuts to all 
   - ```refresh()```: shortcut to [$nlRefresh](#nlRefresh)
   - ```toast()```: shortcut to [$nlToast](#nlToast)
   - ```menu()```: shortcut to [$nlMenu](#nlMenu)
-  - ```config```: shortcut to [$nlConfig](#nlConfig)
+  - ```fab()```: shortcut to [$nlFab](#nlFab)
   - ```set()```: set **nlFramework** options (see [Configuration](#configuration))
+  - ```config```: shortcut to [$nlConfig](#nlConfig)
 
 ### Configuration
 You can use **$nlFramework** function ```set()``` to set options.
@@ -369,7 +376,7 @@ $rootScope.menu = $nlFramework.menu;
       speed: 0.2,
       animation: 'ease',
       // use action button
-      actionButton: true,
+      fab: true,
       // use toast messages
       toast: true,
       // burger specific
@@ -406,7 +413,7 @@ $rootScope.menu = $nlFramework.menu;
           }, 5000 );
         }
       },
-      actionButton: true,
+      fab: true,
       secMenu: true
     };
     // initialize the framework
@@ -425,7 +432,9 @@ $rootScope.menu = $nlFramework.menu;
     // set new options with nlFramework's set()
     $nlFramework.set({
       speed: 0.6,
-      maxWidth: 250,
+      drawer: {
+        maxWidth: 250,
+      },
       animation: 'ease-out'
     });
 
@@ -440,7 +449,6 @@ $rootScope.menu = $nlFramework.menu;
       }
     }, 100);
     // -------------------------------------------------------
-
   });
 });
 ```
