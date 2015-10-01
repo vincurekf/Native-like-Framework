@@ -67,24 +67,10 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
       },
       actionButton: true,
       secMenu: true
-    }
+    };
+    // initialize the framework
     $nlFramework.init( nlOptions );
 
-    // Native-like Drawer is HERE! ---------------------------
-    /*
-    var options = {
-      maxWidth: 300,
-      speed: 0.2,
-      animation: 'ease',
-      topBarHeight: 56,
-      modifyViewContent: true,
-      useActionButton: true
-    }
-    // initialize with options
-    $rootScope.drawer.init( options );
-    */
-    // Done! -------------------------------------------------
-    
     // swipe from top to refresh!
     // set custom callback
     // DON'T FORGET to call $nlRefresh.syncEnd(); after finish!
@@ -99,7 +85,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     //
 
     // in app toast message
-    // cet custom callbacks
+    // set custom callbacks
     $rootScope.toastOk = function(){
       console.log('Custom CB TRUE');
     }
@@ -116,35 +102,6 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
     // show the notification
     $rootScope.toast.show( options );
     //
-
-    /* examples of usage
-      // set new options
-      setTimeout( function(){
-        $rootScope.drawer.set({
-          speed: 0.6,
-          maxWidth: 250,
-          animation: 'ease-out'
-        });
-      }, 500 );
-      
-      // show drawer
-      setTimeout( function(){
-        $rootScope.drawer.show();
-      }, 1000 );
-      
-      // toggle burger
-      setTimeout( function(){
-        $rootScope.burger.toggle();
-      }, 2000 );
-      setTimeout( function(){
-        $rootScope.burger.toggle( true );
-      }, 3000 );
-      
-      // hide drawer
-      setTimeout( function(){
-        $rootScope.drawer.hide();
-      }, 4000 );
-    */
 
     // If you like you can register backbutton handle --------
     $ionicPlatform.registerBackButtonAction(function () {

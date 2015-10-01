@@ -56,48 +56,47 @@ To start using **nlFramework** in your app include
 Lets take a look at all the modules that **nlFramework** has.
 
 ### $nlDrawer
-To make this module work, first you need to insert this HTML elements:   
-**#nlDrawer**, **#nlSwipe**, **#nlBurger** (see [$nlBurger](#nlburger)), **#nlTopbar** and **#nlDimm**:
+To make this module work, first you need to insert element with **#nlDrawer** id.
+You can listen to callback ```openCb``` and ```closeCb```.
 ```html
 <!-- body of the menu drawer -->
 <div id="nlDrawer"></div>
-<!-- stripe on the left of the screen to detect slide from side of the screen -->
-<div id="nlSwipe"></div>
-<!-- takes care of the overlay dimming -->
-<div id="nlDimm"></div>
-<!-- toggle icon for toggling menu -->
-<div id="nlBurger">
-  <div id="burger-top"></div>
-  <div id="burger-center"></div>
-  <div id="burger-bottom"></div>
-</div>
-<!-- main top bar -->
-<div id="nlTopbar"></div>
 ```
-
-then just initialize it:
+then just pass options to ```$nlFramework.init()``` function which will initialize the drawer.
 ```js
-$nlDrawer.init();
+var nlOptions = { 
+  drawer: {
+    maxWidth: 300,
+    openCb: function(){
+      console.log('nlDrawer: openned')
+    },
+    closeCb: function(){ 
+      console.log('nlDrawer closed')
+    }
+  }
+}
 ```
+**#nlBurger** (optional see [$nlBurger](#nlburger)), **#nlTopbar** (optional):
 
 And the work is done.   
 Here is what the module contains:
 
 - **$nlDrawer**
- - ```init()```: initializes the drawer
  - ```show()```: shows the drawer (slide in)
  - ```hide()```: hides the drawer (slide out)
  - ```toggle()```: toggles the drawer (show/hide)
- - ```togglePlus()```: toggles the action button (ON/OFF)
  - ```openned```: returns true/false if the drawer is openned/closed
-
-
 
 ### $nlBurger
 This simple module takes care of the burger menu icon animation.
+```javascript
+vanr nlOptions = {
+  burger: true
+}
+```
+If You want, you can include burger HTML element in your code and assign custom action: 
 ```html
-<!-- toggle icon for toggling menu -->
-<div id="nlBurger">
+<div id="nlBurger" onclick="doSomething()">
   <div id="burger-top"></div>
   <div id="burger-center"></div>
   <div id="burger-bottom"></div>
@@ -107,78 +106,71 @@ This simple module takes care of the burger menu icon animation.
 Here is what **$nlBurger** can do:
 
 - **$nlBurger**
-  - ```toggle(true)```: Toggles the burger ON - active
-  - ```toggle(false)```: Toggles the burger OFF - inactive
-
-
+  - ```toggle()```: Toggles the burger ON/OFF
+  - ```setOn()```: Toggles the burger ON
+  - ```setOff()```: Toggles the burger OFF
 
 ### $nlRefresh
-Pull-to-refresh module.  
+Pull-to-refresh module.
 Is hidden behind **#nlTopbar** and waits for pulling to show itself.  
-For this module, you need to add this in your HTML **#nlRefresh**, 
-and if you don't have already **nlTopbar** add it as well:
-```html
-<!-- pull-to-refresh indicator -->
-<div id="nlRefresh">
-  <svg version="1.1" id="reload-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 342.5 342.5" style="enable-background:new 0 0 342.5 342.5;" xml:space="preserve">
-  <path d="M254.37,22.255c-1.161-0.642-2.53-0.795-3.803-0.428c-1.274,0.367-2.35,1.226-2.992,2.387l-21.758,39.391
-    c-1.335,2.417-0.458,5.459,1.96,6.794C264.616,90.748,287.5,129.495,287.5,171.52c0,63.649-51.782,115.431-115.431,115.431
-    S56.638,235.169,56.638,171.52c0-23.888,7.557-47.427,21.382-66.897l34.478,34.478c1.338,1.337,3.315,1.806,5.109,1.21
-    c1.795-0.596,3.101-2.152,3.374-4.024L139.963,6.271c0.228-1.563-0.295-3.141-1.412-4.258c-1.117-1.117-2.7-1.639-4.258-1.412
-    L4.278,19.584c-1.872,0.273-3.428,1.579-4.023,3.374c-0.596,1.795-0.127,3.772,1.21,5.109l37.292,37.292
-    C14.788,95.484,1.638,133,1.638,171.52c0,93.976,76.455,170.431,170.431,170.431c93.976,0,170.431-76.455,170.431-170.431
-    C342.5,109.478,308.731,52.283,254.37,22.255z"/>
-  </svg>
-</div>
-<!-- main top bar if you don't have it already -->
-<div id="nlTopbar"></div>
+For this module to work, pass options to $nlFramework.init(), which will initialize the module and adds ***#nlTopbar** to your code.
+```javascript
+var nlOptions = {
+  refresh: true
+}
 ```
 
-and then initialize the module:
-```js
-$nlRefresh.init();
-```
+This will start the module and assign pull action to **#nlTopbar**.  
+To add custom callback assign some function to **refresh.callback** which by default just prints something in the console. In order to properly stop the refreshing animation, you must call **$nlRefresh.syncEnd()** at the end of your task otherwise the animation will go forever. 
 
-This will start the module and assign pull action to **nlTopbar**.   
-To add custom callback assign some function to **$nlRefresh.callback()** which by default 
-just prints something in the console. In order to properly stop the refreshing animation, 
-you must call **nlRefresh.syncEnd()** at the end of your task otherwise the animation 
-will go forever.
+You can allso change the default colors for inactive and active state of the refresh indicator. 
 ```js
-$nlRefresh.callback = function(){
-  // do something here and then call nlRefresh.syncEnd()
-  $nlRefresh.syncEnd();
-};
+var nlOptions = {
+  refresh: {
+    defaultColor: '#aa3344', // default(inactive) color
+    activeColor: '#558844', // active color
+    callback: function(){
+      // here is just timeout to wait 5sec before ending sync animation
+      setTimeout( function(){
+        console.log( 'nlRefresh custom callback' );
+        // after doing some stuff end syncing animation
+        $nlRefresh.syncEnd();
+      }, 5000 );
+    }
+  }
+} 
 ```
 
 Here is what the module contains:
 
 - **$nlRefresh**
-  - ```init()```: call in your app if you wish to use **pull-to-sync**
   - ```callback()```: your custom callback function
     - remeber to call ```syncEnd()``` at the end of your process to end the animation
   - ```syncEnd()```: as mentioned above, this ends the syncing animation
 
 
-
 ### $nlToast
 Very simple toast notification which shows text that was passed to it.   
-To make this work, add **nlToast** in your HTML:
-```html
-<!-- toast notification element -->
-<div id="nlToast"></div>
+To make this work, pass this options to your ```$nlFramework.init()``` function:
+```javascript
+var nlOptions = {
+  toast: true
+} 
 ```
-
-and then initialize it:
-```js
-$nlToast.init();
-```
-
-now you can start using notifications.   
+Now you can start using notifications.   
 Set the options and bring the toast:
 ```js
+function toastOk(){
+  console.log('Custom CB TRUE');
+}
+function toastFalse(){
+  console.log('Custom CB False');
+}
+// set options
 var options = {
-  text: 'I am shy!',
+  title: 'I\'m a Toast! Yummy!',
+  trueCallback: toastOk(),
+  falseCallback: toastFalse(),
   timeout: 2500
 }
 $nlTaost.show( options )
@@ -204,13 +196,7 @@ three-dot-menu in the top right corner, this is very simple to use, just place y
 HTML for menu module:
 ```html
 <!-- secondary three-dot-menu -->
-<div id="nlMenu" class="main">
-  <!-- do not remove this -->
-  <div id="nlIcon">
-    <div id="dot-top"></div>
-    <div id="dot-center"></div>
-    <div id="dot-bottom"></div>
-  </div>
+<div id="nlMenu">
   <div id="nlMenuContent">
     <!-- place your menu content here -->
     <ul>
@@ -221,10 +207,14 @@ HTML for menu module:
   </div>
 </div>
 ```
-
-initialize the menu and now you have ```show()``` and ```hide()``` functions availiable.   
+Initialize the menu by passing options to ```$nlFramework.init()``` function:
+```javascript
+var nlOptions = {
+  secMenu: true
+}
+```
+and now you have ```show()``` and ```hide()``` functions availiable.   
 ```js
-$nlMenu.init();
 $nlMenu.show();
 $nlMenu.hide();
 ```
@@ -232,7 +222,6 @@ $nlMenu.hide();
 And that is all what **$nlMenu** can do:
 
 - **$nlMenu**
-  - ```init()```: initialize the secondary menu
   - ```show()```: shows the menu
   - ```hide()```: hides the menu
 
@@ -270,7 +259,6 @@ If you want to use this You need to enable it in configuration when initializing
 ```
 
 ### Objects
-
 Apart from [$nlDrawer](#nldrawer), [$nlBurger](#nlburger), [$nlRefresh](#nlrefresh), [$nlToast](#nltoast) and [$nlMenu](#nlmenu) 
 there are also [$nlConfig](#nlconfig) which contains all the settings, and core module [$nlFramework](#nlframework) with shortcuts to all other modules.   
 
@@ -279,51 +267,69 @@ You can set custom configuration of some modules and thier HTML elements.
 **$nlConfig** holds the configuration of all the modules. 
 
 - **$nlConfig**: contains all options and variables of nlFramework
-  - ```options```: contains drawer and burger options (see [Configuration](#configuration))
+  - ```options```: contains drawer, burger, refresh and content options (see [Configuration](#configuration))
+    - ```drawer```: drawer settings
     - ```burger```: burger options only
     - ```refresh```: pull-to-refresh options
+    - ```content```: content specific settings
 
 #### $nlFramework
 You can use the parts separately or use this one module  which shortcuts to all other modules:
 
 - **$nlFramework**
-  - ```drawer()```: shortcut to [$nlDrawer](#nldrawer)**
-  - ```burger()```: shortcut to **$nlBurger**
-  - ```refresh()```: shortcut to **$nlRefresh**
-  - ```toast()```: shortcut to **$nlToast**
-  - ```menu()```: shortcut to **$nlMenu**
-  - ```config```: shortcut to **$nlConfig**
+  - ```drawer()```: shortcut to [$nlDrawer](#nldrawer)
+  - ```burger()```: shortcut to [$nlBurger](#nlBurger)
+  - ```refresh()```: shortcut to [$nlRefresh](#nlRefresh)
+  - ```toast()```: shortcut to [$nlToast](#nlToast)
+  - ```menu()```: shortcut to [$nlMenu](#nlMenu)
+  - ```config```: shortcut to [$nlConfig](#nlConfig)
   - ```set()```: set **nlFramework** options (see [Configuration](#configuration))
 
 ### Configuration
 You can use **$nlFramework** function ```set()``` to set options.
 
 ```js
-var options = {
-  // the maximum width that can drawer take, can be any number value (pixels)
-  maxWidth: 300, 
-  // define the height of your topbar, you must set this if you'll use modifyViewContent
-  topBarHeight: 56, 
-  // Speed of the drawer movement, defined in seconds (0.2, 1, 5...)
-  speed: 0.2, 
-  // css transition style property, 
-  // could be **linear**, **ease**, **ease-in**, **ease-out**, **ease-in-out**
-  animation: 'ease', 
-  // if you are using ionic view or angular ng-view this comes handy as it adds margin to your content 
-  // and changes the size of it (when you rotate device etc.)
-  modifyViewContent: true, 
-  // wheter or not you are using action buttons provided with Native-like Drawer
-  useActionButton: true, 
-  burger: { // you can adjust the burger look a bit
+var nlOptions = {
+  // global settings
+  speed: 0.2,
+  animation: 'ease',
+  // burger specific
+  burger: {
+    endY: 6,
     startScale: 1, // X scale of bottom and top line of burger menu at starting point (OFF state)
     endScale: 0.7 // X scale of bottom and top line of burger menu at end point (ON state)
   },
+  // content specific
+  content:{
+    topBarHeight: 56,
+    modify: true
+  },
+  // drawer specific
+  drawer: {
+    maxWidth: 300,
+    openCb: function(){
+      console.log('nlDrawer: openned')
+    },
+    closeCb: function(){ 
+      console.log('nlDrawer closed')
+    }
+  },
+  // refresh specific
   refresh: {
     defaultColor: '#aa3344', // default(inactive) color
-    activeColor: '#558844' // active color
+    activeColor: '#558844', // active color
+    callback: function(){
+      // here is just timeout to wait 5sec before ending sync animation
+      setTimeout( function(){
+        console.log( 'nlRefresh custom callback' );
+        // after doing some stuff end syncing animation
+        $nlRefresh.syncEnd();
+      }, 5000 );
+    }
   }
 };
-$nlFramework.set( options );
+// set the options
+$nlFramework.set( nlOptions );
 ```
 
 ### Styles
@@ -355,18 +361,56 @@ $rootScope.menu = $nlFramework.menu;
   $ionicPlatform.ready(function() {
 
     /* ---------------------------
-     * Drawer:
+     * nlFramework:
      * set options and initialize
      */ 
-    var options = {
-      maxWidth: 300,
+    var nlOptions = {
+      // global settings
       speed: 0.2,
       animation: 'ease',
-      topBarHeight: 56,
-      modifyViewContent: true,
-      useActionButton: true
-    }
-    $nlDrawer.init( options );
+      // use action button
+      actionButton: true,
+      // use toast messages
+      toast: true,
+      // burger specific
+      burger: {
+        endY: 6,
+        startScale: 1, // X scale of bottom and top line of burger menu at starting point (OFF state)
+        endScale: 0.7 // X scale of bottom and top line of burger menu at end point (ON state)
+      },
+      // content specific
+      content:{
+        modify: true, // modify content width and heidht?
+        topBarHeight: 56 //topbar height to use when modify is set to true
+      },
+      // drawer specific
+      drawer: {
+        maxWidth: 300,
+        openCb: function(){
+          console.log('nlDrawer: openned')
+        },
+        closeCb: function(){ 
+          console.log('nlDrawer closed')
+        }
+      },
+      // refresh specific
+      refresh: {
+        defaultColor: '#aa3344', // default(inactive) color
+        activeColor: '#558844', // active color
+        callback: function(){
+          // here is just timeout to wait 5sec before ending sync animation
+          setTimeout( function(){
+            console.log( 'nlRefresh custom callback' );
+            // after doing some stuff end syncing animation
+            $nlRefresh.syncEnd();
+          }, 5000 );
+        }
+      },
+      actionButton: true,
+      secMenu: true
+    };
+    // initialize the framework
+    $nlFramework.init( nlOptions );
     
     // show drawer
     $nlDrawer.show();
@@ -384,42 +428,6 @@ $rootScope.menu = $nlFramework.menu;
       maxWidth: 250,
       animation: 'ease-out'
     });
-
-    // initialize pull-to-refresh
-    $nlRefresh.init();
-    // set custom callback
-    // DO NOT FORGET to call $nlRefresh.syncEnd(); after finish!
-    $nlRefresh.callback = function(){
-      // here is just timeout to wait 5sec before ending sync animation
-      setTimeout( function(){
-        console.log( 'custom callback onSync' );
-        // after doing some stuff end syncing animation
-        $nlRefresh.syncEnd();
-      }, 5000 );
-    };
-    //
-
-    // initialize three-dot-menu
-    $nlMenu.init();
-
-    // initialize in app toast message
-    $nlToast.init();
-    // false callbach function
-    $rootScope.toastOk = function(){
-      console.log('Custom CB TRUE');
-    }
-    // false callbach function
-    $rootScope.toastFalse = function(){
-      console.log('Custom CB False');
-    }
-    // show the toast!
-    $nlToast.show(
-      'A am a Toast! Yum!', // notification text 
-      'top', // position, top or default bottom (optional)
-      $rootScope.toastOk, // on swipe right (optional)
-      $rootScope.toastFalse, // on swipe left (optional)
-      2500 // timeout (optional)
-    );
 
     // If you like you can register backbutton handle --------
     $ionicPlatform.registerBackButtonAction(function () {
