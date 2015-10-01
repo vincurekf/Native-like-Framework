@@ -25,7 +25,7 @@ You can find [working example here](http://nlmd.vincurekf.cz).
     - [$nlToast](#nltoast)
   - [Additional stuff](#additional-stuff)
     - [#nlContent](#nlcontent)
-    - [#nlActionButton](#nlactionbutton)
+    - [#nlFab](#nlfab)
   - [Objects](#objects)
     - [$nlConfig](#nlconfig)
     - [$nlFramework](#nlframework)
@@ -85,7 +85,7 @@ Here is what the module contains:
  - ```toggle()```: toggles the drawer (show/hide)
  - ```openned```: returns true/false if the drawer is openned/closed
 
-Optionally tou can use **#nlBurger** (see [$nlBurger](#nlburger)) with **#nlTopbar** (see [$nlTopbap](#nltopbar)).
+Optionally tou can use **#nlBurger** (see [$nlBurger](#nlburger)) with **#nlTopbar** (see [$nlTopbar](#nltopbar)).
 
 
 ### $nlBurger
@@ -236,6 +236,12 @@ Is where you content belongs, this part is optional and not needed for **nlFrame
   <!-- your part of the code, views etc.. -->
   <div id="nlInner" ng-view=""></div>
 </div>
+```
+
+#### #nlTopbar
+This is just help object used by **$nlRefresh** or can be uset just for holding title or gibe background for **nlBurger** and **nlMenu**.
+```html
+<div id="nlTopbar" class="depth z1"></div>
 ```
 
 #### #nlFab
