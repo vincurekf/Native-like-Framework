@@ -44,6 +44,7 @@ angular.module('nlFramework', [])
       if( config.actionButton ) $nlFab.init();
 
       // modify view-content?
+      if ( config.content ){
         if ( config.content.modify ){
           $nlElements.viewContent = document.getElementById( 'nlContent' );
           $nlElements.viewContentH = new Hammer($nlElements.viewContent);
@@ -51,22 +52,23 @@ angular.module('nlFramework', [])
           $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
           $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
         }
+      };
       // listen to resize event, mainly for updating size of drawer when changing view portrait <-> landscape
-        window.onresize = function(event) {
-          $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-          $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-          if ( config.content.modify ){
-            $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
-            $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
-          }
-          if( config.drawer ){
-            if ( !$nlDrawer.openned ){
-              $nlHelpers.translate( $nlElements.drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
-            }else{
-              $nlHelpers.translate( $nlElements.drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
-            }
+      window.onresize = function(event) {
+        $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        if ( config.content && config.content.modify ){
+          $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
+          $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
+        }
+        if( config.drawer ){
+          if ( !$nlDrawer.openned ){
+            $nlHelpers.translate( $nlElements.drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
+          }else{
+            $nlHelpers.translate( $nlElements.drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
           }
         }
+      }
     },
     drawer: $nlDrawer,
     burger: $nlBurger,
@@ -139,7 +141,7 @@ angular.module('nlFramework', [])
   }
 })
 .factory('$nlHelpers', function(){
-  return {
+  var nlHelpers = {
     translate: function(myElement, x, pmX, y, pmY, deg, pmDeg, width, scale, mozieo, opacity){
       var x = x || 0,
           y = y || 0,
@@ -179,10 +181,19 @@ angular.module('nlFramework', [])
     merge: function(obj1,obj2){
       var obj3 = {};
       for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-      for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+      for (var attrname in obj2) {
+        if( typeof obj1[attrname] === 'object' ){
+          console.log(obj1[attrname]);
+          obj3[attrname] = nlHelpers.merge( obj1[attrname], obj2[attrname]);
+          console.log(obj3[attrname]);
+        }else{
+          obj3[attrname] = obj2[attrname];
+        }
+      }
       return obj3;
     }
   }
+  return nlHelpers
 })
 .factory('$nlBurger', [ '$nlConfig', '$nlHelpers', '$nlElements', function($nlConfig, $nlHelpers, $nlElements){
   var nlBurger = {
