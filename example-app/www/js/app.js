@@ -22,7 +22,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
 
     // initialize the whole framework
     // Options
-    // 
+    //
     var nlOptions = {
       // global settings
       speed: 0.2,
@@ -48,7 +48,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
         openCb: function(){
           console.log('nlDrawer: openned')
         },
-        closeCb: function(){ 
+        closeCb: function(){
           console.log('nlDrawer closed')
         }
       },
@@ -65,7 +65,6 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
           }, 5000 );
         }
       },
-      actionButton: true,
       secMenu: true
     };
     // initialize the framework
@@ -97,7 +96,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
       title: 'I\'m a Toast! Yummy!',
       trueCallback: $rootScope.toastOk,
       falseCallback: $rootScope.toastFalse,
-      timeout: 2500 
+      timeout: 2500
     }
     // show the notification
     $rootScope.toast.show( options );

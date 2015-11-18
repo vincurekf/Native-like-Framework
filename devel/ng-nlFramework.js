@@ -1,15 +1,15 @@
 /**
- * Native-like menu Drawer 
- * Depends on Hammer.js 
+ * Native-like Framework
+ * Depends on Hammer.js
  * for smooth touch handeling
- * 
+ *
  * This module was mainly developed for android apps build with Ionic
  * but can be used within any Angular project.
  */
 
 angular.module('nlFramework', [])
-.factory('$nlFramework', 
-  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', '$nlFab', '$nlHelpers', '$nlElements', 
+.factory('$nlFramework',
+  ['$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', '$nlFab', '$nlHelpers', '$nlElements',
   function($nlConfig, $nlDrawer, $nlBurger, $nlRefresh, $nlToast, $nlMenu, $nlFab, $nlHelpers, $nlElements){
   var nlFramework = {
     init: function( config ){
@@ -44,7 +44,7 @@ angular.module('nlFramework', [])
       if( config.actionButton ) $nlFab.init();
 
       // modify view-content?
-        if ( $nlConfig.options.content.modify ){
+        if ( config.content.modify ){
           $nlElements.viewContent = document.getElementById( 'nlContent' );
           $nlElements.viewContentH = new Hammer($nlElements.viewContent);
           $nlElements.viewContent.style['margin-top'] = $nlConfig.options.content.topBarHeight+'px';
@@ -60,8 +60,7 @@ angular.module('nlFramework', [])
             $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
           }
           if( config.drawer ){
-            $nlConfig.maxWidth = $nlConfig.options.drawer.maxWidth > $nlConfig.deviceW-56 ? $nlConfig.deviceW-56 : $nlConfig.options.drawer.maxWidth;
-            if ( !nlDrawer.openned ){
+            if ( !$nlDrawer.openned ){
               $nlHelpers.translate( $nlElements.drawer, $nlConfig.maxWidth, '-', 0, '', 0, '', $nlConfig.maxWidth );
             }else{
               $nlHelpers.translate( $nlElements.drawer, 0, '', 0, '', 0, '', $nlConfig.maxWidth );
@@ -78,7 +77,8 @@ angular.module('nlFramework', [])
     fab: $nlFab,
     set: function( config ){
       var oldOptions = $nlConfig.options;
-      $nlConfig.options = $nlHelpers.merge(oldOptions, config);
+      $nlConfig.options = $nlHelpers.merge(oldOptions,config);
+      console.log( $nlConfig.options );
     }
   };
   return nlFramework;
@@ -103,6 +103,8 @@ angular.module('nlFramework', [])
       actionButton: false,
       // use toast messages
       toast: false,
+      // use three dot menu
+      secMenu: false,
       // burger specific
       burger: {
         endY: 6,
@@ -120,7 +122,7 @@ angular.module('nlFramework', [])
         openCb: function(){
           console.log('nlDrawer: openned')
         },
-        closeCb: function(){ 
+        closeCb: function(){
           console.log('nlDrawer closed')
         }
       },
@@ -132,9 +134,7 @@ angular.module('nlFramework', [])
           // after doing some stuff end syncing animation
           $nlRefresh.syncEnd();
         }
-      },
-      actionButton: false,
-      secMenu: false
+      }
     }
   }
 })
@@ -196,8 +196,9 @@ angular.module('nlFramework', [])
         var scale = $nlConfig.options.burger.startScale - Math.abs((((1-$nlConfig.options.burger.endScale)/100)*currentPerc)).toFixed(2);
         // for both lines
         var rotate = Math.floor(((45/100)*currentPerc));
-        var y_pos_top = Math.floor((($nlConfig.options.burger.endY/100)*currentPerc));
-            y_pos_top = y_pos_bottom = y_pos_top < $nlConfig.options.burger.endY ? y_pos_top : $nlConfig.options.burger.endY;
+        console.log( $nlConfig.options.burger.endY );
+        var y_pos = Math.floor((($nlConfig.options.burger.endY/100)*currentPerc));
+            y_pos = y_pos < $nlConfig.options.burger.endY ? y_pos : $nlConfig.options.burger.endY;
         // Complete burger rotation
         var rotateComplete = Math.floor(((180/100)*currentPerc));
         //
@@ -210,8 +211,8 @@ angular.module('nlFramework', [])
         $nlElements.burgerBottom.style.transition = 'none';
         //
         $nlHelpers.translate( $nlElements.burger, 0, '', 0, '', rotateComplete, '', '' );
-        $nlHelpers.translate( $nlElements.burgerTop, 0, '', y_pos_top, '', rotate, '', '', scale );
-        $nlHelpers.translate( $nlElements.burgerBottom, 0, '', y_pos_bottom, '-', rotate, '-', '', scale );
+        $nlHelpers.translate( $nlElements.burgerTop, 0, '', y_pos, '', rotate, '', '', scale );
+        $nlHelpers.translate( $nlElements.burgerBottom, 0, '', y_pos, '-', rotate, '-', '', scale );
       }
     },
     toggle: function( toggle ){
@@ -317,8 +318,8 @@ angular.module('nlFramework', [])
         $nlElements.drawerDimmH.on("tap", function(ev) {
           nlDrawer.hide();
         });
-        
-        if( typeof $nlConfig.options.burger === 'object'){
+
+        if($nlConfig.options.burger){
           $nlElements.burgerH.on("tap", function(ev) {
             if( !$nlElements.burger.hasAttribute("ng-click") ){
               nlDrawer.toggle();
@@ -390,7 +391,7 @@ angular.module('nlFramework', [])
       };
       pos = pos < 0 ? pos : 0;
       // calculate opacity of background dimmer based on touch position (within max width range 0-100%)
-      var opacityModder = $nlConfig.options.drawer.maxWidth - Math.abs(pos); 
+      var opacityModder = $nlConfig.options.drawer.maxWidth - Math.abs(pos);
       var opacity = ( opacityModder / ($nlConfig.options.drawer.maxWidth/100) / 100 ).toFixed(2);
           opacity = opacity < 1 ? opacity : 1;
       // animate burger menu icon
@@ -437,7 +438,7 @@ angular.module('nlFramework', [])
     onEnd: function(e, touch){
       // get the touch reference
       // reference first touch point for this event
-      var touchobj = touch ? e.changedTouches[0] : e; 
+      var touchobj = touch ? e.changedTouches[0] : e;
       // if the drawer is pulled more than 50% of its maxWidth
       var isBigger = touchobj.clientX > ($nlConfig.options.drawer.maxWidth/2);
       // combined with the direction
@@ -457,7 +458,7 @@ angular.module('nlFramework', [])
       e.preventDefault()
     }
   };
-  return nlDrawer; 
+  return nlDrawer;
 }])
 .factory('$nlRefresh', [ '$nlConfig', '$nlHelpers', '$nlElements', function($nlConfig, $nlHelpers, $nlElements){
   var nlRefresh = {
@@ -536,7 +537,7 @@ angular.module('nlFramework', [])
       };
       var onEnd = function(e, touch){
         var end = Math.floor($nlConfig.deviceH/2);
-        var touchobj = touch ? e.changedTouches[0] : e; 
+        var touchobj = touch ? e.changedTouches[0] : e;
         // wait for move event to end (0.1s)
         // then call callback function
         setTimeout( function(){
@@ -550,17 +551,17 @@ angular.module('nlFramework', [])
             var rotateStep = 0;
             var rotate = 0.36 * (end/100 * (touchobj.clientY - end)) + 360;
             $nlConfig.nlRefresh.minY = $nlConfig.options.content.topBarHeight+$nlConfig.options.content.topBarHeight/3;
-          
-            $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', rotate, ''); 
-            
+
+            $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', rotate, '');
+
             setTimeout( function(){
               $nlElements.refEl.style.transition = 'all '+($nlConfig.options.speed/2)+'s linear';
-              var waiter = setInterval(function(){ 
+              var waiter = setInterval(function(){
                 if ( $nlConfig.nlRefresh.ended ){
                   clearInterval(waiter);
                 }else{
                   var rotation = rotate+rotateStep;
-                  $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', rotation, ''); 
+                  $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', rotation, '');
                   step += 0.1;
                   rotateStep += 6+step;
                 }
@@ -584,13 +585,13 @@ angular.module('nlFramework', [])
       $nlConfig.nlRefresh.ended = true;
       setTimeout( function(){
         $nlElements.refEl.style.transition = 'all '+($nlConfig.options.speed/2)+'s '+$nlConfig.options.animation;
-        $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', 0, '', '', '1.2');     
+        $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', 0, '', '', '1.2');
       }, 100);
       setTimeout( function(){
-        $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', 0, '', '', '0');     
+        $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', $nlConfig.nlRefresh.minY, '', 0, '', '', '0');
       }, 200);
       setTimeout( function(){
-        $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', 0, '', 0, '', '', '0');     
+        $nlHelpers.translate($nlElements.refEl, $nlConfig.center, '', 0, '', 0, '', '', '0');
       }, 300);
       $nlConfig.syncTrue = false;
       $nlConfig.syncing = false;
@@ -640,9 +641,9 @@ angular.module('nlFramework', [])
       }else{
         nlToast.falseCb =  function(){};
       }
-       
+
       if(title) $nlElements.toast.innerHTML = title;
-      
+
       if( position === 'top' ){
         $nlElements.toast.style.transition = 'none';
         $nlHelpers.translate( $nlElements.toast, 0, '', $nlConfig.deviceH, '-', 0, '' );
@@ -742,7 +743,7 @@ angular.module('nlFramework', [])
       console.log( 'False Callback' );
     }
   };
-  return nlToast; 
+  return nlToast;
 }])
 .factory('$nlMenu', [ '$nlConfig', '$nlHelpers', '$nlElements', function($nlConfig, $nlHelpers, $nlElements){
   var nlMenu = {
@@ -780,7 +781,7 @@ angular.module('nlFramework', [])
       nlMenu.openned = false;
     }
   };
-  return nlMenu; 
+  return nlMenu;
 }])
 .factory('$nlFab', [ '$nlConfig', '$nlHelpers', '$nlElements', function($nlConfig, $nlHelpers, $nlElements){
   var nlFab = {
