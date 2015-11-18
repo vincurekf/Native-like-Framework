@@ -38,13 +38,13 @@ You can find [working example here](http://nlmd.vincurekf.cz).
 
 ## Why this?
 If you are developing application for android with Phonegap or Ionic or other alternative,
-this is exactly for you. 
+this is exactly for you.
 I've been struggling with menu implementations, found some but never got the feel and usability i wanted. No touch support or slow/no animations, if there was animations, they mostly have lags.
 
 With **nlFramework** you have touch support, slide open/close/toggle menu, action button, pull-to-refresh, in app toast notfication, three-dot-menu and all with smooth hardware accelerated animations.
 
 ### Getting started
-To start using **nlFramework** in your app include 
+To start using **nlFramework** in your app include
 **hammer.js**, **ng-nlFramework-min.js** and **ng-nlFramework.css** in your project:
 ```html
 <script src="hammer.js"></script>
@@ -64,13 +64,13 @@ To make this module work, first you need to insert element with **#nlDrawer** id
 then just pass options to ```$nlFramework.init()``` function which will initialize the drawer.
 You can listen to callback ```openCb``` and ```closeCb```.
 ```js
-var nlOptions = { 
+var nlOptions = {
   drawer: {
     maxWidth: 300,
     openCb: function(){
       console.log('nlDrawer: openned')
     },
-    closeCb: function(){ 
+    closeCb: function(){
       console.log('nlDrawer closed')
     }
   }
@@ -95,7 +95,7 @@ vanr nlOptions = {
   burger: true
 }
 ```
-If You want, you can include burger HTML element in your code and assign custom action: 
+If You want, you can include burger HTML element in your code and assign custom action:
 ```html
 <div id="nlBurger" onclick="doSomething()">
   <div id="burger-top"></div>
@@ -115,6 +115,7 @@ Here is what **$nlBurger** can do:
 Pull-to-refresh module.
 Is hidden behind **#nlTopbar** and waits for pulling to show itself.  
 For this module to work, pass options to $nlFramework.init(), which will initialize the module and adds ***#nlTopbar** and **#nlRefresh** to your code.
+
 ```javascript
 var nlOptions = {
   refresh: true
@@ -122,9 +123,9 @@ var nlOptions = {
 ```
 
 This will start the module and assign pull action to **#nlTopbar**.  
-To add custom callback assign some function to **refresh.callback** which by default just prints something in the console. In order to properly stop the refreshing animation, you must call **$nlRefresh.syncEnd()** at the end of your task otherwise the animation will go forever. 
+To add custom callback assign some function to **refresh.callback** which by default just prints something in the console. In order to properly stop the refreshing animation, you must call **$nlRefresh.syncEnd()** at the end of your task otherwise the animation will go forever.
 
-You can allso change the default colors for inactive and active state of the refresh indicator. 
+You can allso change the default colors for inactive and active state of the refresh indicator.
 ```js
 var nlOptions = {
   refresh: {
@@ -139,7 +140,7 @@ var nlOptions = {
       }, 5000 );
     }
   }
-} 
+}
 ```
 
 Here is what the module contains:
@@ -156,7 +157,7 @@ To make this work, pass this options to your ```$nlFramework.init()``` function:
 ```javascript
 var nlOptions = {
   toast: true
-} 
+}
 ```
 Now you can start using notifications.   
 Set the options and bring the toast:
@@ -271,12 +272,12 @@ And that is all what **$nlFab** can do:
 
 
 ### Objects
-Apart from [$nlDrawer](#nldrawer), [$nlBurger](#nlburger), [$nlRefresh](#nlrefresh), [$nlToast](#nltoast) and [$nlMenu](#nlmenu) 
+Apart from [$nlDrawer](#nldrawer), [$nlBurger](#nlburger), [$nlRefresh](#nlrefresh), [$nlToast](#nltoast) and [$nlMenu](#nlmenu)
 there are also [$nlConfig](#nlconfig) which contains all the settings, and core module [$nlFramework](#nlframework) with shortcuts to all other modules.   
 
 #### $nlConfig
-You can set custom configuration of some modules and thier HTML elements. 
-**$nlConfig** holds the configuration of all the modules. 
+You can set custom configuration of some modules and thier HTML elements.
+**$nlConfig** holds the configuration of all the modules.
 
 - **$nlConfig**: contains all options and variables of nlFramework
   - ```options```: contains drawer, burger, refresh and content options (see [Configuration](#configuration))
@@ -323,7 +324,7 @@ var nlOptions = {
     openCb: function(){
       console.log('nlDrawer: openned')
     },
-    closeCb: function(){ 
+    closeCb: function(){
       console.log('nlDrawer closed')
     }
   },
@@ -349,7 +350,7 @@ $nlFramework.set( nlOptions );
 There is **ng-nativeDrawer.scss** file with default styles and colors which are there for you prepared to customize the look of nlFramework parts however you like.
 
 ### Example code
-In your main javascript file where you start your angular app 
+In your main javascript file where you start your angular app
 you need to initialize the modules.
 
 Here is example of all modules in one file:
@@ -376,7 +377,7 @@ $rootScope.menu = $nlFramework.menu;
     /* ---------------------------
      * nlFramework:
      * set options and initialize
-     */ 
+     */
     var nlOptions = {
       // global settings
       speed: 0.2,
@@ -402,7 +403,7 @@ $rootScope.menu = $nlFramework.menu;
         openCb: function(){
           console.log('nlDrawer: openned')
         },
-        closeCb: function(){ 
+        closeCb: function(){
           console.log('nlDrawer closed')
         }
       },
@@ -424,12 +425,12 @@ $rootScope.menu = $nlFramework.menu;
     };
     // initialize the framework
     $nlFramework.init( nlOptions );
-    
+
     // show drawer
     $nlDrawer.show();
     // hide drawer
     $nlDrawer.hide();
-    
+
     // toggle burger OFF
     $nlBurger.toggle();
     // toggle burger ON
@@ -468,7 +469,7 @@ The app is [here](example-app/build).
 I hope this will help you. And if You feel fancy,   
 You can send me some [schmeckels](https://www.youtube.com/watch?v=-D_422Z3rUE)!
 ```
-Bitcoin: 35VFPig1euHDiiGhG4LpSqAAev5FKqU3MN
+Bitcoin: 3GC8r346CJnnT5GTQ6yDpNCDaH3hLD8jMb
 ```
 
 ## Licence
