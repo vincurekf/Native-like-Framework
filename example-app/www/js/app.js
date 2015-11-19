@@ -33,6 +33,7 @@ exampleApp.run(function($rootScope, $ionicPlatform, $nlFramework) {
       toast: true,
       // burger specific
       burger: {
+        use: true,
         endY: 6,
         startScale: 1, // X scale of bottom and top line of burger menu at starting point (OFF state)
         endScale: 0.7 // X scale of bottom and top line of burger menu at end point (ON state)

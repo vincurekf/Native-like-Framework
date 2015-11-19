@@ -91,8 +91,10 @@ Optionally tou can use **#nlBurger** (see [$nlBurger](#nlburger)) with **#nlTopb
 ### $nlBurger
 This simple module takes care of the burger menu icon animation.
 ```javascript
-vanr nlOptions = {
-  burger: true
+var nlOptions = {
+  burger: {
+    use: true
+  }
 }
 ```
 If You want, you can include burger HTML element in your code and assign custom action:

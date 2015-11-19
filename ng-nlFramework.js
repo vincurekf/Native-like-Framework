@@ -14,11 +14,15 @@ angular.module('nlFramework', [])
   var nlFramework = {
     init: function( config ){
       nlFramework.set( config );
+      // find device width and height
+      $nlConfig.deviceW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      $nlConfig.deviceH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
       // get body reference
       $nlElements.body = document.body;
+      $nlElements.bodyH = new Hammer($nlElements.body);
       // add burger menu icon
-      if( config.burger ){
-        $nlBurger.init();
+      if( config.burger && config.burger.use ){
+          $nlBurger.init();
       }
       // add dimmer
       document.body.insertAdjacentHTML( 'beforeend', '<div id="nlDimm"></div>' );
@@ -44,14 +48,12 @@ angular.module('nlFramework', [])
       if( config.actionButton ) $nlFab.init();
 
       // modify view-content?
-      if ( config.content ){
-        if ( config.content.modify ){
-          $nlElements.viewContent = document.getElementById( 'nlContent' );
-          $nlElements.viewContentH = new Hammer($nlElements.viewContent);
-          $nlElements.viewContent.style['margin-top'] = $nlConfig.options.content.topBarHeight+'px';
-          $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
-          $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
-        }
+      if ( config.content && config.content.modify ){
+        $nlElements.viewContent = document.getElementById( 'nlContent' );
+        $nlElements.viewContentH = new Hammer($nlElements.viewContent);
+        $nlElements.viewContent.style['margin-top'] = $nlConfig.options.content.topBarHeight+'px';
+        $nlElements.viewContent.style['min-height'] = $nlConfig.deviceH-$nlConfig.options.content.topBarHeight+'px';
+        $nlElements.viewContent.style.width = $nlConfig.deviceW+'px';
       };
       // listen to resize event, mainly for updating size of drawer when changing view portrait <-> landscape
       window.onresize = function(event) {
@@ -109,6 +111,7 @@ angular.module('nlFramework', [])
       secMenu: false,
       // burger specific
       burger: {
+        show: false,
         endY: 6,
         startScale: 1, // X scale of bottom and top line of burger menu at starting point (OFF state)
         endScale: 0.7 // X scale of bottom and top line of burger menu at end point (ON state)
@@ -183,9 +186,7 @@ angular.module('nlFramework', [])
       for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
       for (var attrname in obj2) {
         if( typeof obj1[attrname] === 'object' ){
-          console.log(obj1[attrname]);
           obj3[attrname] = nlHelpers.merge( obj1[attrname], obj2[attrname]);
-          console.log(obj3[attrname]);
         }else{
           obj3[attrname] = obj2[attrname];
         }
@@ -299,8 +300,6 @@ angular.module('nlFramework', [])
       // get options passed from initialization and merge them with default ones
         $nlConfig.options = $nlHelpers.merge($nlConfig.options, config);
       // get references to all needed elements on page
-        $nlElements.body = document.body;
-        $nlElements.bodyH = new Hammer($nlElements.body);
         $nlElements.swipe = document.getElementById('nlSwipe');
         $nlElements.swipeH = new Hammer($nlElements.swipe);
         $nlElements.drawer = document.getElementById( 'nlDrawer' );
@@ -329,8 +328,7 @@ angular.module('nlFramework', [])
         $nlElements.drawerDimmH.on("tap", function(ev) {
           nlDrawer.hide();
         });
-
-        if($nlConfig.options.burger){
+        if($nlConfig.options.burger.use ){
           $nlElements.burgerH.on("tap", function(ev) {
             if( !$nlElements.burger.hasAttribute("ng-click") ){
               nlDrawer.toggle();
@@ -358,7 +356,7 @@ angular.module('nlFramework', [])
       // set open state and toggle burger
       nlDrawer.openned = true;
       $nlConfig.options.reverse = true;
-      if( $nlConfig.options.burger ) $nlBurger.toggle(true);
+      if( $nlConfig.options.burger.use ) $nlBurger.toggle(true);
       setTimeout( function () {
         nlDrawer.on.show();
       }, $nlConfig.options.speed*1000)
@@ -372,7 +370,7 @@ angular.module('nlFramework', [])
       $nlElements.drawerDimm.style.visibility = 'hidden';
       $nlElements.drawerDimm.style.opacity = '0';
       // toggle burger
-      if ( nlDrawer.openned || $nlConfig.options.burger){
+      if ( nlDrawer.openned && $nlConfig.options.burger.use ){
         $nlBurger.toggle(false);
       }
       // set open state
@@ -406,7 +404,9 @@ angular.module('nlFramework', [])
       var opacity = ( opacityModder / ($nlConfig.options.drawer.maxWidth/100) / 100 ).toFixed(2);
           opacity = opacity < 1 ? opacity : 1;
       // animate burger menu icon
-      $nlBurger.animate( pos );
+      if ( $nlConfig.options.burger.use ){
+        $nlBurger.animate( pos );
+      }
       // dimm background
       $nlElements.drawerDimm.style.transition = 'none';
       $nlElements.drawerDimm.style.visibility = 'visible';
@@ -815,7 +815,9 @@ angular.module('nlFramework', [])
         $nlElements.drawerDimm.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
         if ( !nlFab.active && !hide ){
           nlFab.active = true;
-          $nlElements.burger.style['z-index'] = '1104';
+          if( $nlConfig.options.burger.use ){
+            $nlElements.burger.style['z-index'] = '1104';
+          }
           $nlElements.actionPlus.style['z-index'] = '1106';
           $nlElements.actionPanel.classList.add('active');
           setTimeout( function(){
@@ -824,7 +826,9 @@ angular.module('nlFramework', [])
           }, 100);
         }else{
           nlFab.active = false;
-          $nlElements.burger.style['z-index'] = '1106';
+          if( $nlConfig.options.burger.use ){
+            $nlElements.burger.style['z-index'] = '1106';
+          }
           $nlElements.drawerDimm.style.visibility = 'hidden';
           $nlElements.drawerDimm.style.opacity = '0';
           $nlElements.actionPlus.style['z-index'] = '1104';
