@@ -103,6 +103,8 @@ angular.module('nlFramework', [])
       animation: 'ease',
       // use action button
       actionButton: false,
+      // use burger button
+      burgerButton: false,
       // use toast messages
       toast: false,
       // use three dot menu
@@ -330,7 +332,7 @@ angular.module('nlFramework', [])
           nlDrawer.hide();
         });
 
-        if($nlConfig.options.burger){
+        if($nlConfig.options.burgerButton && $nlConfig.options.burger){
           $nlElements.burgerH.on("tap", function(ev) {
             if( !$nlElements.burger.hasAttribute("ng-click") ){
               nlDrawer.toggle();
