@@ -103,6 +103,8 @@ angular.module('nlFramework', [])
       animation: 'ease',
       // use action button
       actionButton: false,
+      // use burger button
+      burgerButton: false,
       // use toast messages
       toast: false,
       // use three dot menu
@@ -330,7 +332,7 @@ angular.module('nlFramework', [])
           nlDrawer.hide();
         });
 
-        if($nlConfig.options.burger){
+        if($nlConfig.options.burgerButton && $nlConfig.options.burger){
           $nlElements.burgerH.on("tap", function(ev) {
             if( !$nlElements.burger.hasAttribute("ng-click") ){
               nlDrawer.toggle();
@@ -358,7 +360,7 @@ angular.module('nlFramework', [])
       // set open state and toggle burger
       nlDrawer.openned = true;
       $nlConfig.options.reverse = true;
-      if( $nlConfig.options.burger ) $nlBurger.toggle(true);
+      if( $nlConfig.options.burgerButton && $nlConfig.options.burger ) $nlBurger.toggle(true);
       setTimeout( function () {
         nlDrawer.on.show();
       }, $nlConfig.options.speed*1000)
@@ -372,7 +374,7 @@ angular.module('nlFramework', [])
       $nlElements.drawerDimm.style.visibility = 'hidden';
       $nlElements.drawerDimm.style.opacity = '0';
       // toggle burger
-      if ( nlDrawer.openned || $nlConfig.options.burger){
+      if ( $nlConfig.options.burgerButton && (nlDrawer.openned || $nlConfig.options.burger) ){
         $nlBurger.toggle(false);
       }
       // set open state
