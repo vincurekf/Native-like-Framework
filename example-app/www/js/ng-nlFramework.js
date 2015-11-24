@@ -328,12 +328,14 @@ angular.module('nlFramework', [])
         $nlElements.drawerDimmH.on("tap", function(ev) {
           nlDrawer.hide();
         });
-        if($nlConfig.options.burger.use ){
-          $nlElements.burgerH.on("tap", function(ev) {
-            if( !$nlElements.burger.hasAttribute("ng-click") ){
-              nlDrawer.toggle();
-            }
-          });
+        if($nlConfig.options.burger ){
+          if($nlConfig.options.burger.use ){
+            $nlElements.burgerH.on("tap", function(ev) {
+              if( !$nlElements.burger.hasAttribute("ng-click") ){
+                nlDrawer.toggle();
+              }
+            });
+          }
         }
       // register touch end listeners
         nlDrawer.touchEnd( $nlElements.swipe );
@@ -356,7 +358,9 @@ angular.module('nlFramework', [])
       // set open state and toggle burger
       nlDrawer.openned = true;
       $nlConfig.options.reverse = true;
-      if( $nlConfig.options.burger.use ) $nlBurger.toggle(true);
+      if( $nlConfig.options.burger && $nlConfig.options.burger.use ){
+        $nlBurger.toggle(true);
+      };
       setTimeout( function () {
         nlDrawer.on.show();
       }, $nlConfig.options.speed*1000)
@@ -370,7 +374,7 @@ angular.module('nlFramework', [])
       $nlElements.drawerDimm.style.visibility = 'hidden';
       $nlElements.drawerDimm.style.opacity = '0';
       // toggle burger
-      if ( nlDrawer.openned && $nlConfig.options.burger.use ){
+      if ( $nlConfig.options.burger && $nlConfig.options.burger.use ){
         $nlBurger.toggle(false);
       }
       // set open state
@@ -815,7 +819,7 @@ angular.module('nlFramework', [])
         $nlElements.drawerDimm.style.transition = 'all '+$nlConfig.options.speed+'s '+$nlConfig.options.animation;
         if ( !nlFab.active && !hide ){
           nlFab.active = true;
-          if( $nlConfig.options.burger.use ){
+          if( $nlConfig.options.burger && $nlConfig.options.burger.use ){
             $nlElements.burger.style['z-index'] = '1104';
           }
           $nlElements.actionPlus.style['z-index'] = '1106';
@@ -826,7 +830,7 @@ angular.module('nlFramework', [])
           }, 100);
         }else{
           nlFab.active = false;
-          if( $nlConfig.options.burger.use ){
+          if( $nlConfig.options.burger && $nlConfig.options.burger.use ){
             $nlElements.burger.style['z-index'] = '1106';
           }
           $nlElements.drawerDimm.style.visibility = 'hidden';
