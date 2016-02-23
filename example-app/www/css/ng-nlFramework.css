@@ -5,35 +5,57 @@
   bottom: 0;
   width: 300px;
   background: #ffffff;
-  -webkit-transform: translateX(-1000px) translateZ(0);
-          transform: translateX(-1000px) translateZ(0);
+  transform: translateX(-1000px) translateZ(0);
   z-index: 1105; }
-  #nlDrawer .username {
-    font-size: 16px;
+  #nlDrawer .panel .header {
+    top: 0;
     left: 0;
-    line-height: 28px;
-    padding-bottom: 15px;
-    padding-left: 15px;
-    padding-top: 13px;
+    right: 0;
+    height: 56px;
+    line-height: 56px;
+    background: #444;
+    color: #ffffff;
+    z-index: 1104;
+    position: relative; }
+    #nlDrawer .panel .header .username {
+      font-size: 16px;
+      left: 0;
+      line-height: 28px;
+      padding-bottom: 15px;
+      padding-left: 15px;
+      padding-top: 13px;
+      position: absolute;
+      top: 56px;
+      width: 100%;
+      z-index: 1110; }
+    #nlDrawer .panel .header .gravatar {
+      border-radius: 50%;
+      bottom: 20px;
+      height: 66px;
+      overflow: hidden;
+      position: absolute;
+      right: 20px;
+      width: 66px; }
+  #nlDrawer .panel .nav {
     position: absolute;
     top: 56px;
-    width: 100%;
-    z-index: 1110; }
-  #nlDrawer .nav {
-    height: 100%; }
-    #nlDrawer .nav li {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto; }
+    #nlDrawer .panel .nav li {
       border-bottom: 1px solid #e9e9e9;
       font-size: 14px;
       height: 46px;
       line-height: 46px;
       position: relative;
       width: 100%; }
-      #nlDrawer .nav li a {
+      #nlDrawer .panel .nav li a {
         color: #333333;
         padding-left: 16px;
         width: 100%;
         display: block; }
-        #nlDrawer .nav li a i {
+        #nlDrawer .panel .nav li a i {
           background-size: cover;
           display: inline-block;
           height: 26px;
@@ -41,25 +63,30 @@
           position: relative;
           top: 8px;
           width: 26px; }
-    #nlDrawer .nav .title {
+    #nlDrawer .panel .nav .title {
       background: #dbdbdb;
       color: #4f4f4f;
       font-size: 12px;
       height: 26px;
       line-height: 26px;
       padding-left: 16px; }
-    #nlDrawer .nav .bottom {
+    #nlDrawer .panel .nav .bottom {
       border-top: 1px solid #dbdbdb;
       background: #eee;
       position: absolute;
       left: 0;
       bottom: 0;
       width: 100%; }
-      #nlDrawer .nav .bottom li {
+      #nlDrawer .panel .nav .bottom li {
         border: none; }
-        #nlDrawer .nav .bottom li a i {
+        #nlDrawer .panel .nav .bottom li a i {
           height: 20px;
           width: 20px; }
+  #nlDrawer .panel.large .header {
+    height: 140px;
+    background: linear-gradient(125deg, #444, #333333); }
+  #nlDrawer .panel.large .nav {
+    top: 140px; }
 
 #nlDimm {
   position: fixed;
@@ -89,9 +116,7 @@
     background: #ffffff;
     border-radius: 2px;
     -webkit-backface-visibility: hidden;
-    -webkit-transform-origin: 95% 50%;
-        -ms-transform-origin: 95% 50%;
-            transform-origin: 95% 50%; }
+    transform-origin: 95% 50%; }
   #nlBurger #burger-top {
     top: 21px; }
   #nlBurger #burger-center {
@@ -118,9 +143,7 @@
       height: 4px;
       left: 36px;
       position: relative;
-      -webkit-transform-origin: 95% 50% 0;
-          -ms-transform-origin: 95% 50% 0;
-              transform-origin: 95% 50% 0;
+      transform-origin: 95% 50% 0;
       width: 4px;
       -webkit-backface-visibility: hidden; }
     #nlMenu #nlIcon #dot-top {
@@ -160,15 +183,11 @@
   right: 0;
   height: 56px;
   line-height: 56px;
-  background: #E53241;
+  background: #444;
   color: #ffffff;
   z-index: 1104; }
   #nlTopbar.drawer, .topbar.drawer {
     position: relative; }
-  #nlTopbar.large, .topbar.large {
-    height: 140px;
-    background: -webkit-linear-gradient(325deg, #E53241, #d42130);
-    background: linear-gradient(125deg, #E53241, #d42130); }
   #nlTopbar .title, .topbar .title {
     position: fixed;
     top: 0;
@@ -178,14 +197,6 @@
     font-size: 18px;
     z-index: 1110;
     pointer-events: none; }
-  #nlTopbar .gravatar, .topbar .gravatar {
-    border-radius: 50%;
-    bottom: 20px;
-    height: 66px;
-    overflow: hidden;
-    position: absolute;
-    right: 20px;
-    width: 66px; }
 
 #nlToast {
   background: #212121;
@@ -199,11 +210,8 @@
   padding: 0.7rem 1rem;
   position: fixed;
   right: 5%;
-  -webkit-transform: translate3d(0px, 200%, 0px);
-          transform: translate3d(0px, 200%, 0px);
-  -webkit-transform-origin: 50% 50% 0;
-      -ms-transform-origin: 50% 50% 0;
-          transform-origin: 50% 50% 0;
+  transform: translate3d(0px, 200%, 0px);
+  transform-origin: 50% 50% 0;
   width: 30rem;
   z-index: 1104; }
 
@@ -215,9 +223,7 @@
   line-height: 42px;
   position: absolute;
   text-align: center;
-  -webkit-transform-origin: 50% 50% 0;
-      -ms-transform-origin: 50% 50% 0;
-          transform-origin: 50% 50% 0;
+  transform-origin: 50% 50% 0;
   z-index: 1103;
   box-shadow: 0 0 6px -2px rgba(0, 0, 0, 0.6); }
   #nlRefresh #reload-icon {
@@ -225,32 +231,24 @@
     left: 50%;
     position: absolute;
     top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     width: 50%; }
 
 #nlActionButton.active .option.one, #nlActionButton.active .option.two {
   visibility: visible;
   opacity: 1; }
 #nlActionButton.active .option.one {
-  -webkit-transition: all 0.3s ease-in-out 0s;
-          transition: all 0.3s ease-in-out 0s;
-  -webkit-transform: translate(-4px, -122px) translateZ(0);
-          transform: translate(-4px, -122px) translateZ(0); }
+  transition: all 0.3s ease-in-out 0s;
+  transform: translate(-4px, -122px) translateZ(0); }
 #nlActionButton.active .option.two {
-  -webkit-transition: all 0.2s ease-in-out 0s;
-          transition: all 0.2s ease-in-out 0s;
-  -webkit-transform: translate(-4px, -66px) translateZ(0);
-          transform: translate(-4px, -66px) translateZ(0); }
+  transition: all 0.2s ease-in-out 0s;
+  transform: translate(-4px, -66px) translateZ(0); }
 #nlActionButton.active .plus {
   z-index: 1105;
   visibility: visible;
   opacity: 1;
   background: #ffffff !important;
-  -webkit-transform: rotate(135deg) !important;
-      -ms-transform: rotate(135deg) !important;
-          transform: rotate(135deg) !important; }
+  transform: rotate(135deg) !important; }
 #nlActionButton .option {
   z-index: 1105; }
   #nlActionButton .option.one, #nlActionButton .option.two {
@@ -259,8 +257,7 @@
     opacity: 0; }
 #nlActionButton .plus {
   background: #ffffff !important;
-  -webkit-transition: all 0.2s ease-in-out 0s;
-          transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
   position: absolute;
   z-index: 1104; }
 #nlActionButton .action-button {
@@ -286,9 +283,9 @@
     bottom: 33px;
     right: 33px; }
   #nlActionButton .action-button.one {
-    background: #F00D36; }
+    background: #333; }
   #nlActionButton .action-button.two {
-    background: #E53241; }
+    background: #444; }
 
 #nlContent {
   position: relative; }
@@ -298,5 +295,19 @@
     position: absolute;
     overflow: auto; }
 
+#nlModal {
+  background: #ffffff;
+  border-radius: 2px;
+  box-shadow: 0 2px 26px 0 #000000;
+  left: 50%;
+  padding: 0.5rem;
+  position: absolute;
+  top: 50%;
+  visibility: hidden;
+  width: 85%;
+  z-index: 1104; }
+
 .depth.z1 {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4); }
+
+/*# sourceMappingURL=ng-nlFramework.css.map */
