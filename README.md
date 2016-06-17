@@ -464,8 +464,7 @@ $rootScope.menu = $nlFramework.menu;
 
 ## Example app
 There is example app alongside with its source code, so feel free to check it and play with it :)
-The app is [here](example-app/build).
-
+Moved [here](https://github.com/vincurekf/NLF-Example-App)
 
 ## Schmeckels
 I hope this will help you. And if You feel fancy,   

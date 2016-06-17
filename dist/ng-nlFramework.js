@@ -82,7 +82,8 @@ angular.module('nlFramework', [])
     set: function( config ){
       var oldOptions = $nlConfig.options;
       $nlConfig.options = $nlHelpers.merge(oldOptions,config);
-      console.log( $nlConfig.options );
+      console.info( '%c[≡]%c nlFramework: new settings set', 'color: #333;', 'color: #558844;' );
+      console.info( '%c[≡]', 'color: #333;', $nlConfig.options );
     }
   };
   return nlFramework;
@@ -125,10 +126,10 @@ angular.module('nlFramework', [])
       drawer: {
         maxWidth: 300,
         openCb: function(){
-          console.log('nlDrawer: openned')
+          console.info('%c[≡]%c $nlDrawer: opened', 'color: #333;', 'color: #558844;');
         },
         closeCb: function(){
-          console.log('nlDrawer closed')
+          console.info('%c[≡]%c $nlDrawer: closed', 'color: #333;', 'color: #558844;');
         }
       },
       // refresh specific
@@ -137,6 +138,7 @@ angular.module('nlFramework', [])
         activeColor: '#558844', // active color
         callback: function(){
           // after doing some stuff end syncing animation
+          console.info('%c[≡]%c $nlRefresh: callback', 'color: #333;', 'color: #558844;');
           $nlRefresh.syncEnd();
         }
       }
@@ -208,7 +210,7 @@ angular.module('nlFramework', [])
         var scale = $nlConfig.options.burger.startScale - Math.abs((((1-$nlConfig.options.burger.endScale)/100)*currentPerc)).toFixed(2);
         // for both lines
         var rotate = Math.floor(((45/100)*currentPerc));
-        console.log( $nlConfig.options.burger.endY );
+        //console.log( $nlConfig.options.burger.endY );
         var y_pos = Math.floor((($nlConfig.options.burger.endY/100)*currentPerc));
             y_pos = y_pos < $nlConfig.options.burger.endY ? y_pos : $nlConfig.options.burger.endY;
         // Complete burger rotation
