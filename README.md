@@ -41,7 +41,7 @@ If you are developing application for android with Phonegap or Ionic or other al
 this is exactly for you.
 I've been struggling with menu implementations, found some but never got the feel and usability i wanted. No touch support or slow/no animations, if there was animations, they mostly have lags.
 
-With **nlFramework** you have touch support, slide open/close/toggle menu, action button, pull-to-refresh, in app toast notfication, three-dot-menu and all with smooth hardware accelerated animations.
+With **nlFramework** you have touch support, slide open/close/toggle menu, action button, pull-to-refresh, in app toast notification, three-dot-menu and all with smooth hardware accelerated animations.
 
 ### Getting started
 To start using **nlFramework** in your app include
@@ -59,7 +59,8 @@ Lets take a look at all the modules that **nlFramework** has.
 To make this module work, first you need to insert element with **#nlDrawer** id.
 ```html
 <!-- body of the menu drawer -->
-<div id="nlDrawer"></div>
+nlDrawer">
+
 ```
 then just pass options to ```$nlFramework.init()``` function which will initialize the drawer.
 You can listen to callback ```openCb``` and ```closeCb```.
@@ -85,7 +86,7 @@ Here is what the module contains:
  - ```toggle()```: toggles the drawer (show/hide)
  - ```openned```: returns true/false if the drawer is openned/closed
 
-Optionally tou can use **#nlBurger** (see [$nlBurger](#nlburger)) with **#nlTopbar** (see [$nlTopbar](#nltopbar)).
+Optionally you can use **#nlBurger** (see [$nlBurger](#nlburger)) with **#nlTopbar** (see [$nlTopbar](#nltopbar)).
 
 
 ### $nlBurger
@@ -99,7 +100,8 @@ var nlOptions = {
 ```
 If You want, you can include burger HTML element in your code and assign custom action:
 ```html
-<div id="nlBurger" onclick="doSomething()">
+nlBurger" onclick="doSomething()">
+
   <div id="burger-top"></div>
   <div id="burger-center"></div>
   <div id="burger-bottom"></div>
@@ -127,7 +129,7 @@ var nlOptions = {
 This will start the module and assign pull action to **#nlTopbar**.  
 To add custom callback assign some function to **refresh.callback** which by default just prints something in the console. In order to properly stop the refreshing animation, you must call **$nlRefresh.syncEnd()** at the end of your task otherwise the animation will go forever.
 
-You can allso change the default colors for inactive and active state of the refresh indicator.
+You can also change the default colors for inactive and active state of the refresh indicator.
 ```js
 var nlOptions = {
   refresh: {
@@ -191,7 +193,7 @@ Here is what **$nlToast** contains:
     - ```position``` display 'top' or 'bottom' toast (optional)
     - ```trueCallback``` can be any function (optional)
     - ```falseCallback``` can be any function (optional)
-    - ```timeout```: number (miliseconds), if you don not set the timeout, notification stays until canceled by user (optional)
+    - ```timeout```: number (milliseconds), if you don not set the timeout, notification stays until canceled by user (optional)
 
 
 #### $nlMenu
@@ -200,7 +202,8 @@ three-dot-menu in the top right corner, this is very simple to use, just place y
 HTML for menu module:
 ```html
 <!-- secondary three-dot-menu -->
-<div id="nlMenu">
+nlMenu">
+
   <div id="nlMenuContent">
     <!-- place your menu content here -->
     <ul>
@@ -217,7 +220,7 @@ var nlOptions = {
   secMenu: true
 }
 ```
-and now you have ```show()``` and ```hide()``` functions availiable.   
+and now you have ```show()``` and ```hide()``` functions available.   
 ```js
 $nlMenu.show();
 $nlMenu.hide();
@@ -232,7 +235,7 @@ And that is all what **$nlMenu** can do:
 
 ### Additional stuff
 #### #nlContent
-Is where you content belongs, this part is optional and not needed for **nlFramework** to work. If you are using it, you must add **#nlInner** to your content element (in this case I am rendering my content in ng-view so that element must have id **nlInner**), this just adds basic styles to make the content allways at least 100% height to fill up the space. (you can see [ng-nlFramework.css/scss](ng-nlFramework.scss), nothing fancy)
+Is where you content belongs, this part is optional and not needed for **nlFramework** to work. If you are using it, you must add **#nlInner** to your content element (in this case I am rendering my content in ng-view so that element must have id **nlInner**), this just adds basic styles to make the content always at least 100% height to fill up the space. (you can see [ng-nlFramework.css/scss](ng-nlFramework.scss), nothing fancy)
 ```html
 <!-- view content - used as a wrapper -->
 <div id="nlContent">
@@ -242,7 +245,7 @@ Is where you content belongs, this part is optional and not needed for **nlFrame
 ```
 
 #### #nlTopbar
-This is just help object used by **$nlRefresh** or can be uset just for holding title or gibe background for **nlBurger** and **nlMenu**.
+This is just help object used by **$nlRefresh** or can be used just for holding title or gibe background for **nlBurger** and **nlMenu**.
 ```html
 <div id="nlTopbar" class="depth z1"></div>
 ```
@@ -253,8 +256,11 @@ Action button with two sub actions which will show after the main (**#nlPlus**) 
 If you want to use this You need to enable it in configuration when initializing the drawer, see [Configuration](#configuration) for more info.
 ```html
 <!-- action button -->
-<div id="nlFab" class="switch">
-  <div class="action-button option one" ng-click="toast.show({title: 'At the TOP!', position: 'top', timeout: 2500});">
+nlFab" class="switch">
+
+ 
+position: 'top', timeout: 2500});">
+
     2
   </div>
   <div class="action-button option two" ng-click="toast.show({title: 'At the BOTTOM!', timeout: 2500});">
@@ -349,7 +355,7 @@ $nlFramework.set( nlOptions );
 ```
 
 ### Styles
-There is **ng-nativeDrawer.scss** file with default styles and colors which are there for you prepared to customize the look of nlFramework parts however you like.
+There is **ng-nativeDrawer.scss** file with default styles and colors which are there for you ready to customize the look of nlFramework parts however you like.
 
 ### Example code
 In your main javascript file where you start your angular app
@@ -470,10 +476,11 @@ Moved [here](https://github.com/vincurekf/NLF-Example-App)
 I hope this will help you. And if You feel fancy,   
 You can send me some [schmeckels](https://www.youtube.com/watch?v=-D_422Z3rUE)!
 ```
-Bitcoin: 3GC8r346CJnnT5GTQ6yDpNCDaH3hLD8jMb
+Bitcoin: 3QLpRR8TBCPK28qzJaW2aTvVY1YqGPLdCz
 ```
 
 ## Licence
 Released under [MIT Licence](http://choosealicense.com/licenses/mit/)
 
 Copyright © 2015 Filip Vincůrek
+
