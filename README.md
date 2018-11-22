@@ -1,5 +1,5 @@
 ![Native-like Framework](title_image.jpg)
-# Native-like Framework
+# [Discontinued] Native-like Framework
 Native-like **menu drawer**, **pull-to-sync**, **action button**, **in-app-toast** notification, **three-dot-menu** and **burger menu icon** implementation for angular mobile/desktop apps.
 
 - using hammer.js for better touch support.
@@ -12,7 +12,8 @@ Native-like **menu drawer**, **pull-to-sync**, **action button**, **in-app-toast
 - adjust content height (optional: see [Configuration](#configuration))
 - ~13kB minified.
 
-You can find [working example here](http://nlmd.vincurekf.cz).
+## Example app
+There is example app, feel free to check it and play with it [here](https://github.com/vincurekf/NLF-Example-App)
 
 ## Content
   - [Why this?](#why-this)
@@ -59,8 +60,9 @@ Lets take a look at all the modules that **nlFramework** has.
 To make this module work, first you need to insert element with **#nlDrawer** id.
 ```html
 <!-- body of the menu drawer -->
-nlDrawer">
-
+<div id="nlDrawer">
+  Your menu content
+</div>
 ```
 then just pass options to ```$nlFramework.init()``` function which will initialize the drawer.
 You can listen to callback ```openCb``` and ```closeCb```.
@@ -100,7 +102,7 @@ var nlOptions = {
 ```
 If You want, you can include burger HTML element in your code and assign custom action:
 ```html
-nlBurger" onclick="doSomething()">
+<div id="nlBurger" onclick="doSomething()">
 
   <div id="burger-top"></div>
   <div id="burger-center"></div>
@@ -202,7 +204,7 @@ three-dot-menu in the top right corner, this is very simple to use, just place y
 HTML for menu module:
 ```html
 <!-- secondary three-dot-menu -->
-nlMenu">
+<div id="nlMenu">
 
   <div id="nlMenuContent">
     <!-- place your menu content here -->
@@ -256,17 +258,14 @@ Action button with two sub actions which will show after the main (**#nlPlus**) 
 If you want to use this You need to enable it in configuration when initializing the drawer, see [Configuration](#configuration) for more info.
 ```html
 <!-- action button -->
-nlFab" class="switch">
-
- 
-position: 'top', timeout: 2500});">
-
-    2
+<div id="nlFab" class="switch">
+  <div class="action-button depth z1 option one" ng-click="toast.show({title: 'At the TOP!', position: 'top', timeout: 2500});">
+      2
   </div>
-  <div class="action-button option two" ng-click="toast.show({title: 'At the BOTTOM!', timeout: 2500});">
-    1
+  <div class="action-button depth z1 option two" ng-click="toast.show({title: 'At the BOTTOM!', timeout: 2500});">
+      1
   </div>
-  <div id="nlPlus" class="action-button plus">
+  <div id="nlPlus" class="action-button depth z1 plus">
     <span>
       +
     </span>
@@ -466,17 +465,6 @@ $rootScope.menu = $nlFramework.menu;
     // -------------------------------------------------------
   });
 });
-```
-
-## Example app
-There is example app alongside with its source code, so feel free to check it and play with it :)
-Moved [here](https://github.com/vincurekf/NLF-Example-App)
-
-## Schmeckels
-I hope this will help you. And if You feel fancy,   
-You can send me some [schmeckels](https://www.youtube.com/watch?v=-D_422Z3rUE)!
-```
-Bitcoin: 3QLpRR8TBCPK28qzJaW2aTvVY1YqGPLdCz
 ```
 
 ## Licence
